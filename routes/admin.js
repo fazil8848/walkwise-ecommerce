@@ -7,6 +7,7 @@ const adminController = require('../controllers/adminConroller');
 const categoryContoller = require('../controllers/category');
 const orderController = require('../controllers/order');
 const couponController = require('../controllers/coupon');
+const bannerController = require('../controllers/banner');
 const upload = require('../middleware/multer')
 
 admin_app.use(nocache());
@@ -79,6 +80,14 @@ admin_app.get('/deleteCoupon/:id', auth.isLogin, nocache(), couponController.del
 
 //POST ---------------------
 admin_app.post("/addcoupon", couponController.addCoupon);
+
+//Banners -----------
+//GET
+admin_app.get('/banners', auth.isLogin, nocache(), bannerController.loadBanners);
+admin_app.get('/addBanners', auth.isLogin, nocache(), bannerController.loadAddBanner);
+
+//post 
+admin_app.post("/addBanner", upload.single('image'), bannerController.addBanner);
 
 
 
