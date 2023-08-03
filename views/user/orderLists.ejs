@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WalkWise</title>
+
+
+    
+	<link id="page_favicon" href="/logo.svg" rel="icon" type="image/x-icon">
+
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Rokkitt:100,300,400,700" rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="/user/css/animate.css">
+    <!-- Icomoon Icon Fonts-->
+    <link rel="stylesheet" href="/user/css/icomoon.css">
+    <!-- Ion Icon Fonts-->
+    <link rel="stylesheet" href="/user/css/ionicons.min.css">
+    <!-- Bootstrap  -->
+    <link rel="stylesheet" href="/user/css/bootstrap.min.css">
+
+    <!-- Magnific Popup -->
+    <link rel="stylesheet" href="/user/css/magnific-popup.css">
+
+    <!-- Flexslider  -->
+    <link rel="stylesheet" href="/user/css/flexslider.css">
+
+    <!-- Owl Carousel -->
+    <link rel="stylesheet" href="/user/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/user/css/owl.theme.default.min.css">
+
+    <!-- Date Picker -->
+    <link rel="stylesheet" href="/user/css/bootstrap-datepicker.css">
+    <!-- Flaticons  -->
+    <link rel="stylesheet" href="/user/fonts/flaticon/font/flaticon.css">
+
+    <!-- Theme style  -->
+    <link rel="stylesheet" href="/user/css/style.css">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css" rel="stylesheet" />
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        .gradient-custom {
+            /* fallback for old browsers */
+            background: #88C8BC;
+
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: -webkit-linear-gradient(to top left, #224957, #88C8BC);
+
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            background: linear-gradient(to top left, #224957, #88C8BC)
+        }
+
+        .card {
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        #status {
+            border: 1px solid #000000;
+            border-radius: 5%;
+            cursor: default;
+        }
+
+        .dot {
+
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            margin-right: 3px;
+            border-style: solid;
+            height: 10px;
+            width: 10px;
+            left: -4px;
+            top: 0px;
+            border-width: 0px;
+            border-color: rgb(255, 255, 255);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="colorlib-loader"></div>
+
+    <div id="page">
+
+        <nav class="colorlib-nav" role="navigation">
+            <div class="top-menu">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-7 col-md-9">
+							<div id="colorlib-logo"><a  href="#"> <img style="width: 40px;" src="/logo.svg" alt=""> WalkWise</a></div>
+                        </div>
+                        <div class="col-sm-5 col-md-3">
+                            <form action="#" class="search-wrap">
+                                <div class="form-group">
+                                    <input type="search" class="form-control search" placeholder="Search">
+                                    <button class="btn btn-primary submit-search text-center" type="submit"><i
+                                            class="icon-search"></i></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 text-left menu-1">
+                            <ul>
+                                <li class=""><a href="/home">Home</a></li>
+                                <li>
+                                    <a href="/shop">Shop</a>
+                                </li>
+                                <li><a href="/about">About</a></li>
+                                <li><a href="/contact">Contact</a></li>
+                                <li class="cart">
+                                    <% if (typeof length !=='undefined' ) {%>
+                                        <a href="/cart"><i class="icon-shopping-cart"></i> Cart [<%=length%>]</a>
+                                        <%} else {%>
+                                            <a href="/cart"><i class="icon-shopping-cart"></i> Cart [0]</a>
+                                            <% } %>
+                                                </i>
+                                <li class="has-dropdown cart active">
+                                    <a href="#"><span class="material-symbols-outlined">account_circle</span></a>
+                                    <ul class="dropdown">
+
+
+                                        <% if (typeof req.session.user_id !=='undefined' ) {%>
+                                            <li><a href="/userProfile">Profile</a></li>
+                                            <li><a href="/viewOrders">Orders</a></li>
+                                            <li><a href="/logout">logout</a></li>
+                                            <%} else {%>
+                                                <li><a href="/login">login</a></li>
+                                                <% } %>
+
+                                                    <!-- <li><a href="#">Checkout</a></li>
+                                           <li><a href="#">Order Complete</a></li>
+                                           <li><a href="#">Wishlist</a></li> -->
+                                    </ul>
+                                </li>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sale">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-8 offset-sm-2 text-center">
+                            <div class="row">
+                                <div class="owl-carousel2">
+                                    <div class="item">
+                                        <div class="col">
+                                            <h3><a href="#">25% off (Almost) Everything! Use Code: Summer Sale</a></h3>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="col">
+                                            <h3><a href="#">Our biggest sale yet 50% off all summer shoes</a></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="breadcrumbs">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <p class="bread"><span><a href="/home">Home</a></span> / <span>Orders</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="h-100 ">
+            <div class="container py-5 h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-lg-10 col-xl-10">
+                        <div class="card" style="border-radius: 10px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);">
+                            <div class="card-header px-4 py-5">
+                                <h3 class="text-muted mb-0">Hi <span class="material-symbols-outlined">
+                                        hand_gesture
+                                    </span>, <span style="color: #88C8BC;">
+                                        <%= user.firstName %>
+                                            <%= user.lastName %>
+                                    </span>!
+                                    </h5>
+                            </div>
+                            <div class="card-body p-4">
+                                <% if (orders.length > 0) { %>
+                                    <% orders.forEach((order) => { %>
+                                        <div class="d-flex justify-content-between align-items-center mb-4">
+                                            <p class="lead fw-normal mb-0" style="color: #88C8BC;">Receipt</p>
+                                            <p class="small text-muted mb-0">Receipt Voucher : <%= order.orderId %></p>
+                                        </div>
+                                        <div class="card shadow-0 border mb-4">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <% const product = orderProduct[order._id]; %>
+                                                    <div class="col-md-2">
+                                                        <img src="/productImages/<%= product.image[0] %>" class="img-fluid" alt="productImage">
+                                                    </div>
+                                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                        <p class="text-muted mb-0">Ordered On: <br><%= order.orderDate.toISOString().substring(0,10)  || 'N/A' %></p>
+                                                    </div>
+                                                    <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                                                        <% if ( order.paymentMethod == 'cod') { %>
+                                                        <p class="text-muted mb-0 small">COD</p>
+                                                        <% } else if ( order.paymentMethod == 'razorpay') { %>
+                                                        <p class="text-muted mb-0 small">Online Payment</p>
+                                                        <% } %>
+
+                                                    </div>
+                                                    <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                                                        <p class="text-muted mb-0 small">Qty: <%= order.products.length %></p>
+                                                    </div>
+                                                    <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                                                        <p class="text-muted mb-0 small">Price: ₹<%= order.totalPrice %></p>
+                                                    </div>
+                                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                        <% if (order.status == 'Placed') { %>
+                                                            <p class="mb-md-0 mb-1 p-1 "><span class="dot" style="background:  #b0e9ff !important; color: #b0e9ff; "></span> Placed</p>
+                                                        <% } else if (order.status == 'Pending') { %>
+                                                            <p class="mb-md-0 mb-1 p-1 "><span class="dot" style="background:  #fbd85b !important; color: #b0e9ff; "></span> Pending</p>
+                                                        <% } else if (order.status == 'Returned') { %>
+                                                            <p class="mb-md-0 mb-1 p-1 "><span class="dot" style="background:  red !important; color: red; "></span> Returned</p>
+                                                        <% } else if (order.status == 'Cancelled') { %>
+                                                            <p class="mb-md-0 mb-1 p-1 "><span class="dot" style="background:  red !important; color: red; "></span> Cancelled </p>
+                                                        <% } else if (order.status == 'Shipped') { %>
+                                                            <p class="mb-md-0 mb-1 p-1 "><span class="dot" style="background: orange !important; color: orange; "></span> Shipped</p>
+                                                        <% } else if (order.status == 'Out for delivery') { %>
+                                                            <p class="mb-md-0 mb-1 p-1 "><span class="dot" style="background:  #9bff84 !important; color:  #9bff84;"></span> Out For Delivery</p>
+                                                        <% } else if (order.status == 'Delivered') { %>
+                                                            <p class="mb-md-0 mb-1 p-1 "><span class="dot" style="background:  #01a801 !important; color:  #9bff84; "></span> Delivered</p>
+                                                        <% } %>
+                                                    </div>
+
+                                                    
+                                                    <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                                                        <button type="button" class="btn btn-primary btn-outline-primary" data-mdb-toggle="modal" data-mdb-target="#exampleModal_<%= order._id %>">View</button>
+                                                    </div>
+                                                    
+                                                    <% if( order.status == 'Placed' || order.status == 'Shipped' || order.status == 'Out for delivery' || order.status == 'Pending' ) {%>
+                                                        <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                            <a href="/cancelOrder?id=<%= order._id %>" type="button" class="btn btn-primary btn-outline-primary" onclick="return confirm('Confirm To Cancel This Order')"> Cancel
+                                                        </a></div>
+                                                    <% } else if ( order.status == 'Delivered') {%>
+                                                        <% if (new Date(order.orderDate) >= returnValid) { %>
+                                                            <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                                <a type="button" href="/retunOrder?id=<%= order._id %>" class="btn btn-primary btn-outline-primary" onclick="return confirm('Confirm To Return This Order')">Return</a>
+                                                            </div>
+                                                        <% } %>
+                                                    <% } else if (order.status == 'Cancelled' || order.status == 'Returned' ) {%>
+                                                    
+                                                    <% } %>
+                                                </div>
+                                            </div>
+                                        </div>
+                            
+                                        <!-- Modal for Order ID -->
+                                        <div class="modal fade" id="exampleModal_<%= order._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content text-white" style="background-color: #88C8BC; border-radius: 10px;">
+                                                    <div class="modal-header border-bottom-0">
+                                                        <button type="button" class="btn-close btn-close-white" data-mdb-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body text-start px-4 pt-0 pb-4">
+                                                        <div class="text-center">
+                                                            <h5 class="mb-3">Order Status<%= order.status %></h5>
+                                                            <h5 class="mb-5">Order ID :- <%= order.orderId %></h5>
+                                                        </div>
+
+                                                        
+                            
+                                                        <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
+                            
+                                                        <% productsArray[order._id].forEach((product) => { %>
+                                                            <!-- This div represents the content for a single product of the order -->
+                                                            <div class="media">
+                                                                <div class="sq align-self-center">
+                                                                    <img class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0" src="/productImages/<%= product.image[0] %>" width="135" height="135" />
+                                                                </div>
+                                                                <div class="media-body my-auto text-right">
+                                                                    <div class="row my-auto flex-column flex-md-row">
+                                                                        <div class="col my-auto">
+                                                                            <h6 class="mb-0"> <%= product.productName %> </h6>
+                                                                        </div>
+                                                                        
+                                                                        <div class="col my-auto">
+                                                                            <h6 class="mb-0">&#8377;<%= product.price %></h6>
+                                                                        </div>
+                                                                        <div class="col my-auto">
+                                                                            <h6 class="mb-0">QTY: <%= product.quantity %></h6>
+                                                                        </div>
+                                                                        <div class="col my-auto">
+                                                                            <h6 class="mb-0"></h6>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <hr class="my-3">
+                                                        <% }); %>
+
+                                                        
+                                                        <div class="container col-md-10">
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <h5>Deivery Address :</h5>
+                                                                </div>
+                                                                <div class="col-md-8"></div>
+                                                                <div class="col-md-2"></div>
+                                                                <div class="col-md-9">
+                                                                        <div ><%= order.deliveryAddress %></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <hr class="my-3">
+                                                        
+                                                        <div class="container col-md-10">
+
+                                                            <% if (order.status == 'Placed') { %>
+                                                                <div class="progress" style="height: 6px; border-radius: 16px;">
+                                                                    <div class="progress-bar" role="progressbar" style="width: 10%; border-radius: 16px; background-color: skyblue;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                </div>
+                                                                <div class="d-flex justify-content-around mb-1">
+                                                                    <p class="text-muted mt-1 mb-0 small">Placed</p>
+                                                                    <p class="text-muted mt-1 mb-0 small">Shipped</p>
+                                                                    <p class="text-muted mt-1 mb-0 small ms-xl-5">Out for delivery</p>
+                                                                    <p class="text-muted mt-1 mb-0 small ms-xl-5">Delivered</p>
+                                                                </div>
+                                                           <% } else if (order.status == 'returned') { %>
+                                                                <div class="progress" style="height: 6px; border-radius: 16px;">
+                                                                    <div class="progress-bar" role="progressbar" style="width: 100%; border-radius: 16px; background-color: red;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                </div>
+                                                                <div class="d-flex justify-content-around mb-1">
+                                                                    <p class="text-muted mt-1 mb-0 small ms-xl-5">Returned and Refunded</p>
+                                                                </div>
+                                                            <% } else if (order.status == 'shipped') { %>
+                                                                <div class="progress" style="height: 6px; border-radius: 16px;">
+                                                                    <div class="progress-bar" role="progressbar" style="width: 28%; border-radius: 16px; background-color: orange;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                </div>
+                                                                <div class="d-flex justify-content-around mb-1">
+                                                                    <p class="text-muted mt-1 mb-0 small">Placed</p>
+                                                                    <p class="text-muted mt-1 mb-0 small">Shipped</p>
+                                                                    <p class="text-muted mt-1 mb-0 small ms-xl-5">Out for delivery</p>
+                                                                    <p class="text-muted mt-1 mb-0 small ms-xl-5">Delivered</p>
+                                                                </div>
+                                                            <% } else if (order.status == 'outForDelivery') { %>
+                                                                <div class="progress" style="height: 6px; border-radius: 16px;">
+                                                                    <div class="progress-bar" role="progressbar" style="width: 60%; border-radius: 16px; background-color: #9bff84;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                </div>
+                                                                <div class="d-flex justify-content-around mb-1">
+                                                                    <p class="text-muted mt-1 mb-0 small">Placed</p>
+                                                                    <p class="text-muted mt-1 mb-0 small">Shipped</p>
+                                                                    <p class="text-muted mt-1 mb-0 small ms-xl-5">Out for delivery</p>
+                                                                    <p class="text-muted mt-1 mb-0 small ms-xl-5">Delivered</p>
+                                                                </div>
+                                                            <% } else if (order.status == 'delivered') { %>
+                                                                <div class="progress" style="height: 6px; border-radius: 16px;">
+                                                                    <div class="progress-bar" role="progressbar" style="width: 100%; border-radius: 16px; background-color: #01a801;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                </div>
+                                                                <div class="d-flex justify-content-around mb-1">
+                                                                    <p class="text-muted mt-1 mb-0 small">Placed</p>
+                                                                    <p class="text-muted mt-1 mb-0 small">Shipped</p>
+                                                                    <p class="text-muted mt-1 mb-0 small ms-xl-5">Out for delivery</p>
+                                                                    <p class="text-muted mt-1 mb-0 small ms-xl-5">Delivered</p>
+                                                                </div>
+                                                            <% } %>
+
+                                                        </div>
+                                                            
+                                                        <hr class="my-3">
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <% }); %>
+                                <% } else { %>
+                                    <div class="card shadow-0 border mb-4">
+                                        <div class="card-body">
+                                            <h6>You have not Ordered anything Yet</h6>
+                                            <a href="/home">
+                                                <span class="">
+                                                    <button class="rounded-5 btn-light btn-outline-secondary d-inline">
+                                                        <i class="icon-shopping-cart d-inline"></i> Continue Shopping
+                                                    </button>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                <% } %>
+                            </div>
+                            
+                        </div>
+                    </div>
+        </section>
+
+
+        <footer id="colorlib-footer" role="contentinfo">
+            <div class="container">
+                <div class="row row-pb-md">
+                    <div class="col footer-col colorlib-widget">
+                        <h4>About WalkWise</h4>
+                        <p>Even the all-powerful Pointing has no control about the blind texts it is an almost
+                            unorthographic life</p>
+                        <p>
+                        <ul class="colorlib-social-icons">
+                            <li><a href="#"><i class="icon-twitter"></i></a></li>
+                            <li><a href="#"><i class="icon-facebook"></i></a></li>
+                            <li><a href="#"><i class="icon-linkedin"></i></a></li>
+                            <li><a href="#"><i class="icon-dribbble"></i></a></li>
+                        </ul>
+                        </p>
+                    </div>
+                    <div class="col footer-col colorlib-widget">
+                        <h4>Customer Care</h4>
+                        <p>
+                        <ul class="colorlib-footer-links">
+                            <li><a href="#">Contact</a></li>
+                            <li><a href="#">Returns/Exchange</a></li>
+                            <li><a href="#">Gift Voucher</a></li>
+                            <li><a href="#">Wishlist</a></li>
+                            <li><a href="#">Special</a></li>
+                            <li><a href="#">Customer Services</a></li>
+                            <li><a href="#">Site maps</a></li>
+                        </ul>
+                        </p>
+                    </div>
+                    <div class="col footer-col colorlib-widget">
+                        <h4>Information</h4>
+                        <p>
+                        <ul class="colorlib-footer-links">
+                            <li><a href="#">About us</a></li>
+                            <li><a href="#">Delivery Information</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Support</a></li>
+                            <li><a href="#">Order Tracking</a></li>
+                        </ul>
+                        </p>
+                    </div>
+
+                    <div class="col footer-col">
+                        <h4>News</h4>
+                        <ul class="colorlib-footer-links">
+                            <li><a href="blog.html">Blog</a></li>
+                            <li><a href="#">Press</a></li>
+                            <li><a href="#">Exhibitions</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col footer-col">
+                        <h4>Contact Information</h4>
+                        <ul class="colorlib-footer-links">
+                            <li>291 South 21th Street, <br> Suite 721 New York NY 10016</li>
+                            <li><a href="tel://1234567920">+ 1235 2355 98</a></li>
+                            <li><a href="mailto:info@yoursite.com">info@yoursite.com</a></li>
+                            <li><a href="#">yoursite.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="copy">
+                <div class="row">
+                    <div class="col-sm-12 text-center">
+                        <p>
+                            <span><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                Copyright &copy;
+                                <script>document.write(new Date().getFullYear());</script> All rights reserved | This
+                                template is made with <i class="icon-heart" aria-hidden="true"></i> by <a
+                                    href="https://colorlib.com" target="_blank">Colorlib</a>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </span>
+                            <span class="block">Demo Images: <a href="http://unsplash.co/" target="_blank">Unsplash</a>
+                                , <a href="http://pexels.com/" target="_blank">Pexels.com</a></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <div class="gototop js-top">
+        <a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
+    </div>
+    <!-- MDB -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.js"></script>
+
+    <!-- jQuery -->
+    <script src="/user/js/jquery.min.js"></script>
+    <!-- popper -->
+    <script src="/user/js/popper.min.js"></script>
+    <!-- bootstrap 4.1 -->
+    <script src="/user/js/bootstrap.min.js"></script>
+    <!-- jQuery easing -->
+    <script src="/user/js/jquery.easing.1.3.js"></script>
+    <!-- Waypoints -->
+    <script src="/user/js/jquery.waypoints.min.js"></script>
+    <!-- Flexslider -->
+    <script src="/user/js/jquery.flexslider-min.js"></script>
+    <!-- Owl carousel -->
+    <script src="/user/js/owl.carousel.min.js"></script>
+    <!-- Magnific Popup -->
+    <script src="/user/js/jquery.magnific-popup.min.js"></script>
+    <script src="/user/js/magnific-popup-options.js"></script>
+    <!-- Date Picker -->
+    <script src="/user/js/bootstrap-datepicker.js"></script>
+    <!-- Stellar Parallax -->
+    <script src="/user/js/jquery.stellar.min.js"></script>
+    <!-- Main -->
+    <script src="/user/js/main.js"></script>
+
+</body>
+
+</html>
+
+ 
+
+
+
+<!-- <div class="row justify-content-center">
+        <div class="col-md-4 text-center">
+            <p class="lead fw-normal">Shipped with</p>
+        </div>
+        <div class="col-md-4 text-center">
+            <p class="lead fw-normal">UPS Expedited</p>
+        </div>
+        <div class="col-md-2 text-center">
+            <i class="fas fa-phone fa-lg"></i>
+        </div>
+    </div>
+
+    
+
+
+    <div class="row justify-content-center">
+        <div class="col-md-4 text-center">
+            <p class="lead fw-normal">Estimated Delivery</p>
+        </div>
+        <div class="col-md-4 text-center">
+            <p class="lead fw-normal">02/12/2017</p>
+        </div>
+        <div class="col-md-2 text-center">
+            <i class="fas fa-envelope fa-lg"></i>
+        </div>
+    </div> -->

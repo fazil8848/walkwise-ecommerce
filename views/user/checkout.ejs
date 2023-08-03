@@ -1,0 +1,861 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+   <title>WalkWise</title>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+   
+	<link id="page_favicon" href="/logo.svg" rel="icon" type="image/x-icon">
+
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css?family=Rokkitt:100,300,400,700" rel="stylesheet">
+
+   <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+   <!-- Animate.css -->
+   <link rel="stylesheet" href="/user/css/animate.css">
+   <!-- Icomoon Icon Fonts-->
+   <link rel="stylesheet" href="/user/css/icomoon.css">
+   <!-- Ion Icon Fonts-->
+   <link rel="stylesheet" href="/user/css/ionicons.min.css">
+   <!-- Bootstrap  -->
+   <link rel="stylesheet" href="/user/css/bootstrap.min.css">
+
+   <!-- Magnific Popup -->
+   <link rel="stylesheet" href="/user/css/magnific-popup.css">
+
+   <!-- Flexslider  -->
+   <link rel="stylesheet" href="/user/css/flexslider.css">
+
+   <!-- Owl Carousel -->
+   <link rel="stylesheet" href="/user/css/owl.carousel.min.css">
+   <link rel="stylesheet" href="/user/css/owl.theme.default.min.css">
+
+   <!-- Date Picker -->
+   <link rel="stylesheet" href="/user/css/bootstrap-datepicker.css">
+   <!-- Flaticons  -->
+   <link rel="stylesheet" href="/user/fonts/flaticon/font/flaticon.css">
+
+   <!-- Theme style  -->
+   <link rel="stylesheet" href="/user/css/style.css">
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@icon/icofont@1.0.1-alpha.1/icofont.min.css">
+   <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+   <style>
+      .custom-button {
+         background-image: linear-gradient(to right, #224957, #88C8BC);
+         color: white;
+         border-color: transparent;
+      }
+   </style>
+
+   <script>
+      function capitalizeFirstLetter(input) {
+         input.value = input.value.charAt(0).toUpperCase() + input.value.slice(1);
+      }
+   </script>
+
+</head>
+
+</head>
+
+<body>
+
+   <div class="colorlib-loader"></div>
+
+   <div id="page">
+
+      <nav class="colorlib-nav" role="navigation">
+         <div class="top-menu">
+            <div class="container">
+               <div class="row">
+                  <div class="col-sm-7 col-md-9">
+							<div id="colorlib-logo"><a  href="#"> <img style="width: 40px;" src="/logo.svg" alt=""> WalkWise</a></div>
+                  </div>
+                  <div class="col-sm-5 col-md-3">
+                     <form action="#" class="search-wrap">
+                        <div class="form-group">
+                           <input type="search" class="form-control search" placeholder="Search">
+                           <button class="btn btn-primary submit-search text-center" type="submit"><i
+                                 class="icon-search"></i></button>
+                        </div>
+                     </form>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-sm-12 text-left menu-1">
+                     <ul>
+                        <li class=""><a href="#">Home</a></li>
+                        <li>
+                           <a href="/shop">Shop</a>
+                        </li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                        <li class="cart active"><a href="/cart"><i class="icon-shopping-cart"></i> Cart [<%= length %>
+                                 ]</a>
+                        <li class="has-dropdown cart">
+                           <a href="#"><span class="material-symbols-outlined">account_circle</span></a>
+                           <ul class="dropdown">
+
+
+                              <% if (typeof req.session.user_id !=='undefined' ) {%>
+                                 <li><a href="/userProfile">Profile</a></li>
+                                 <li><a href="/viewOrders">Orders</a></li>
+                                 <li><a href="/logout">logout</a></li>
+                                 <%} else {%>
+                                    <li><a href="/login">login</a></li>
+                                    <% } %>
+
+                                       <!-- <li><a href="#">Checkout</a></li>
+											<li><a href="#">Order Complete</a></li>
+											<li><a href="#">Wishlist</a></li> -->
+                           </ul>
+                        </li>
+                        </li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <div class="sale">
+            <div class="container">
+               <div class="row">
+                  <div class="col-sm-8 offset-sm-2 text-center">
+                     <div class="row">
+                        <div class="owl-carousel2">
+                           <div class="item">
+                              <div class="col">
+                                 <h3><a href="#">25% off (Almost) Everything! Use Code: Summer Sale</a></h3>
+                              </div>
+                           </div>
+                           <div class="item">
+                              <div class="col">
+                                 <h3><a href="#">Our biggest sale yet 50% off all summer shoes</a></h3>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </nav>
+
+      <div class="breadcrumbs">
+         <div class="container">
+            <div class="row">
+               <div class="col">
+                  <p class="bread"><span><a href="/home">Home</a></span> / <span>Checkout</span></p>
+               </div>
+            </div>
+         </div>
+      </div>
+
+
+      <div class="colorlib-product">
+         <div class="container">
+            <div class="row row-pb-lg">
+               <div class="col-sm-10 offset-md-1">
+                  <div class="process-wrap">
+                     <div class="process text-center active">
+                        <p><span>01</span></p>
+                        <h3>Shopping Cart</h3>
+                     </div>
+                     <div class="process text-center active">
+                        <p><span>02</span></p>
+                        <h3>Checkout</h3>
+                     </div>
+                     <div class="process text-center">
+                        <p><span>03</span></p>
+                        <h3>Order Complete</h3>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+
+            <form action="" method="post" id="placeOrder">
+               <div class="row pb-5">
+
+                  <div class="col-lg-12">
+
+                     <div class="row">
+                        <% if ( typeof data=='undefined' ) { %>
+                           <% address.forEach ( function (address) { %>
+                              <div class="col-lg-4">
+                                 <div class="form-group">
+                                    <div class="radio">
+                                       <input type="radio" name="address" required
+                                          value="<%= address.address %>, <%= address.street %> ,<%= address.city %> ,
+                                          <%= address.state %>, <%= address.country %>,<%= address.zipCode %>, <%= address.phone %>">
+                                       <label>
+                                          <div class="bg-white card addresses-item mb-4 border border-primary shadow">
+                                             <div class="gold-members p-4">
+                                                <div class="media">
+                                                   <div class="mr-3"><span class="material-symbols-outlined"> cottage
+                                                      </span></div>
+                                                   <div class="media-body">
+                                                      <h6 class="mb-1 text-secondary">
+                                                         <%= address.type %>
+                                                      </h6>
+                                                      <h6 class="mb-1 text-dark"><strong>
+                                                            <%= address.firstName %>
+                                                               <%= address.lastName %>
+                                                         </strong></h6>
+                                                      <p class="text-black">
+                                                         <%= address.address %>, <%= address.street %> ,<%= address.city
+                                                                  %> ,
+                                                                  <%= address.state %>, <%= address.country %>,<%=
+                                                                           address.zipCode %>,
+                                                                           <%= address.phone %>
+                                                      </p>
+                                                      <p class="mb-0 text-black font-weight-bold"><a
+                                                            class="text-primary mr-3"
+                                                            href="/editAddress?id=<%=address._id%>"><span
+                                                               class="material-symbols-outlined">
+                                                               edit_note
+                                                            </span></a>
+                                                      </p>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </label>
+                                    </div>
+                                 </div>
+                              </div>
+                              <% }) %>
+                                 <% } %>
+                     </div>
+
+                     <button type="button" class="btn btn-primary btn-outline-primary " data-toggle="modal"
+                        data-target="#myModal">
+                        Add Address
+                     </button>
+                  </div>
+
+               </div>
+
+               <div class="row form-group">
+                  <div class="col-sm-9 col-md-5">
+                     <input type="text" id="code" class="form-control input-number "
+                        style="border-radius: 20px; " placeholder="Your Coupon Number...">
+                  </div>
+               </div>
+               <div class="row form-group">
+                  <table>
+                     
+                     <td><div class="col-sm-3">
+                        <input type="button" onclick="applyCoupon($('#code').val())" value="Apply Coupon"
+                           style="border-radius: 20px; width: 200px; margin: 0%;"
+                           class=" btn btn-primary btn-outline-primary ">
+                     </div></td>
+
+                     <td>
+                        <div class="col-sm-3">
+                           <input type="button" onclick="location.href='/checkOut'" value="Remove Coupon"
+                              style="border-radius: 20px; width: 150px;" class=" btn btn-primary btn-outline-primary ">
+                        </div>
+                     </td>
+
+                  </table>
+                  
+               </div>
+
+               <div class="container">
+                  <div class="row" style="background-color: whitesmoke;">
+                     <div class="col-md-6">
+                        <div class="cart-detail">
+                           <h2>Cart Total</h2>
+                           <ul>
+                              <li>
+                                 <div class="mb-5"><span>Subtotal ₹</span> <span><%=total%></span></div>
+                                 <ul>
+                                    <% if(typeof noData==='undefined' ) {%>
+                                       <% products.forEach( product=>{%>
+                                          <li><span>
+                                                <%=product.quantity%> X <%=product.product_id.productName%> ₹
+                                             </span> <span><%= product.total_price%></span></li>
+                                          <%})%>
+                                             <%}else{%>
+                                                <li><span> nothing to check out </span></li>
+                                                <%}%>
+
+                                 </ul>
+                              </li>
+                              <li><span>Shipping  ₹</span> <span>0.00</span></li>
+                              <li><span>Discount %</span> <span id="couponDicount">0.00</span></li>
+                              <li><span>Order Total ₹</span> <span id="grand-total">
+                                    <%=total%>
+                                 </span></li>
+                           </ul>
+                        </div>
+                     </div>
+
+                     <div class="col-md-6">
+                        <div class="cart-detail">
+
+                           <h2>Payment Method</h2>
+
+                           <div class="form-group">
+                              <div class="col-md-12">
+                                 <div class="radio">
+                                    <label><input disabled type="radio" name="payment"> Direct Bank Tranfer</label>
+                                 </div>
+                              </div>
+                           </div>
+
+                           <% if(wallet !==0){%>
+                              <div class="form-group">
+                                 <div class="col-md-12">
+                                    <div class="radio" id="walletRadio">
+                                       <label>
+                                          <input onclick="checkWallet()" type="radio" name="payment" value="cod">
+                                          <span>wallet with COD: ₹</span>
+                                          <span id="wallet">
+                                             <%= wallet %>
+                                          </span>
+                                       </label>
+
+                                    </div>
+                                 </div>
+                              </div>
+                           <%} else {%>
+                              <div class="form-group">
+                                 <div class="col-md-12">
+                                    <div class="radio" id="walletRadio">
+                                       <label>
+                                          <input type="radio" name="payment" value="cod">
+                                          <span>COD</span>
+                                       </label>
+
+                                    </div>
+                                 </div>
+                              </div>
+                           <% } %>
+                                 <%if( typeof message !=='undefined' ) {%>
+                                    <p style="color: red;">
+                                       <%= message %>
+                                    </p>
+                                    <%}%>
+                                       <div class="form-group">
+                                          <div class="col-md-12">
+                                             <div class="radio">
+                                                <label><input type="radio" value="razorpay" name="payment"> RazorPay
+                                                </label>
+                                             </div>
+                                          </div>
+                                       </div>                                       
+                                       <div class="form-group">
+                                          <div class="col-md-12">
+                                             <div class="checkbox">
+                                                <label><input required type="checkbox"> I have read and accept the terms
+                                                   and
+                                                   conditions</label>
+                                             </div>
+                                          </div>
+                                       </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               
+               
+
+               <div class="row">
+                  <div class="col-md-12 text-center">
+                     <p>
+                        <button type="submit" class="btn btn-primary btn-outline-primary rounded-1 mt-4">
+                           Place an order
+                        </button>
+                     </p>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+
+      <footer id="colorlib-footer" role="contentinfo">
+         <div class="container">
+            <div class="row row-pb-md">
+               <div class="col footer-col colorlib-widget">
+                  <h4>About WalkWise</h4>
+                  <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic
+                     life</p>
+                  <p>
+                  <ul class="colorlib-social-icons">
+                     <li><a href="#"><i class="icon-twitter"></i></a></li>
+                     <li><a href="#"><i class="icon-facebook"></i></a></li>
+                     <li><a href="#"><i class="icon-linkedin"></i></a></li>
+                     <li><a href="#"><i class="icon-dribbble"></i></a></li>
+                  </ul>
+                  </p>
+               </div>
+               <div class="col footer-col colorlib-widget">
+                  <h4>Customer Care</h4>
+                  <p>
+                  <ul class="colorlib-footer-links">
+                     <li><a href="#">Contact</a></li>
+                     <li><a href="#">Returns/Exchange</a></li>
+                     <li><a href="#">Gift Voucher</a></li>
+                     <li><a href="#">Wishlist</a></li>
+                     <li><a href="#">Special</a></li>
+                     <li><a href="#">Customer Services</a></li>
+                     <li><a href="#">Site maps</a></li>
+                  </ul>
+                  </p>
+               </div>
+               <div class="col footer-col colorlib-widget">
+                  <h4>Information</h4>
+                  <p>
+                  <ul class="colorlib-footer-links">
+                     <li><a href="#">About us</a></li>
+                     <li><a href="#">Delivery Information</a></li>
+                     <li><a href="#">Privacy Policy</a></li>
+                     <li><a href="#">Support</a></li>
+                     <li><a href="#">Order Tracking</a></li>
+                  </ul>
+                  </p>
+               </div>
+
+               <div class="col footer-col">
+                  <h4>News</h4>
+                  <ul class="colorlib-footer-links">
+                     <li><a href="blog.html">Blog</a></li>
+                     <li><a href="#">Press</a></li>
+                     <li><a href="#">Exhibitions</a></li>
+                  </ul>
+               </div>
+
+               <div class="col footer-col">
+                  <h4>Contact Information</h4>
+                  <ul class="colorlib-footer-links">
+                     <li>291 South 21th Street, <br> Suite 721 New York NY 10016</li>
+                     <li><a href="tel://1234567920">+ 1235 2355 98</a></li>
+                     <li><a href="mailto:info@yoursite.com">info@yoursite.com</a></li>
+                     <li><a href="#">yoursite.com</a></li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+         <div class="copy">
+            <div class="row">
+               <div class="col-sm-12 text-center">
+                  <p>
+                     <span><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;
+                        <script>document.write(new Date().getFullYear());</script> All rights reserved | This template
+                        is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com"
+                           target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                     </span>
+                     <span class="block">Demo Images: <a href="http://unsplash.co/" target="_blank">Unsplash</a> , <a
+                           href="http://pexels.com/" target="_blank">Pexels.com</a></span>
+                  </p>
+               </div>
+            </div>
+         </div>
+      </footer>
+   </div>
+
+   <div class="gototop js-top">
+      <a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
+   </div>
+
+
+   <!-- jQuery -->
+   <script src="/user/js/jquery.min.js"></script>
+   <!-- popper -->
+   <script src="/user/js/popper.min.js"></script>
+   <!-- bootstrap 4.1 -->
+   <script src="/user/js/bootstrap.min.js"></script>
+   <!-- jQuery easing -->
+   <script src="/user/js/jquery.easing.1.3.js"></script>
+   <!-- Waypoints -->
+   <script src="/user/js/jquery.waypoints.min.js"></script>
+   <!-- Flexslider -->
+   <script src="/user/js/jquery.flexslider-min.js"></script>
+   <!-- Owl carousel -->
+   <script src="/user/js/owl.carousel.min.js"></script>
+   <!-- Magnific Popup -->
+   <script src="/user/js/jquery.magnific-popup.min.js"></script>
+   <script src="/user/js/magnific-popup-options.js"></script>
+   <!-- Date Picker -->
+   <script src="/user/js/bootstrap-datepicker.js"></script>
+   <!-- Stellar Parallax -->
+   <script src="/user/js/jquery.stellar.min.js"></script>
+   <!-- Main -->
+   <script src="/user/js/main.js"></script>
+
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+      integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+      crossorigin="anonymous"></script>
+
+   <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+   <script>
+
+      document.addEventListener('DOMContentLoaded', function () {
+         $('#placeOrder').submit((e) => {
+            e.preventDefault();
+
+            console.log('its here');
+        
+        // Check if the elements exist before accessing their innerHTML
+        const walletElement = document.getElementById('wallet');
+        const totalElement = document.getElementById('grand-total');
+        const address = $("input[name=address]:checked").val();
+
+        if (address === undefined || address === null) {
+            alert("Please add a delivery address");
+            return; // Stop further execution
+        }
+
+        // Check if the elements exist before accessing their innerHTML
+        const wallet = walletElement ? walletElement.innerHTML : 0 ;
+        const total = totalElement ? totalElement.innerHTML : '';
+        const payment = $("input[name=payment]:checked").val();
+        const codeElement = document.getElementById('code');
+        const code = codeElement ? codeElement.innerHTML : '';
+
+        console.log(code);
+
+
+            $.ajax({
+               url: '/placeOrder',
+               method: 'post',
+               data: {
+                  total,
+                  address,
+                  payment,
+                  wallet,
+               },
+               success: (response) => {
+                  console.log(response.order);
+                  if ("success", response.codSuccess) {
+                     location.href = '/orderPlaced';
+                  } else if (response.codefailed) {
+                     swal("Oops!", "Add Address", "error");
+                  } else if (response.outOfStockProducts) {
+                     swal("Oops!", "Product Out Of stock", "error");
+                  } else {
+                     console.log(response.order);
+                     razorpay(response.order);
+                  }
+               },
+               error: (error) => {
+                  console.log(error);
+               }
+            });
+         });
+      });
+
+   </script>
+
+   <script>
+
+      function razorpay(order) {
+         var options = {
+            "key": "rzp_test_tgKVVDCrIJi46N", // Enter the Key ID generated from the Dashboard
+            "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            "currency": "INR",
+            "name": "WalkWise",
+            "description": "Test Transaction",
+            "image": "/user/images/logo.jpg",
+            "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            "handler": function (res) {
+               verifyPayment(res, order);
+            },
+            "prefill": {
+               "name": "Gaurav Kumar",
+               "email": "gaurav.kumar@example.com",
+               "contact": "9000090000"
+            },
+            "notes": {
+               "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+               "color": "#cc3333"
+            }
+         };
+
+         var rzp1 = new Razorpay(options);
+         rzp1.open();
+
+      }
+   </script>
+
+   <script>
+
+      function verifyPayment(payment, order) {
+
+         $.ajax({
+            url: '/verifyPayment',
+            method: 'post',
+            data: {
+               payment,
+               order
+            },
+            success: (res) => {
+               if (res.success) {
+                  console.log('paymnet success');
+                  window.location.href = '/orderPlaced';
+
+               } else if (res.onlineSuccess) {
+
+                  Swal.fire({
+                     icon: 'error',
+                     title: 'Payment has done',
+                     showConfirmButton: false,
+                     timer: 1500
+                  })
+
+               }
+            }
+         })
+
+      }
+
+   </script>
+
+   <script>
+
+      function checkWallet() {
+         let walletAmount = parseInt(document.getElementById('wallet').innerHTML);
+         const total = parseInt(document.getElementById('grand-total').innerHTML);
+
+         console.log(walletAmount);
+         console.log(total);
+
+         $.ajax({
+            url: '/checkWallet',
+            method: 'post',
+            success: (res) => {
+               if (res.success) {
+                  console.log('wallet check success');
+
+                  if (res.wallet > total) {
+                     walletAmount = res.wallet - total;
+                     document.getElementById('wallet').innerHTML = walletAmount;
+                  }
+               } else {
+                  console.log('wallet check fail');
+               }
+            }
+         });
+      }
+
+   </script>
+
+   <script>
+
+      function applyCoupon(code) {
+
+         let amount = document.getElementById('grand-total').innerHTML
+         console.log(amount);
+         console.log(code);
+
+         $.ajax({
+            url: '/applyCoupon',
+            method: 'post',
+            data:{
+               code,
+               amount
+            },
+            success: (res) => {
+               if (res.invalid) {
+                  swal('Oops!','Coupon Does Not Exist','error')
+               } else if (res.expire) {
+                  swal('Oops!','Coupon is Expired','error')
+               } else if (res.limit) {
+                  swal('Oops!','Coupon Usage Limit Exceeded','error')
+               } else if (res.cartamount) {
+                  swal('Oops!','Shop For Minimum Amount','error')
+               } else if (res.user) {
+                  swal('Oops!','You Have Already Used This Coupon Once','error')
+               } else if (res.couponKey) {
+                  document.getElementById("couponDicount").innerHTML = `${res.discount}`
+                  document.getElementById("grand-total").innerHTML = `${res.discountedTotal}`
+                  swal("Congratulations!!", "Coupon Added.", "successfully");
+            }
+         },
+      })
+         
+      }
+
+   </script>
+
+</body>
+
+</html>
+
+
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+   <div class="modal-dialog">
+      <div class="modal-content">
+
+         <!-- Modal Header -->
+         <div class="modal-header">
+            <h2 style="margin-bottom: 10px;">Billing Details</h2>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+         </div>
+
+         <!-- Modal body -->
+         <div class="modal-body">
+            <div class="col-lg-12">
+               <form action="/addCheckoutAddress" method="post" class="colorlib-form">
+
+                  <p style="font-size: smaller; font-weight: 100;">
+                     All the <span style="color: red;">*</span> Marked fields are required
+                  </p>
+                  <div class="row">
+                     <div class="col-md-12">
+                        <div class="form-group">
+                           <div class="row">
+                              <div class="form-field">
+                                 <% if (typeof message !=='undefined' ) { %>
+                                    <div class="form-group">
+                                       <p style="color: red;">
+                                          <%= message %>
+                                       </p>
+                                    </div>
+                                    <% } %>
+                              </div>
+
+                              <div class="col-md-6">
+                                 <label for="country">Select Country <span style="color: red;">*</span></label>
+                                 <div class="form-field">
+                                    <i class="icon icon-arrow-down3"></i>
+                                    <select required name="country" id="people" class="form-control">
+                                       <option value="" disabled selected>Select country</option>
+                                       <option value="India">India</option>
+                                       <option value="Alaska">Alaska</option>
+                                       <option value="China">China</option>
+                                       <option value="Japan">Japan</option>
+                                       <option value="Korea">Korea</option>
+                                       <option value="Philippines">Philippines</option>
+                                    </select>
+                                 </div>
+
+                              </div>
+
+                              <div class="col-md-6">
+                                 <div class="form-group">
+                                    <label for="country">Select Type Of address <span
+                                          style="color: red;">*</span></label>
+                                    <div class="form-field">
+                                       <i class="icon icon-arrow-down3"></i>
+                                       <select required class="form-control" name="type">
+                                          <option disabled selected value="">Type</option>
+                                          <option value="Home">Home</option>
+                                          <option value="work">Work</option>
+                                       </select>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+
+                           <div class="row">
+                              <div class="col-md-6">
+                                 <div class="form-field">
+                                    <label class="form-label" for="form3Example1m">First name <span
+                                          style="color: red;">*</span></label>
+                                    <input type="text" oninput="capitalizeFirstLetter(this)"
+                                       placeholder="Enter your First name" name="firstName" id="form3Example1m"
+                                       class="form-control form-control-lg" required />
+                                 </div>
+                              </div>
+                              <div class="col-md-6">
+                                 <div class="form-field">
+                                    <label class="form-label" for="form3Example1n">Last name <span
+                                          style="color: red;">*</span></label>
+                                    <input type="text" oninput="capitalizeFirstLetter(this)"
+                                       placeholder="Enter your Last name" name="lastName" id="form3Example1n"
+                                       class="form-control form-control-lg" required />
+                                 </div>
+                              </div>
+                           </div>
+
+                           <div class="form-field">
+                              <label class="form-label" for="form3Example8">Address <span
+                                    style="color: red;">*</span></label>
+                              <input type="text" oninput="capitalizeFirstLetter(this)" placeholder="Enter your Address"
+                                 name="address" id="form3Example8" class="form-control form-control-lg" required />
+                           </div>
+
+                           <div class="row">
+                              <div class="col-md-6">
+                                 <div class="form-field">
+                                    <label class="form-label" for="form3Example1m">State <span
+                                          style="color: red;">*</span></label>
+                                    <input type="text" oninput="capitalizeFirstLetter(this)"
+                                       placeholder="Enter The State" name="state" id="form3Example1m"
+                                       class="form-control form-control-lg" required />
+                                 </div>
+                              </div>
+                              <div class="col-md-6">
+                                 <div class="form-field">
+                                    <label class="form-label" for="form3Example1n">City <span
+                                          style="color: red;">*</span></label>
+                                    <input type="text" oninput="capitalizeFirstLetter(this)"
+                                       placeholder="Enter your City Name" name="city" id="form3Example1n"
+                                       class="form-control form-control-lg" required />
+                                 </div>
+                              </div>
+                           </div>
+
+                           <div class="form-field">
+                              <label class="form-label" for="form3Example3">Street <span
+                                    style="color: red;">*</span></label>
+                              <input type="text" oninput="capitalizeFirstLetter(this)"
+                                 placeholder="Enter your Street name" name="street" id="form3Example3"
+                                 class="form-control form-control-lg" required />
+                           </div>
+
+                           <div class="form-field">
+                              <label class="form-label" for="form3Example3">Zip <span
+                                    style="color: red;">*</span></label>
+                              <input type="text" oninput="capitalizeFirstLetter(this)" placeholder="Enter your ZIP Code"
+                                 name="zipCode" id="form3Example3" class="form-control form-control-lg" required />
+                           </div>
+
+                           <div class="form-field">
+                              <label class="form-label" for="form3Example2">Phone <span
+                                    style="color: red;">*</span></label>
+                              <input type="text" oninput="capitalizeFirstLetter(this)"
+                                 placeholder="Enter your Phone Number" name="phone" id="form3Example2"
+                                 class="form-control form-control-lg" required />
+                           </div>
+
+                           <div class="d-flex justify-content-end pt-3">
+                              <button type="submit" class="btn btn-primary btn-outline-primary "
+                                 style="background-color:hsl(210, 100%, 50%)">
+                                 Add Address
+                              </button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </form>
+
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

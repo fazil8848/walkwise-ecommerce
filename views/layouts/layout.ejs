@@ -1,0 +1,29 @@
+<head>
+    <% if (user){ %>
+        <%- include('../user/partials/userLinks') %>
+    <% } %>
+
+    <% if (admin) { %>
+        <%- include('../admin/partials/adminLinks') %>
+    <% } %>
+</head>
+
+<body>
+    <% if (admin){ %>
+        <%- include('../admin/partials/adminHeader') %>
+    <% } %>
+
+    <% if (user) { %>
+        <%- include('../user/partials/userHeader') %>
+    <% } %>
+
+    <%- body %>
+
+    <% if (admin) { %>
+        <%- include('../admin/partials/adminFooter') %>
+    <% } %>
+
+    <% if (user) { %>
+        <%- include('../user/partials/userFooter') %>
+    <% } %>
+</body>
