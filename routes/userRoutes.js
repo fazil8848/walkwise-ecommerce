@@ -29,16 +29,16 @@ const couponController = require('../controllers/coupon');
 
 // GET
 
-user_app.get('/signup', auth.isLogout, userController.loadSignup);
-user_app.get('/otp', userController.loadOTP);
-user_app.get('/', userController.loadHome);
-user_app.get('/login', auth.isLogout, nocache(), userController.loadLogin);
-user_app.get('/home', userController.loadHome);
-user_app.get('/shop', userController.loadShop);
-user_app.get('/about', userController.loadAbout);
-user_app.get('/contact', userController.loadContacts);
+user_app.get('/signup', nocache(), auth.isLogout, userController.loadSignup);
+user_app.get('/otp', nocache(), userController.loadOTP);
+user_app.get('/', nocache(), userController.loadHome);
+user_app.get('/login', nocache(), auth.isLogout, nocache(), userController.loadLogin);
+user_app.get('/home', nocache(), userController.loadHome);
+user_app.get('/shop', nocache(), userController.loadShop);
+user_app.get('/about', nocache(), userController.loadAbout);
+user_app.get('/contact', nocache(), userController.loadContacts);
 user_app.get('/logout', auth.isLogin, nocache(), userController.userLogout);
-user_app.get('/productDetails', userController.singleProduct);
+user_app.get('/productDetails', nocache(), userController.singleProduct);
 user_app.get('/userProfile', auth.isLogin, nocache(), userController.loadProfile);
 user_app.get('/cart', auth.isLogin, nocache(), cartController.loadCart);
 user_app.get("/addtoCart", auth.isLogin, nocache(), cartController.addToCart);
@@ -78,8 +78,9 @@ user_app.post('/verifyForgotOtp', userController.verifyFotp);
 user_app.post('/updatePass', userController.updatePass);
 user_app.post('/placeOrder', orderController.placeOrder);
 user_app.post('/checkWallet', orderController.checkWallet);
-user_app.post("/verifyPayment", orderController.verifyPayment);
-user_app.post("/applyCoupon", couponController.applyCoupon);
+user_app.post('/verifyPayment', orderController.verifyPayment);
+user_app.post('/applyCoupon', couponController.applyCoupon);
+user_app.post("/downloadInvoice", orderController.downloadInvoice);
 
 
 

@@ -78,8 +78,7 @@
 								</li>
 								<li><a href="/about">About</a></li>
 								<li><a href="/contact">Contact</a></li>
-								<li class="cart"><a href="/cart"><i class="icon-shopping-cart"></i> Cart [<%= length %>
-											]</a>
+								<li class="cart"><a href="/cart"><i class="icon-shopping-cart"></i> Cart [<%= length %>]</a>
 								<li class="has-dropdown cart">
 									<a href="#"><span class="material-symbols-outlined">account_circle</span></a>
 									<ul class="dropdown">
@@ -151,11 +150,12 @@
 									<div class="item">
 										<div class="product-entry border" id="image-zoom">
 											<a href="/productImages/<%= image %>" class="prod-img">
-												<img src="/productImages/<%= image %>" class="img-fluid xzoom" style="height: 45vw;" alt="">
+												<img src="/productImages/<%= image %>" class="img-fluid xzoom"
+													style="height: 45vw;" alt="">
 											</a>
 										</div>
 									</div>
-								<% }) %>
+									<% }) %>
 
 						</div>
 					</div>
@@ -487,6 +487,9 @@
 				</div>
 			</footer>
 	</div>
+	<a href="/cart">GO TO CART</a>
+
+	<a style="color: aliceblue;" href="/cart">GO TO CART</a>
 
 	<div class="gototop js-top">
 		<a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
@@ -519,7 +522,7 @@
 	<script src="/zoom/zoomsl.js" type="text/javascript"></script>
 
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 	<script type="text/javascript">
 
@@ -579,11 +582,15 @@
 				},
 				success: function (response) {
 					if (response.success) {
-						swal.fire(
-							'Saved to Cart!',
-							'You Added The Product To Cart!',
-							'success',
-						)
+						Swal.fire({
+							icon: 'success',
+							title: 'Product Added',
+							text: 'TO Cart Successfully!!',
+							confirmButtonText: '<a  style="color: aliceblue;"  href="/cart">GO TO CART</a>',
+							cancelButtonText: '<a style="color: aliceblue;"  href="/productDetails?id=<%= product._id %>"> Close</a>',
+							showCancelButton: true,
+							showCloseButton: true
+						})
 
 					} else if (response.outOfStock) {
 						swal.fire(
@@ -596,7 +603,7 @@
 							'Please Login to your Acoount',
 							'',
 							'error'
-							)
+						)
 					}
 				}
 			})

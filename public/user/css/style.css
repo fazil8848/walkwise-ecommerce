@@ -10102,6 +10102,17 @@ h5,
   border-radius: 50%;
   border: 1px solid #ccc;
 }
+
+.blockButton  {
+  text-align: center;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+}
+
 .block-27 ul li.active a,
 .block-27 ul li.active span {
   background: #616161;

@@ -279,7 +279,7 @@ const loadHome = async (req, res) => {
 
       }
 
-      const data = await Product.find({is_hidden:false}).limit(16);
+      const data = await Product.find({ is_hidden: false }).limit(16);
       if (!data) return res.render('404');
 
       res.render('home', {
@@ -300,8 +300,12 @@ const loadShop = async (req, res) => {
 
       const category = await Category.find();
 
-      if (req.session.user_id) {
-         const cart = await Cart.findOne({ user: req.session.user_id });
+      const count = 9;
+      const pageNo = parseInt(req.query.page) || 0;
+      const skip = count * pageNo;
+
+      if (req.session.userData && req.session.userData._id) {
+         const cart = await Cart.findOne({ user: req.session.userData._id });
          if (cart?.products) {
             length = cart.products.length;
             req.session.length = cart.products.length;
@@ -329,15 +333,44 @@ const loadShop = async (req, res) => {
          filter.is_hidden = { $ne: true }
 
          let data;
+         let dataCount;
          if (sort && sort == 1) {
-            data = await Product.find(filter).sort({ price: -1 });
+
+            data = await Product.find(filter)
+               .sort({ price: -1 })
+               .skip(skip)
+               .limit(count);
+
+            dataCount = await Product.find(filter)
+               .sort({ price: -1 })
+               .skip(skip)
+               .limit(count)
+               .countDocuments();
+
          } else if (sort && sort == 2) {
-            data = await Product.find(filter).sort({ price: 1 });
+
+            data = await Product.find(filter).sort({ price: 1 })
+               .skip(skip)
+               .limit(count);
+
+            dataCount = await Product.find(filter).sort({ price: 1 })
+               .skip(skip)
+               .limit(count)
+               .countDocuments();
+
          } else {
-            data = await Product.find(filter);
+
+            data = await Product.find(filter)
+               .skip(skip)
+               .limit(count);
+
+            dataCount = await Product.find(filter)
+               .skip(skip)
+               .limit(count)
+               .countDocuments();
          }
 
-
+         const totalPage = Math.ceil(dataCount / count);
 
          res.render('shop', {
             req: req,
@@ -345,9 +378,19 @@ const loadShop = async (req, res) => {
             length: length,
             category: category,
             filtered: true,
+            totalPage,
          });
       } else {
-         const data = await Product.find({ is_hidden: { $ne: true } });
+
+         const data = await Product.find({ is_hidden: { $ne: true } })
+            .skip(skip)
+            .limit(count);
+
+         const dataCount = await Product.find({ is_hidden: { $ne: true } })
+            .countDocuments();
+
+         const totalPage = Math.ceil(dataCount / count);
+
          if (!data) return res.render('404');
          res.render('shop', {
             req: req,
@@ -355,9 +398,11 @@ const loadShop = async (req, res) => {
             length: length,
             category: category,
             filtered: false,
+            totalPage,
 
          });
       }
+
    } catch (error) {
       console.log('loadShop Method: ', error.message);
       res.render('404');

@@ -505,6 +505,7 @@
 
    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+   
    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
    <script>
@@ -549,9 +550,9 @@
                   if ("success", response.codSuccess) {
                      location.href = '/orderPlaced';
                   } else if (response.codefailed) {
-                     swal("Oops!", "Add Address", "error");
+                     Swal.fire("Oops!", "Add Address", "error");
                   } else if (response.outOfStockProducts) {
-                     swal("Oops!", "Product Out Of stock", "error");
+                     Swal.fire("Oops!", "Product Out Of stock", "error");
                   } else {
                      console.log(response.order);
                      razorpay(response.order);
@@ -589,7 +590,7 @@
                "address": "Razorpay Corporate Office"
             },
             "theme": {
-               "color": "#cc3333"
+               "color": "#88c8bc"
             }
          };
 
@@ -678,19 +679,19 @@
             },
             success: (res) => {
                if (res.invalid) {
-                  swal('Oops!','Coupon Does Not Exist','error')
+                  Swal.fire('Oops!','Coupon Does Not Exist','error')
                } else if (res.expire) {
-                  swal('Oops!','Coupon is Expired','error')
+                  Swal.fire('Oops!','Coupon is Expired','error')
                } else if (res.limit) {
-                  swal('Oops!','Coupon Usage Limit Exceeded','error')
+                  Swal.fire('Oops!','Coupon Usage Limit Exceeded','error')
                } else if (res.cartamount) {
-                  swal('Oops!','Shop For Minimum Amount','error')
+                  Swal.fire('Oops!','Shop For Minimum Amount','error')
                } else if (res.user) {
-                  swal('Oops!','You Have Already Used This Coupon Once','error')
+                  Swal.fire('Oops!','You Have Already Used This Coupon Once','error')
                } else if (res.couponKey) {
                   document.getElementById("couponDicount").innerHTML = `${res.discount}`
                   document.getElementById("grand-total").innerHTML = `${res.discountedTotal}`
-                  swal("Congratulations!!", "Coupon Added.", "successfully");
+                  swal("Congratulations!!", "Coupon Added.", "success");
             }
          },
       })
