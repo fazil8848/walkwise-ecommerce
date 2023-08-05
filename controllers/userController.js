@@ -8,6 +8,7 @@ const Cart = require('../models/cartModel');
 const Coupons = require('../models/couponsModel');
 const Orders = require('../models/orderModel');
 const Category = require('../models/categoryModels');
+const Banners = require('../models/bannerMode');
 
 
 const express = require('express');
@@ -252,6 +253,9 @@ let length = 0;
 
 const loadHome = async (req, res) => {
    try {
+
+      const banner = await Banners.find();
+
       if (req.session.userData && req.session.userData._id) {
          const cart = await Cart.findOne({ user: req.session.userData._id });
          if (cart?.products) {
@@ -275,13 +279,14 @@ const loadHome = async (req, res) => {
 
       }
 
-      const data = await Product.find().limit(16);
+      const data = await Product.find({is_hidden:false}).limit(16);
       if (!data) return res.render('404');
 
       res.render('home', {
          req: req,
          product: data,
-         length: length
+         length: length,
+         banner,
       });
 
    } catch (error) {

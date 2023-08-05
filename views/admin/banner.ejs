@@ -45,7 +45,7 @@
     <div class="container-fluid position-relative d-flex p-0">
         <!-- Spinner Start -->
         <div id="spinner"
-            class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
@@ -55,7 +55,7 @@
 
         <!-- Sidebar Start -->
         <div class="sidebar pe-4 pb-3">
-            <nav class="navbar bg-secondary navbar-sebg-secondary">
+            <nav class="navbar bg-white navbar-sebg-white">
                 <a href="/admin/home" class="navbar-brand mx-4 mb-3">
                     <h3 class="text-primary"> <img style="width: 25px; height: auto;" src="/iconizer-logo.svg" alt="">
                         WalkWise</i></h3>
@@ -94,9 +94,9 @@
 
                     <a href="salesReport" class="nav-item nav-link "><i class="fa fa-chart-bar me-2"></i> Sales
                         Report</a>
-                    
-                    <a href="banners" class="nav-item nav-link active"><i class="bi bi-postage"></i> Banners </a>
-                    
+
+                    <a href="banners" class="nav-item nav-link active"><i  class="fa fa-th me-2"></i> Banners </a>
+
 
                 </div>
             </nav>
@@ -107,7 +107,7 @@
         <!-- Content Start -->
         <div class="content">
             <!-- Navbar Start -->
-            <nav class="navbar navbar-expand bg-secondary navbar-sebg-secondary sticky-top px-4 py-0">
+            <nav class="navbar navbar-expand bg-white navbar-sebg-white sticky-top px-4 py-0">
                 <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
                     <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
                 </a>
@@ -120,13 +120,11 @@
                 <div class="navbar-nav align-items-center ms-auto">
 
                     <a href="/admin/addBanners" class="nav-link">
-                        <button class=" position-relative btn-sebg-secondary border-bg-secondary rounded-2 float-end">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-postage" viewBox="0 0 16 16">
-                                <path d="M4.75 3a.75.75 0 0 0-.75.75v8.5c0 .414.336.75.75.75h6.5a.75.75 0 0 0 .75-.75v-8.5a.75.75 0 0 0-.75-.75h-6.5ZM11 12H5V4h6v8Z"/>
-                                <path d="M3.5 1a1 1 0 0 0 1-1h1a1 1 0 0 0 2 0h1a1 1 0 0 0 2 0h1a1 1 0 1 0 2 0H15v1a1 1 0 1 0 0 2v1a1 1 0 1 0 0 2v1a1 1 0 1 0 0 2v1a1 1 0 1 0 0 2v1a1 1 0 1 0 0 2v1h-1.5a1 1 0 1 0-2 0h-1a1 1 0 1 0-2 0h-1a1 1 0 1 0-2 0h-1a1 1 0 1 0-2 0H1v-1a1 1 0 1 0 0-2v-1a1 1 0 1 0 0-2V9a1 1 0 1 0 0-2V6a1 1 0 0 0 0-2V3a1 1 0 0 0 0-2V0h1.5a1 1 0 0 0 1 1ZM3 3v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1Z"/>
-                              </svg> Add
+                        <button class="btn btn-outline-white bg-light rounded-2 float-end">
+                            <img style="width: 20px; height: 20px;" class="me-2" src="/slider (1).png"
+                                alt="image"> Add
                         </button>
-                    </a>
+                    </a> 
 
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -134,7 +132,7 @@
                                 style="width: 40px; height: 40px;">
                             <span class="d-none d-lg-inline-flex">Fazil</span>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                        <div class="dropdown-menu dropdown-menu-end bg-white border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" class="dropdown-item">My Profile</a>
                             <a href="#" class="dropdown-item">Settings</a>
                             <a href="/admin/logout" class="dropdown-item">Log Out</a>
@@ -152,7 +150,7 @@
                 <div class="container-fluid pt-4 px-4">
                     <div class="row g-4">
                         <div class="col-12">
-                            <div class="bg-secondary rounded h-100 p-4">
+                            <div class="bg-white rounded h-100 p-4">
                                 <h6 class="mb-4">Porducts List</h6>
                                 <div class="table-responsive">
                                     <table class="table">
@@ -162,8 +160,7 @@
                                                 <th scope="col">Heading</th>
                                                 <th scope="col">Description</th>
                                                 <th scope="col">Image</th>
-                                                <th scope="col">Edit</th>
-                                                <th scope="col">Stock Up</th>
+                                                <th scope="col">Delete</th>
                                                 <th scope="col">Block/ Unblock</th>
                                             </tr>
                                         </thead>
@@ -179,30 +176,22 @@
                                                         </td>
                                                         <td>₹<%= banner.description %>
                                                         </td>
-                                                        
+
                                                         <td>
                                                             <img style="height: 75px; width: 75px;"
                                                                 src="/productImages/<%= banner.image %>"
                                                                 alt="Product Image">
                                                         </td>
+
                                                         <td>
-                                                            <a href="editbanners?id=<%= banner._id %>"
-                                                                class="btn"><span
-                                                                    class="material-symbols-outlined">edit_square</span></a>
-                                                            <input type="hidden" name="edit" value="<%= banner._id %>">
+                                                            <a href="deleteBanner?id=<%= banner._id %>" type="button" style="font-size: x-large;"
+                                                                class="btn "><i class="bi bi-trash"></i></a>
+                                                            <input type="hidden" name="Stock" value="<%= banner._id %>">
                                                         </td>
-                                                        <td>
-                                                            <a href="restockProduct?id=<%= banner._id %>" type="button"
-                                                                class="btn " data-bs-toggle="modal"
-                                                                data-bs-target="#stockModal_<%= banner._id %>"><span
-                                                                    class="material-symbols-outlined">inventory</span></a>
-                                                            <input type="hidden" name="Stock"
-                                                                value="<%= banner._id %>">
-                                                        </td>
-                                                        <% if (banner.is_hidden) { %>
+                                                        <% if (banner.status) { %>
                                                             <td>
-                                                                <a href="hideProducts?id=<%= banner._id %>"
-                                                                    class="btn btn-danger"
+                                                                <a href="hideBanner?id=<%= banner._id %>" class="btn mt-2"
+                                                                    style="color: red; "
                                                                     onclick="return confirm('Confirm to hide the banner: <%= banner.heading %>')"
                                                                     data-toggle="modal">
                                                                     <span
@@ -211,9 +200,9 @@
                                                             </td>
                                                             <% } else { %>
                                                                 <td>
-                                                                    <a href="hideProducts?id=<%= banner._id %>"
-                                                                        onclick="return confirm('Confirm to block the User: <%= banner.heading %>')"
-                                                                        class="btn btn-success" data-toggle="modal">
+                                                                    <a href="hideBanner?id=<%= banner._id %>"
+                                                                        class="btn mt-2" style="color: green; "
+                                                                        onclick="return confirm('Confirm to block the User: <%= banner.heading %>')">
                                                                         <span
                                                                             class="material-symbols-outlined">inventory_2</span>
                                                                     </a>
@@ -235,45 +224,7 @@
                         </div>
                     </div>
                 </div>
-
-                <% banners.forEach(function (product) { %>
-                    <!-- Modal for each product -->
-                    <div class="modal fade" id="stockModal_<%= product._id %>" data-bs-backdrop="static"
-                        data-bs-keyboard="false" tabindex="-1" aria-labelledby="stockModalLabel_<%= product._id %>"
-                        aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content bg-secondary">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="stockModalLabel_<%= product._id %>">Update Stock for:-
-                                        <br>
-                                        <%= product.productName %>
-                                    </h5>
-                                    <button style="color: red; background-color: transparent; border: none;"
-                                        data-bs-dismiss="modal" aria-label="Close">
-                                        <span class="material-symbols-outlined">close</span>
-                                    </button>
-                                </div>
-                                <form action="updateStock" method="post">
-                                    <div class="modal-body">
-                                        <input type="hidden" name="id" value="<%= product._id %>">
-                                        <div class="mb-3">
-                                            <label for="stockInput_<%= product._id %>" class="form-label">Stock:</label>
-                                            <input type="number" class="form-control" name="stock"
-                                                id="stockInput_<%= product._id %>" name="stock"
-                                                value="<%= product.quantity %>">
-                                        </div>
-
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">Update</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <% }) %>
-
-                        <!-- Widgets End -->
+                <!-- Widgets End -->
 
 
 
@@ -281,7 +232,7 @@
             </div>
             <!-- Footer Start -->
             <div class="container-fluid pt-4 px-4">
-                <div class="bg-secondary rounded-top p-4">
+                <div class="bg-white rounded-top p-4">
                     <div class="row">
                         <div class="col-12 col-sm-6 text-center text-sm-start">
                             &copy; <a href="#">Your Site Name</a>, All Right Reserved.

@@ -85,6 +85,8 @@ admin_app.post("/addcoupon", couponController.addCoupon);
 //GET
 admin_app.get('/banners', auth.isLogin, nocache(), bannerController.loadBanners);
 admin_app.get('/addBanners', auth.isLogin, nocache(), bannerController.loadAddBanner);
+admin_app.get('/hideBanner', auth.isLogin, nocache(), bannerController.hideBanner);
+admin_app.get('/deleteBanner', auth.isLogin, nocache(), bannerController.deleteBanner);
 
 //post 
 admin_app.post("/addBanner", upload.single('image'), bannerController.addBanner);
