@@ -35,24 +35,24 @@
     <link rel="stylesheet" href="/user/css/owl.carousel.min.css">
     <link rel="stylesheet" href="/user/css/owl.theme.default.min.css">
 
+    
     <!-- Date Picker -->
     <link rel="stylesheet" href="/user/css/bootstrap-datepicker.css">
     <!-- Flaticons  -->
     <link rel="stylesheet" href="/user/fonts/flaticon/font/flaticon.css">
-
+    
     <!-- Theme style  -->
     <link rel="stylesheet" href="/user/css/style.css">
+    
+    <!-- MDB -->
+    <link rel="stylesheet" href="/user/css/mdb.min.css">
 
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
-    <!-- MDB -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css" rel="stylesheet" />
-
+    
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <script src="https://unpkg.com/easyinvoice/dist/easyinvoice.min.js"></script>
+    <script src="https://unpkg.com/easyinvoice/dist/easyinvoice.min.js"></script> 
 
     <style>
         .gradient-custom {
@@ -131,9 +131,9 @@
                                 <li class="cart">
                                     <% if (typeof length !=='undefined' ) {%>
                                         <a href="/cart"><i class="icon-shopping-cart"></i> Cart [<%=length%>]</a>
-                                        <%} else {%>
-                                            <a href="/cart"><i class="icon-shopping-cart"></i> Cart [0]</a>
-                                            <% } %>
+                                    <%} else {%>
+                                        <a href="/cart"><i class="icon-shopping-cart"></i> Cart [0]</a>
+                                    <% } %>
                                                 </i>
                                 <li class="has-dropdown cart active">
                                     <a href="#"><span class="material-symbols-outlined">account_circle</span></a>
@@ -144,9 +144,9 @@
                                             <li><a href="/userProfile">Profile</a></li>
                                             <li><a href="/viewOrders">Orders</a></li>
                                             <li><a href="/logout">logout</a></li>
-                                            <%} else {%>
-                                                <li><a href="/login">login</a></li>
-                                                <% } %>
+                                        <%} else {%>
+                                            <li><a href="/login">login</a></li>
+                                        <% } %>
 
                                                     <!-- <li><a href="#">Checkout</a></li>
                                            <li><a href="#">Order Complete</a></li>
@@ -204,7 +204,7 @@
                                         hand_gesture
                                     </span>, <span style="color: #88C8BC;">
                                         <%= user.firstName %>
-                                            <%= user.lastName %>
+                                        <%= user.lastName %>
                                     </span>!
                                     </h5>
                             </div>
@@ -219,115 +219,119 @@
                                         <div class="card shadow-0 border mb-4">
                                             <div class="card-body">
                                                 <div class="row">
+
                                                     <% const product=orderProduct[order._id]; %>
-                                                        <div class="col-md-2">
-                                                            <img src="/productImages/<%= product.image[0] %>"
-                                                                class="img-fluid" alt="productImage">
-                                                        </div>
+
+                                                    <div class="col-md-2">
+                                                        <img src="/productImages/<%= product.image[0] %>"
+                                                            class="img-fluid" alt="productImage">
+                                                    </div>
+                                                    <div
+                                                        class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                        <p class="text-muted mb-0">Ordered On: <br>
+                                                            <%= order.orderDate.toISOString().substring(0,10)
+                                                                || 'N/A' %>
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                                                        <% if ( order.paymentMethod=='cod' ) { %>
+                                                            <p class="text-muted mb-0 small">COD</p>
+                                                        <% } else if ( order.paymentMethod=='razorpay' ) { %>
+                                                            <p class="text-muted mb-0 small">Online Payment</p>
+                                                        <% } %>
+
+                                                    </div>
+                                                    <div
+                                                        class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                                                        <p class="text-muted mb-0 small">Qty: <%=
+                                                                order.products.length %>
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                                                        <p class="text-muted mb-0 small">Price: ₹<%=
+                                                                order.totalPrice %>
+                                                        </p>
+                                                    </div>
+
+                                                    <div  class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                        
+                                                        <% if (order.status=='Placed' ) { %>
+                                                            <p class="mb-md-0 mb-1 p-1 "><span class="dot"
+                                                                    style="background:  #b0e9ff !important; color: #b0e9ff; "></span>Placed
+                                                            </p>
+                                                        <% } else if (order.status=='Pending' ) { %>
+                                                            <p class="mb-md-0 mb-1 p-1 "><span class="dot"
+                                                                    style="background:  #fbd85b !important; color: #b0e9ff; "></span>Pending
+                                                            </p>
+                                                        <% } else if (order.status=='Returned' ) { %>
+                                                            <p class="mb-md-0 mb-1 p-1 "><span class="dot"
+                                                                    style="background:  red !important; color: red; "></span>
+                                                                Returned</p>
+                                                        <% } else if (order.status=='Cancelled' ) { %>
+                                                            <p class="mb-md-0 mb-1 p-1 "><span
+                                                                    class="dot"
+                                                                    style="background:  red !important; color: red; "></span>
+                                                                Cancelled </p>
+                                                        <% } else if (order.status=='Shipped' ) { %>
+                                                            <p class="mb-md-0 mb-1 p-1 "><span
+                                                                    class="dot"
+                                                                    style="background: orange !important; color: orange; "></span>
+                                                                Shipped</p>
+                                                        <% } else if
+                                                            (order.status=='Out for delivery' )
+                                                            { %>
+                                                            <p class="mb-md-0 mb-1 p-1 "><span
+                                                                    class="dot"
+                                                                    style="background:  #9bff84 !important; color:  #9bff84;"></span>
+                                                                Out For Delivery</p>
+                                                        <% } else if
+                                                            (order.status=='Delivered' ) {
+                                                            %>
+                                                            <p class="mb-md-0 mb-1 p-1 ">
+                                                                <span class="dot"
+                                                                    style="background:  #01a801 !important; color:  #9bff84; "></span>
+                                                                Delivered
+                                                            </p>
+                                                        <% } %>
+
+                                                    </div>
+
+
+                                                    <div
+                                                        class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                                                        <button type="button"
+                                                            class="btn btn-primary btn-outline-primary"
+                                                            data-mdb-toggle="modal"
+                                                            data-mdb-target="#exampleModal_<%= order._id %>">View</button>
+                                                    </div>
+
+                                                    <% if( order.status=='Placed' || order.status=='Shipped' ||
+                                                        order.status=='Out for delivery' || order.status=='Pending'
+                                                        ) {%>
                                                         <div
                                                             class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                                            <p class="text-muted mb-0">Ordered On: <br>
-                                                                <%= order.orderDate.toISOString().substring(0,10)
-                                                                    || 'N/A' %>
-                                                            </p>
-                                                        </div>
-                                                        <div
-                                                            class="col-md-1 text-center d-flex justify-content-center align-items-center">
-                                                            <% if ( order.paymentMethod=='cod' ) { %>
-                                                                <p class="text-muted mb-0 small">COD</p>
-                                                                <% } else if ( order.paymentMethod=='razorpay' ) { %>
-                                                                    <p class="text-muted mb-0 small">Online Payment</p>
-                                                                    <% } %>
-
-                                                        </div>
-                                                        <div
-                                                            class="col-md-1 text-center d-flex justify-content-center align-items-center">
-                                                            <p class="text-muted mb-0 small">Qty: <%=
-                                                                    order.products.length %>
-                                                            </p>
-                                                        </div>
-                                                        <div
-                                                            class="col-md-1 text-center d-flex justify-content-center align-items-center">
-                                                            <p class="text-muted mb-0 small">Price: ₹<%=
-                                                                    order.totalPrice %>
-                                                            </p>
-                                                        </div>
-                                                        <div
-                                                            class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                                            <% if (order.status=='Placed' ) { %>
-                                                                <p class="mb-md-0 mb-1 p-1 "><span class="dot"
-                                                                        style="background:  #b0e9ff !important; color: #b0e9ff; "></span>Placed
-                                                                </p>
-                                                                <% } else if (order.status=='Pending' ) { %>
-                                                                    <p class="mb-md-0 mb-1 p-1 "><span class="dot"
-                                                                            style="background:  #fbd85b !important; color: #b0e9ff; "></span>Pending
-                                                                    </p>
-                                                                    <% } else if (order.status=='Returned' ) { %>
-                                                                        <p class="mb-md-0 mb-1 p-1 "><span class="dot"
-                                                                                style="background:  red !important; color: red; "></span>
-                                                                            Returned</p>
-                                                                        <% } else if (order.status=='Cancelled' ) { %>
-                                                                            <p class="mb-md-0 mb-1 p-1 "><span
-                                                                                    class="dot"
-                                                                                    style="background:  red !important; color: red; "></span>
-                                                                                Cancelled </p>
-                                                                            <% } else if (order.status=='Shipped' ) { %>
-                                                                                <p class="mb-md-0 mb-1 p-1 "><span
-                                                                                        class="dot"
-                                                                                        style="background: orange !important; color: orange; "></span>
-                                                                                    Shipped</p>
-                                                                                <% } else if
-                                                                                    (order.status=='Out for delivery' )
-                                                                                    { %>
-                                                                                    <p class="mb-md-0 mb-1 p-1 "><span
-                                                                                            class="dot"
-                                                                                            style="background:  #9bff84 !important; color:  #9bff84;"></span>
-                                                                                        Out For Delivery</p>
-                                                                                    <% } else if
-                                                                                        (order.status=='Delivered' ) {
-                                                                                        %>
-                                                                                        <p class="mb-md-0 mb-1 p-1 ">
-                                                                                            <span class="dot"
-                                                                                                style="background:  #01a801 !important; color:  #9bff84; "></span>
-                                                                                            Delivered
-                                                                                        </p>
-                                                                                        <% } %>
-                                                        </div>
-
-
-                                                        <div
-                                                            class="col-md-1 text-center d-flex justify-content-center align-items-center">
-                                                            <button type="button"
+                                                            <a href="/cancelOrder?id=<%= order._id %>" type="button"
                                                                 class="btn btn-primary btn-outline-primary"
-                                                                data-mdb-toggle="modal"
-                                                                data-mdb-target="#exampleModal_<%= order._id %>">View</button>
+                                                                onclick="return confirm('Confirm To Cancel This Order')">
+                                                                Cancel
+                                                            </a>
                                                         </div>
+                                                    <% } else if ( order.status=='Delivered' ) {%>
+                                                            <% if (new Date(order.orderDate)>= returnValid) { %>
+                                                                <div
+                                                                    class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                                    <a type="button"
+                                                                        href="/retunOrder?id=<%= order._id %>"
+                                                                        class="btn btn-primary btn-outline-primary"
+                                                                        onclick="return confirm('Confirm To Return This Order')">Return</a>
+                                                                </div>
+                                                    <% } %>
+                                                                <% } else if (order.status=='Cancelled' ||
+                                                                    order.status=='Returned' ) {%>
 
-                                                        <% if( order.status=='Placed' || order.status=='Shipped' ||
-                                                            order.status=='Out for delivery' || order.status=='Pending'
-                                                            ) {%>
-                                                            <div
-                                                                class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                                                <a href="/cancelOrder?id=<%= order._id %>" type="button"
-                                                                    class="btn btn-primary btn-outline-primary"
-                                                                    onclick="return confirm('Confirm To Cancel This Order')">
-                                                                    Cancel
-                                                                </a>
-                                                            </div>
-                                                            <% } else if ( order.status=='Delivered' ) {%>
-                                                                <% if (new Date(order.orderDate)>= returnValid) { %>
-                                                                    <div
-                                                                        class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                                                        <a type="button"
-                                                                            href="/retunOrder?id=<%= order._id %>"
-                                                                            class="btn btn-primary btn-outline-primary"
-                                                                            onclick="return confirm('Confirm To Return This Order')">Return</a>
-                                                                    </div>
-                                                                    <% } %>
-                                                                        <% } else if (order.status=='Cancelled' ||
-                                                                            order.status=='Returned' ) {%>
-
-                                                                            <% } %>
+                                                    <% } %>
                                                 </div>
                                             </div>
                                         </div>
@@ -355,6 +359,8 @@
 
                                                         <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
 
+                                                        
+
                                                         <% productsArray[order._id].forEach((product,i)=> { %>
                                                             <!-- This div represents the content for a single product of the order -->
                                                             <div class="media">
@@ -372,7 +378,8 @@
                                                                         </div>
 
                                                                         <div class="col my-auto">
-                                                                            <h6 class="mb-0">&#8377;<%= product.price %>
+                                                                            <h6 class="mb-0">
+                                                                                Price: &#8377;<%= product.price %>
                                                                             </h6>
                                                                         </div>
                                                                         <div class="col my-auto">
@@ -380,207 +387,212 @@
                                                                                     order.products[i].quantity %>
                                                                             </h6>
                                                                         </div>
+                                                                        <% const total =  order.products[i].quantity * product.price %>
                                                                         <div class="col my-auto">
-                                                                            <h6 class="mb-0"></h6>
+                                                                            <h6 class="mb-0"> Total: 
+                                                                                &#8377;<%= total %>
+
+                                                                            </h6>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <hr class="my-3">
-                                                            <% }); %>
+                                                        <% }); %>
 
 
-                                                                <div class="container col-md-10">
-                                                                    <div class="row">
-                                                                        <div class="col-md-4">
-                                                                            <h5>Deivery Address :</h5>
-                                                                        </div>
-                                                                        <div class="col-md-8"></div>
-                                                                        <div class="col-md-2"></div>
-                                                                        <div class="col-md-9">
-                                                                            <div>
-                                                                                <%= order.deliveryAddress %>
-                                                                            </div>
-                                                                        </div>
+                                                        <div class="container col-md-10">
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <h5>Deivery Address :</h5>
+                                                                </div>
+                                                                <div class="col-md-8"></div>
+                                                                <div class="col-md-2"></div>
+                                                                <div class="col-md-9">
+                                                                    <div>
+                                                                        <%= order.deliveryAddress %>
                                                                     </div>
                                                                 </div>
+                                                            </div>
+                                                        </div>
 
-                                                                <hr class="my-3">
+                                                        <hr class="my-3">
 
-                                                                <div class="container col-md-10">
+                                                        <div class="container col-md-10">
 
-                                                                    <% if (order.status=='Placed' ) { %>
-                                                                        <div class="progress"
-                                                                            style="height: 6px; border-radius: 16px;">
-                                                                            <div class="progress-bar" role="progressbar"
-                                                                                style="width: 10%; border-radius: 16px; background-color: skyblue;"
-                                                                                aria-valuenow="20" aria-valuemin="0"
-                                                                                aria-valuemax="100"></div>
-                                                                        </div>
-                                                                        <div class="d-flex justify-content-around mb-1">
-                                                                            <p class="text-muted mt-1 mb-0 small">Placed
-                                                                            </p>
-                                                                            <p class="text-muted mt-1 mb-0 small">
-                                                                                Shipped</p>
-                                                                            <p
-                                                                                class="text-muted mt-1 mb-0 small ms-xl-5">
-                                                                                Out for delivery</p>
-                                                                            <p
-                                                                                class="text-muted mt-1 mb-0 small ms-xl-5">
-                                                                                Delivered</p>
-                                                                        </div>
-                                                                        <% } else if (order.status=='Returned' ) { %>
-                                                                            <div class="progress"
-                                                                                style="height: 6px; border-radius: 16px;">
-                                                                                <div class="progress-bar"
-                                                                                    role="progressbar"
-                                                                                    style="width: 100%; border-radius: 16px; background-color: red;"
-                                                                                    aria-valuenow="20" aria-valuemin="0"
-                                                                                    aria-valuemax="100"></div>
-                                                                            </div>
-                                                                            <div
-                                                                                class="d-flex justify-content-around mb-1">
-                                                                                <p
-                                                                                    class="text-muted mt-1 mb-0 small ms-xl-5">
-                                                                                    Returned and Refunded</p>
-                                                                            </div>
-
-                                                                            <% } else if (order.status=='Cancelled' )
-                                                                                {%>
-                                                                                <div class="progress"
-                                                                                    style="height: 6px; border-radius: 16px;">
-                                                                                    <div class="progress-bar"
-                                                                                        role="progressbar"
-                                                                                        style="width: 100%; border-radius: 16px; background-color: red;"
-                                                                                        aria-valuenow="20"
-                                                                                        aria-valuemin="0"
-                                                                                        aria-valuemax="100"></div>
-                                                                                </div>
-                                                                                <div
-                                                                                    class="d-flex justify-content-around mb-1">
-                                                                                    <p
-                                                                                        class="text-muted mt-1 mb-0 small ms-xl-5">
-                                                                                        Cancelled and Refunded</p>
-                                                                                </div>
-                                                                                <% } else if (order.status=='Shipped' ){
-                                                                                    %>
-                                                                                    <div class="progress"
-                                                                                        style="height: 6px; border-radius: 16px;">
-                                                                                        <div class="progress-bar"
-                                                                                            role="progressbar"
-                                                                                            style="width: 28%; border-radius: 16px; background-color: orange;"
-                                                                                            aria-valuenow="20"
-                                                                                            aria-valuemin="0"
-                                                                                            aria-valuemax="100"></div>
-                                                                                    </div>
-                                                                                    <div
-                                                                                        class="d-flex justify-content-around mb-1">
-                                                                                        <p
-                                                                                            class="text-muted mt-1 mb-0 small">
-                                                                                            Placed</p>
-                                                                                        <p
-                                                                                            class="text-muted mt-1 mb-0 small">
-                                                                                            Shipped</p>
-                                                                                        <p
-                                                                                            class="text-muted mt-1 mb-0 small ms-xl-5">
-                                                                                            Out for delivery</p>
-                                                                                        <p
-                                                                                            class="text-muted mt-1 mb-0 small ms-xl-5">
-                                                                                            Delivered</p>
-                                                                                    </div>
-                                                                                    <% } else
-                                                                                        if(order.status=='Out For Delivery'
-                                                                                        ) { %>
-                                                                                        <div class="progress"
-                                                                                            style="height: 6px; border-radius: 16px;">
-                                                                                            <div class="progress-bar"
-                                                                                                role="progressbar"
-                                                                                                style="width: 60%; border-radius: 16px; background-color: #9bff84;"
-                                                                                                aria-valuenow="20"
-                                                                                                aria-valuemin="0"
-                                                                                                aria-valuemax="100">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div
-                                                                                            class="d-flex justify-content-around mb-1">
-                                                                                            <p
-                                                                                                class="text-muted mt-1 mb-0 small">
-                                                                                                Placed</p>
-                                                                                            <p
-                                                                                                class="text-muted mt-1 mb-0 small">
-                                                                                                Shipped</p>
-                                                                                            <p
-                                                                                                class="text-muted mt-1 mb-0 small ms-xl-5">
-                                                                                                Out for delivery</p>
-                                                                                            <p
-                                                                                                class="text-muted mt-1 mb-0 small ms-xl-5">
-                                                                                                Delivered</p>
-                                                                                        </div>
-                                                                                        <% } else if
-                                                                                            (order.status=='Delivered' )
-                                                                                            { %>
-                                                                                            <div class="progress"
-                                                                                                style="height: 6px; border-radius: 16px;">
-                                                                                                <div class="progress-bar"
-                                                                                                    role="progressbar"
-                                                                                                    style="width: 100%; border-radius: 16px; background-color: #01a801;"
-                                                                                                    aria-valuenow="20"
-                                                                                                    aria-valuemin="0"
-                                                                                                    aria-valuemax="100">
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="d-flex justify-content-around mb-1">
-                                                                                                <p
-                                                                                                    class="text-muted mt-1 mb-0 small">
-                                                                                                    Placed</p>
-                                                                                                <p
-                                                                                                    class="text-muted mt-1 mb-0 small">
-                                                                                                    Shipped</p>
-                                                                                                <p
-                                                                                                    class="text-muted mt-1 mb-0 small ms-xl-5">
-                                                                                                    Out for delivery</p>
-                                                                                                <p
-                                                                                                    class="text-muted mt-1 mb-0 small ms-xl-5">
-                                                                                                    Delivered</p>
-                                                                                            </div>
-
-
-                                                                                            <% } %>
-
+                                                            <% if (order.status=='Placed' ) { %>
+                                                                <div class="progress"
+                                                                    style="height: 6px; border-radius: 16px;">
+                                                                    <div class="progress-bar" role="progressbar"
+                                                                        style="width: 10%; border-radius: 16px; background-color: skyblue;"
+                                                                        aria-valuenow="20" aria-valuemin="0"
+                                                                        aria-valuemax="100"></div>
+                                                                </div>
+                                                                <div class="d-flex justify-content-around mb-1">
+                                                                    <p class="text-muted mt-1 mb-0 small">Placed
+                                                                    </p>
+                                                                    <p class="text-muted mt-1 mb-0 small">
+                                                                        Shipped</p>
+                                                                    <p
+                                                                        class="text-muted mt-1 mb-0 small ms-xl-5">
+                                                                        Out for delivery</p>
+                                                                    <p
+                                                                        class="text-muted mt-1 mb-0 small ms-xl-5">
+                                                                        Delivered</p>
+                                                                </div>
+                                                            <% } else if (order.status=='Returned' ) { %>
+                                                                <div class="progress"
+                                                                    style="height: 6px; border-radius: 16px;">
+                                                                    <div class="progress-bar"
+                                                                        role="progressbar"
+                                                                        style="width: 100%; border-radius: 16px; background-color: red;"
+                                                                        aria-valuenow="20" aria-valuemin="0"
+                                                                        aria-valuemax="100"></div>
+                                                                </div>
+                                                                <div
+                                                                    class="d-flex justify-content-around mb-1">
+                                                                    <p
+                                                                        class="text-muted mt-1 mb-0 small ms-xl-5">
+                                                                        Returned and Refunded</p>
                                                                 </div>
 
-                                                                <hr class="my-3">
-                                                                <% if (order.status=='Delivered' ) { %>
-                                                                    <div class="text-center">
-                                                                        <button id="downloadButton" class="btn btn-secondary" onclick="downloadInvoice('<%= order._id %>')">Download Invoice</button>
+                                                            <% } else if (order.status=='Cancelled' )
+                                                                {%>
+                                                                <div class="progress"
+                                                                    style="height: 6px; border-radius: 16px;">
+                                                                    <div class="progress-bar"
+                                                                        role="progressbar"
+                                                                        style="width: 100%; border-radius: 16px; background-color: red;"
+                                                                        aria-valuenow="20"
+                                                                        aria-valuemin="0"
+                                                                        aria-valuemax="100"></div>
+                                                                </div>
+                                                                <div
+                                                                    class="d-flex justify-content-around mb-1">
+                                                                    <p
+                                                                        class="text-muted mt-1 mb-0 small ms-xl-5">
+                                                                        Cancelled and Refunded</p>
+                                                                </div>
+                                                            <% } else if (order.status=='Shipped' ){
+                                                                %>
+                                                                <div class="progress"
+                                                                    style="height: 6px; border-radius: 16px;">
+                                                                    <div class="progress-bar"
+                                                                        role="progressbar"
+                                                                        style="width: 28%; border-radius: 16px; background-color: orange;"
+                                                                        aria-valuenow="20"
+                                                                        aria-valuemin="0"
+                                                                        aria-valuemax="100"></div>
+                                                                </div>
+                                                                <div
+                                                                    class="d-flex justify-content-around mb-1">
+                                                                    <p
+                                                                        class="text-muted mt-1 mb-0 small">
+                                                                        Placed</p>
+                                                                    <p
+                                                                        class="text-muted mt-1 mb-0 small">
+                                                                        Shipped</p>
+                                                                    <p
+                                                                        class="text-muted mt-1 mb-0 small ms-xl-5">
+                                                                        Out for delivery</p>
+                                                                    <p
+                                                                        class="text-muted mt-1 mb-0 small ms-xl-5">
+                                                                        Delivered</p>
+                                                                </div>
+                                                            <% } else
+                                                                if(order.status=='Out For Delivery'
+                                                                ) { %>
+                                                                <div class="progress"
+                                                                    style="height: 6px; border-radius: 16px;">
+                                                                    <div class="progress-bar"
+                                                                        role="progressbar"
+                                                                        style="width: 60%; border-radius: 16px; background-color: #9bff84;"
+                                                                        aria-valuenow="20"
+                                                                        aria-valuemin="0"
+                                                                        aria-valuemax="100">
                                                                     </div>
-                                                                <% } %>
+                                                                </div>
+                                                                <div
+                                                                    class="d-flex justify-content-around mb-1">
+                                                                    <p
+                                                                        class="text-muted mt-1 mb-0 small">
+                                                                        Placed</p>
+                                                                    <p
+                                                                        class="text-muted mt-1 mb-0 small">
+                                                                        Shipped</p>
+                                                                    <p
+                                                                        class="text-muted mt-1 mb-0 small ms-xl-5">
+                                                                        Out for delivery</p>
+                                                                    <p
+                                                                        class="text-muted mt-1 mb-0 small ms-xl-5">
+                                                                        Delivered</p>
+                                                                </div>
+                                                            <% } else if
+                                                                (order.status=='Delivered' )
+                                                                { %>
+                                                                <div class="progress"
+                                                                    style="height: 6px; border-radius: 16px;">
+                                                                    <div class="progress-bar"
+                                                                        role="progressbar"
+                                                                        style="width: 100%; border-radius: 16px; background-color: #01a801;"
+                                                                        aria-valuenow="20"
+                                                                        aria-valuemin="0"
+                                                                        aria-valuemax="100">
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="d-flex justify-content-around mb-1">
+                                                                    <p
+                                                                        class="text-muted mt-1 mb-0 small">
+                                                                        Placed</p>
+                                                                    <p
+                                                                        class="text-muted mt-1 mb-0 small">
+                                                                        Shipped</p>
+                                                                    <p
+                                                                        class="text-muted mt-1 mb-0 small ms-xl-5">
+                                                                        Out for delivery</p>
+                                                                    <p
+                                                                        class="text-muted mt-1 mb-0 small ms-xl-5">
+                                                                        Delivered</p>
+                                                                </div>
+
+                                                            <% } %>
+
+                                                        </div>
+
+                                                        <hr class="my-3">
+                                                        <% if (order.status=='Delivered' ) { %>
+                                                            <div class="text-center">
+                                                                <button id="downloadButton" class="btn btn-secondary" onclick="downloadInvoice('<%= order._id %>')">Download Invoice</button>
+                                                            </div>
+                                                        <% } %>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <% }); %>
-                                            <% } else { %>
-                                                <div class="card shadow-0 border mb-4">
-                                                    <div class="card-body">
-                                                        <h6>You have not Ordered anything Yet</h6>
-                                                        <a href="/home">
-                                                            <span class="">
-                                                                <button
-                                                                    class="rounded-5 btn-light btn-outline-secondary d-inline">
-                                                                    <i class="icon-shopping-cart d-inline"></i> Continue
-                                                                    Shopping
-                                                                </button>
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <% } %>
+                                    <% } else { %>
+                                        <div class="card shadow-0 border mb-4">
+                                            <div class="card-body">
+                                                <h6>You have not Ordered anything Yet</h6>
+                                                <a href="/home">
+                                                    <span class="">
+                                                        <button
+                                                            class="rounded-5 btn-light btn-outline-secondary d-inline">
+                                                            <i class="icon-shopping-cart d-inline"></i> Continue
+                                                            Shopping
+                                                        </button>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    <% } %>
                             </div>
 
                         </div>
                     </div>
+                </div>
+            </div>
         </section>
 
 
@@ -670,8 +682,7 @@
     <div class="gototop js-top">
         <a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
     </div>
-    <!-- MDB -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"></script>
 
     <!-- jQuery -->
     <script src="/user/js/jquery.min.js"></script>

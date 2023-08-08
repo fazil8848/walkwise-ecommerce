@@ -61,6 +61,14 @@ body {
   margin-top: 0;
 }
 
+.notfound h3 {
+  font-family: 'Montserrat', sans-serif;
+  color: #000;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-top: 0;
+}
+
 .notfound p {
   font-family: 'Montserrat', sans-serif;
   color: #000;

@@ -5,7 +5,7 @@ const User = require('../models/userModels');
 
 let length = 0;
 
-const loadCart = async (req, res, next) => {
+const loadCart = async (req, res) => {
    try {
       if (req.session.userData._id) {
          const user = await User.findOne({ _id: req.session.userData });
@@ -56,7 +56,7 @@ const loadCart = async (req, res, next) => {
                   // Set the length value in the request object
                   req.length = length;
 
-                  res.render("cart", {
+                  return res.render("cart", {
                      user: req.session.userData.userName,
                      data: cartData.products,
                      userId: id,
@@ -65,33 +65,32 @@ const loadCart = async (req, res, next) => {
                      length: length,
                   });
                } else {
-                  res.render("cart", {
+                  return res.render("cart", {
                      user: req.session.userData.userName,
                      data2: "hi",
                      req: req,
                   });
                }
             } else {
-               res.render("cart", {
+               return res.render("cart", {
                   user: req.session.userData.userName,
                   data2: "hi",
                   req: req,
                });
             }
          } else {
-            res.render("cart", {
+            return res.render("cart", {
                user: req.session.userData.userName,
                data2: "hi",
                req: req,
             });
          }
       } else {
-         res.redirect("/");
+         return res.redirect("/");
       }
    } catch (error) {
       console.log("loadCart Method:", error.message);
    }
-   next();
 };
 
 
