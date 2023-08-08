@@ -26,6 +26,7 @@ Welcome to the WalkWise E-commerce Website repository! This project is an online
 - Export order data to EXCEL using EXCELJS.
 - Image upload and management with Multer.
 - Responsive design for mobile and desktop.
+- Uses easyinvoice for downloading the Order invoice.
 
 ## Installation
 
@@ -85,8 +86,7 @@ Contact
 If you have any questions or inquiries, feel free to contact us at:
 
 GitHub: github.com/fazil8848
-Linked In: https://www.linkedin.com/in/fazil-faz-135255286/
-
+Linked In: https://www.linkedin.com/in/fazil-pp-135255286/
 
 
 
