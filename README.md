@@ -86,8 +86,7 @@ Contact
 If you have any questions or inquiries, feel free to contact us at:
 
 GitHub: github.com/fazil8848
-Linked In: https://www.linkedin.com/in/fazil-faz-135255286/
-
+Linked In: https://www.linkedin.com/in/fazil-pp-135255286/
 
 
 
