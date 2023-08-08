@@ -79,23 +79,20 @@
                             class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
 
                     <a href=" /admin/manageProducts " class="nav-item nav-link"><i
-                            class="fa fa-th me-2"></i>Products</a>
+                            class="fa fa-keyboard me-2"></i>Products</a>
 
-                    <a href=" /admin/manageUsers " class="nav-item nav-link"><i
-                            class="fa fa-keyboard me-2"></i>Users</a>
+                    <a href=" /admin/manageUsers " class="nav-item nav-link"><i class="fa fa-user me-2"></i>Users</a>
 
                     <a href=" /admin/categories " class="nav-item nav-link"><i class="fa fa-table me-2"></i>Category</a>
 
                     <a href="/admin/orders" class="nav-item nav-link"><i class="fa fa-truck me-2"></i>Orders</a>
 
-                    <a href="/admin/coupons" class="nav-item nav-link"><span class="fa-stack fa-lg"><i
-                                class="fa fa-certificate fa-stack-2x"></i><i
-                                class="fa fa-tag fa-stack-1x fa-inverse"></i> </span> Coupons</a>
+                    <a href="/admin/coupons" class="nav-item nav-link"><i class="fa fa-book"></i>Coupons</a>
 
                     <a href="salesReport" class="nav-item nav-link "><i class="fa fa-chart-bar me-2"></i> Sales
                         Report</a>
 
-                    <a href="banners" class="nav-item nav-link active"><i  class="fa fa-th me-2"></i> Banners </a>
+                    <a href="banners" class="nav-item nav-link active"><i class="fa fa-th me-2"></i> Banners </a>
 
 
                 </div>
@@ -121,10 +118,9 @@
 
                     <a href="/admin/addBanners" class="nav-link">
                         <button class="btn btn-outline-white bg-light rounded-2 float-end">
-                            <img style="width: 20px; height: 20px;" class="me-2" src="/slider (1).png"
-                                alt="image"> Add
+                            <img style="width: 20px; height: 20px;" class="me-2" src="/slider (1).png" alt="image"> Add
                         </button>
-                    </a> 
+                    </a>
 
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -184,14 +180,15 @@
                                                         </td>
 
                                                         <td>
-                                                            <a href="deleteBanner?id=<%= banner._id %>" type="button" style="font-size: x-large;"
-                                                                class="btn "><i class="bi bi-trash"></i></a>
+                                                            <a href="deleteBanner?id=<%= banner._id %>" type="button"
+                                                                style="font-size: x-large;" class="btn "><i
+                                                                    class="bi bi-trash"></i></a>
                                                             <input type="hidden" name="Stock" value="<%= banner._id %>">
                                                         </td>
                                                         <% if (banner.status) { %>
                                                             <td>
-                                                                <a href="hideBanner?id=<%= banner._id %>" class="btn mt-2"
-                                                                    style="color: red; "
+                                                                <a href="hideBanner?id=<%= banner._id %>"
+                                                                    class="btn mt-2" style="color: red; "
                                                                     onclick="return confirm('Confirm to hide the banner: <%= banner.heading %>')"
                                                                     data-toggle="modal">
                                                                     <span
@@ -226,21 +223,15 @@
                 </div>
                 <!-- Widgets End -->
 
-
-
-
             </div>
+
+
             <!-- Footer Start -->
             <div class="container-fluid pt-4 px-4">
-                <div class="bg-white rounded-top p-4">
+                <div class="bg-light rounded-top p-4">
                     <div class="row">
                         <div class="col-12 col-sm-6 text-center text-sm-start">
-                            &copy; <a href="#">Your Site Name</a>, All Right Reserved.
-                        </div>
-                        <div class="col-12 col-sm-6 text-center text-sm-end">
-                            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                            Designed By <a href="https://htmlcodex.com">HTML Codex</a>
-                            <br>Distributed By: <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                            &copy; <a href="#">WalkWise</a>, All Right Reserved.
                         </div>
                     </div>
                 </div>

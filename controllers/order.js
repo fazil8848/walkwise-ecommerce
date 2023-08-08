@@ -2,7 +2,8 @@ const User = require('../models/userModels');
 const Product = require('../models/productModels');
 const Cart = require('../models/cartModel');
 const Order = require('../models/orderModel')
-const puppeteer = require('puppeteer');
+const fs = require('fs');
+
 
 const { default: mongoose } = require('mongoose');
 
@@ -92,7 +93,7 @@ const placeOrder = async (req, res) => {
    try {
       if (req.session.userData && req.session.userData._id) {
          const userId = req.session.userData._id;
-         const { total, payment, address, wallet } = req.body;
+         const { total, payment, address, wallet, addressId } = req.body;
 
          const user = await User.findById(userId);
 
@@ -115,6 +116,7 @@ const placeOrder = async (req, res) => {
          const orderId = generateOrderId(16, true);
          const newOrder = new Order({
             deliveryAddress: address,
+            addressId,
             user: userId,
             paymentMethod: payment,
             products: cartProducts,
@@ -507,355 +509,67 @@ const updateOrderStatus = async (req, res) => {
 };
 
 
+
+
 const downloadInvoice = async (req, res) => {
-
    try {
-      const browser = await puppeteer.launch();
-      const page = await browser.newPage();
-
-      // Load your HTML template from the front end or a file
-      const template = `
-      <!DOCTYPE html>
-      <html lang="en">
-      
-      <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>WalkWise</title>
-      
-      
-      
-          <link id="page_favicon" href="/logo.svg" rel="icon" type="image/x-icon">
-      
-          <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700" rel="stylesheet">
-          <link href="https://fonts.googleapis.com/css?family=Rokkitt:100,300,400,700" rel="stylesheet">
-      
-          <link rel="stylesheet"
-              href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-      
-          <!-- Animate.css -->
-          <link rel="stylesheet" href="/user/css/animate.css">
-          <!-- Icomoon Icon Fonts-->
-          <link rel="stylesheet" href="/user/css/icomoon.css">
-          <!-- Ion Icon Fonts-->
-          <link rel="stylesheet" href="/user/css/ionicons.min.css">
-          <!-- Bootstrap  -->
-          <link rel="stylesheet" href="/user/css/bootstrap.min.css">
-      
-          <!-- Magnific Popup -->
-          <link rel="stylesheet" href="/user/css/magnific-popup.css">
-      
-          <!-- Flexslider  -->
-          <link rel="stylesheet" href="/user/css/flexslider.css">
-      
-          <!-- Owl Carousel -->
-          <link rel="stylesheet" href="/user/css/owl.carousel.min.css">
-          <link rel="stylesheet" href="/user/css/owl.theme.default.min.css">
-      
-          <!-- Date Picker -->
-          <link rel="stylesheet" href="/user/css/bootstrap-datepicker.css">
-          <!-- Flaticons  -->
-          <link rel="stylesheet" href="/user/fonts/flaticon/font/flaticon.css">
-      
-          <!-- Theme style  -->
-          <link rel="stylesheet" href="/user/css/style.css">
-      
-          <!-- Font Awesome -->
-          <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
-          <!-- Google Fonts -->
-          <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
-          <!-- MDB -->
-          <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css" rel="stylesheet" />
-      
-          <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-      
-          <style>
-              .gradient-custom {
-                  /* fallback for old browsers */
-                  background: #88C8BC;
-      
-                  /* Chrome 10-25, Safari 5.1-6 */
-                  background: -webkit-linear-gradient(to top left, #224957, #88C8BC);
-      
-                  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-                  background: linear-gradient(to top left, #224957, #88C8BC)
-              }
-      
-              .card {
-                  border-radius: 10px;
-                  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-              }
-      
-              #status {
-                  border: 1px solid #000000;
-                  border-radius: 5%;
-                  cursor: default;
-              }
-      
-              .dot {
-      
-                  position: relative;
-                  display: inline-block;
-                  cursor: pointer;
-                  margin-right: 3px;
-                  border-style: solid;
-                  height: 10px;
-                  width: 10px;
-                  left: -4px;
-                  top: 0px;
-                  border-width: 0px;
-                  border-color: rgb(255, 255, 255);
-                  border-radius: 10px;
-              }
-          </style>
-      </head>
-      <body>
-        <div class="modal fade" id="exampleModal_<%= order._id %>" tabindex="-1"
-            aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-            <div class="modal-content text-white"
-                style="background-color: #88C8BC; border-radius: 10px;">
-                <div class="modal-header border-bottom-0">
-                    <button type="button" class="btn-close btn-close-white"
-                        data-mdb-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-start px-4 pt-0 pb-4">
-                    <div class="text-center">
-                        <h5 class="mb-3">Order Status<%= order.status %>
-                        </h5>
-                        <h5 class="mb-5">Order ID :- <%= order.orderId %>
-                        </h5>
-                    </div>
-
-                    <input type="hidden" id="orderId" value="<%= order._id %>">
-
-                    <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
-
-                <% productsArray[order._id].forEach((product,i)=> { %>
-                    <!-- This div represents the content for a single product of the order -->
-                    <div class="media">
-                        <div class="sq align-self-center">
-                            <img class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
-                                src="/productImages/<%= product.image[0] %>"
-                                width="135" height="135" />
-                        </div>
-                        <div class="media-body my-auto text-right">
-                            <div class="row my-auto flex-column flex-md-row">
-                                <div class="col my-auto">
-                                    <h6 class="mb-0">
-                                        <%= product.productName %>
-                                    </h6>
-                                </div>
-
-                                <div class="col my-auto">
-                                    <h6 class="mb-0">&#8377;<%= product.price %>
-                                    </h6>
-                                </div>
-                                <div class="col my-auto">
-                                    <h6 class="mb-0">QTY: <%= order.products[i].quantity %>
-                                    </h6>
-                                </div>
-                                <div class="col my-auto">
-                                    <h6 class="mb-0"></h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr class="my-3">
-                <% }); %>
 
 
-                    <div class="container col-md-10">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h5>Deivery Address :</h5>
-                            </div>
-                            <div class="col-md-8"></div>
-                            <div class="col-md-2"></div>
-                            <div class="col-md-9">
-                                <div>
-                                    <%= order.deliveryAddress %>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      const orderId = req.query.id;
+      const order = await Order.findById(orderId);
+      if (!order) return res.render('404', { message: " downloadInvoice order not found ERROR " })
 
-                    <hr class="my-3">
+      // console.log("order-------------",order);
 
-                    <div class="container col-md-10">
+      const userId = order.user;
+      const user = await User.findById(userId);
+      if (!user) {
+         res.render('404', { message: " downloadInvoice User not found ERROR " })
+         return;
+      }
 
-                    <% if (order.status=='Placed' ) { %>
-                        <div class="progress"
-                            style="height: 6px; border-radius: 16px;">
-                            <div class="progress-bar" role="progressbar"
-                                style="width: 10%; border-radius: 16px; background-color: skyblue;"
-                                aria-valuenow="20" aria-valuemin="0"
-                                aria-valuemax="100"></div>
-                        </div>
-                        <div class="d-flex justify-content-around mb-1">
-                            <p class="text-muted mt-1 mb-0 small">Placed
-                            </p>
-                            <p class="text-muted mt-1 mb-0 small">
-                                Shipped</p>
-                            <p
-                                class="text-muted mt-1 mb-0 small ms-xl-5">
-                                Out for delivery</p>
-                            <p
-                                class="text-muted mt-1 mb-0 small ms-xl-5">
-                                Delivered</p>
-                        </div>
-                    <% } else if (order.status=='Returned' ) { %>
-                        <div class="progress"
-                            style="height: 6px; border-radius: 16px;">
-                            <div class="progress-bar"
-                                role="progressbar"
-                                style="width: 100%; border-radius: 16px; background-color: red;"
-                                aria-valuenow="20" aria-valuemin="0"
-                                aria-valuemax="100"></div>
-                        </div>
-                        <div
-                            class="d-flex justify-content-around mb-1">
-                            <p
-                                class="text-muted mt-1 mb-0 small ms-xl-5">
-                                Returned and Refunded</p>
-                        </div>
+      // console.log("--user --------------------",user);
 
-                    <% } else if (order.status=='Cancelled' ) {%>
-                        <div class="progress"
-                            style="height: 6px; border-radius: 16px;">
-                            <div class="progress-bar"
-                                role="progressbar"
-                                style="width: 100%; border-radius: 16px; background-color: red;"
-                                aria-valuenow="20"
-                                aria-valuemin="0"
-                                aria-valuemax="100"></div>
-                        </div>
-                        <div
-                            class="d-flex justify-content-around mb-1">
-                            <p
-                                class="text-muted mt-1 mb-0 small ms-xl-5">
-                                Cancelled and Refunded</p>
-                        </div>
-                    <% } else if (order.status=='Shipped' ){ %>
-                        <div class="progress"
-                            style="height: 6px; border-radius: 16px;">
-                            <div class="progress-bar"
-                                role="progressbar"
-                                style="width: 28%; border-radius: 16px; background-color: orange;"
-                                aria-valuenow="20"
-                                aria-valuemin="0"
-                                aria-valuemax="100"></div>
-                        </div>
-                        <div
-                            class="d-flex justify-content-around mb-1">
-                            <p
-                                class="text-muted mt-1 mb-0 small">
-                                Placed</p>
-                            <p
-                                class="text-muted mt-1 mb-0 small">
-                                Shipped</p>
-                            <p
-                                class="text-muted mt-1 mb-0 small ms-xl-5">
-                                Out for delivery</p>
-                            <p
-                                class="text-muted mt-1 mb-0 small ms-xl-5">
-                                Delivered</p>
-                        </div>
-                    <% } else if(order.status=='Out For Delivery' ) { %>
-                        <div class="progress"
-                            style="height: 6px; border-radius: 16px;">
-                            <div class="progress-bar"
-                                role="progressbar"
-                                style="width: 60%; border-radius: 16px; background-color: #9bff84;"
-                                aria-valuenow="20"
-                                aria-valuemin="0"
-                                aria-valuemax="100">
-                            </div>
-                        </div>
-                        <div
-                            class="d-flex justify-content-around mb-1">
-                            <p
-                                class="text-muted mt-1 mb-0 small">
-                                Placed</p>
-                            <p
-                                class="text-muted mt-1 mb-0 small">
-                                Shipped</p>
-                            <p
-                                class="text-muted mt-1 mb-0 small ms-xl-5">
-                                Out for delivery</p>
-                            <p
-                                class="text-muted mt-1 mb-0 small ms-xl-5">
-                                Delivered</p>
-                        </div>
-                    <% } else if
-                        (order.status=='Delivered' )
-                        { %>
-                        <div class="progress"
-                            style="height: 6px; border-radius: 16px;">
-                            <div class="progress-bar"
-                                role="progressbar"
-                                style="width: 100%; border-radius: 16px; background-color: #01a801;"
-                                aria-valuenow="20"
-                                aria-valuemin="0"
-                                aria-valuemax="100">
-                            </div>
-                        </div>
-                        <div
-                            class="d-flex justify-content-around mb-1">
-                            <p
-                                class="text-muted mt-1 mb-0 small">
-                                Placed</p>
-                            <p
-                                class="text-muted mt-1 mb-0 small">
-                                Shipped</p>
-                            <p
-                                class="text-muted mt-1 mb-0 small ms-xl-5">
-                                Out for delivery</p>
-                            <p
-                                class="text-muted mt-1 mb-0 small ms-xl-5">
-                                Delivered</p>
-                        </div>
-                     
-                        
-                      <% } %>
+      const addressId = order.addressId;
+      const address = user.address.find(addr => addr._id.toString() === addressId.toString()); // Compare after converting to string
+      if (!address) return res.render('404', { message: " downloadInvoice address not found ERROR " });
 
-                    </div>
+      // console.log('address---------',address);
 
-                    <hr class="my-3">
-                    <% if (order.status == 'Delivered') { %>
-                        <div class="text-center">
-                            <button id="downloadButton" class="btn btn-secondary">Download Invoice</button>
-                        </div>
-                    <% } %>
-                </div>
-            </div>
-            </div>
-                                        </div>
-        </body>
-        </html>
-      `;
+      const orderProductsPromises = order.products.map(async (p) => {
+         try {
+            const product = await Product.findById(p.product_id);
+            if (!product) {
+               throw new Error("Product not found");
+            }
 
-      // Inject the HTML template into the page
-      await page.setContent(template);
-
-      // Generate PDF
-      const pdfBuffer = await page.pdf({
-         format: 'A4',
-         printBackground: true,
+            return {
+               "quantity": p.quantity,
+               "description": product.productName,
+               "tax-rate": 0,
+               "price": product.price,
+            };
+         } catch (error) {
+            console.error("Error fetching product:", error);
+            throw error;
+         }
       });
 
-      await browser.close();
+      const orderProducts = await Promise.all(orderProductsPromises);
 
-      res.setHeader('Content-Disposition', 'attachment; filename="invoice.pdf"');
-      res.setHeader('Content-Type', 'application/pdf');
-      res.send(pdfBuffer);
+      let orderDate = new Date(order.orderDate);
+      orderDate.setDate(orderDate.getDate() + 10);
+      let returnDate = orderDate.toISOString().substring(0, 10);
+
+      const logo = process.env.INVOICE_LOGO; // Update the path to the logo file
+      const bg = process.env.INVOICE_BG
+      res.json({ user, order, address, op: orderProducts, logo, bg, returnDate });
+
    } catch (error) {
-      console.error('PDF generation error:', error);
-      res.status(500).send('An error occurred during PDF generation.');
+      console.log("DownloadInvoice Method", error.message);
+      res.status(500).send("An error occurred");
    }
 };
-
-
 
 
 

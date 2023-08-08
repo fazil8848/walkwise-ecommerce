@@ -275,3 +275,7 @@
     background: var(--dark);
     border-color: var(--primary);
 }
+
+.align{
+    min-height: 77%;
+}

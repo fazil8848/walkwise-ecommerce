@@ -297,7 +297,6 @@ const loadHome = async (req, res) => {
 
 const loadShop = async (req, res) => {
    try {
-
       const category = await Category.find();
 
       const count = 9;
@@ -307,101 +306,54 @@ const loadShop = async (req, res) => {
       if (req.session.userData && req.session.userData._id) {
          const cart = await Cart.findOne({ user: req.session.userData._id });
          if (cart?.products) {
-            length = cart.products.length;
             req.session.length = cart.products.length;
          }
       }
 
-      if (req.query.sort || req.query.brand || req.query.price || req.query.categories) {
-         const { brand, price, categories, sort } = req.query;
+      const { brand, price, categories, sort } = req.query;
+      
+      const filter = {
+         is_hidden: { $ne: true }
+      };
 
-         const filter = {};
-
-         if (brand) {
-            filter.brand = { $in: brand };
-         }
-
-         if (price) {
-            const [minPrice, maxPrice] = price.split('-');
-            filter.price = { $gte: Number(minPrice), $lte: Number(maxPrice) };
-         }
-
-         if (categories) {
-            filter.category = { $in: categories };
-         }
-
-         filter.is_hidden = { $ne: true }
-
-         let data;
-         let dataCount;
-         if (sort && sort == 1) {
-
-            data = await Product.find(filter)
-               .sort({ price: -1 })
-               .skip(skip)
-               .limit(count);
-
-            dataCount = await Product.find(filter)
-               .sort({ price: -1 })
-               .skip(skip)
-               .limit(count)
-               .countDocuments();
-
-         } else if (sort && sort == 2) {
-
-            data = await Product.find(filter).sort({ price: 1 })
-               .skip(skip)
-               .limit(count);
-
-            dataCount = await Product.find(filter).sort({ price: 1 })
-               .skip(skip)
-               .limit(count)
-               .countDocuments();
-
-         } else {
-
-            data = await Product.find(filter)
-               .skip(skip)
-               .limit(count);
-
-            dataCount = await Product.find(filter)
-               .skip(skip)
-               .limit(count)
-               .countDocuments();
-         }
-
-         const totalPage = Math.ceil(dataCount / count);
-
-         res.render('shop', {
-            req: req,
-            product: data,
-            length: length,
-            category: category,
-            filtered: true,
-            totalPage,
-         });
-      } else {
-
-         const data = await Product.find({ is_hidden: { $ne: true } })
-            .skip(skip)
-            .limit(count);
-
-         const dataCount = await Product.find({ is_hidden: { $ne: true } })
-            .countDocuments();
-
-         const totalPage = Math.ceil(dataCount / count);
-
-         if (!data) return res.render('404');
-         res.render('shop', {
-            req: req,
-            product: data,
-            length: length,
-            category: category,
-            filtered: false,
-            totalPage,
-
-         });
+      if (brand) {
+         filter.brand = { $in: brand };
       }
+
+      if (price) {
+         const [minPrice, maxPrice] = price.split('-');
+         filter.price = { $gte: Number(minPrice), $lte: Number(maxPrice) };
+      }
+
+      if (categories) {
+         filter.category = { $in: categories };
+      }
+
+      let sortOption = {};
+      if (sort == 1) {
+         sortOption.price = -1;
+      } else if (sort == 2) {
+         sortOption.price = 1;
+      }
+
+      const data = await Product.find(filter).sort(sortOption).skip(skip).limit(count);
+      const dataCount = await Product.countDocuments(filter);
+
+      const totalPage = Math.ceil(dataCount / count);
+
+      const filtered = brand || price || categories || sort; // Check if any filters or sorting are applied
+
+      res.render('shop', {
+         req: req,
+         product: data,
+         category: category,
+         filtered: filtered,
+         totalPage,
+         pageNo,
+         brand,
+         price,
+         categories,
+      });
 
    } catch (error) {
       console.log('loadShop Method: ', error.message);

@@ -213,14 +213,53 @@
 								<div class="side border mb-1">
 									<h3>Brand</h3>
 									<ul>
-										<li><label><input type="checkbox" name="brand" value="Nike"> Nike</label></li>
-										<li><label><input type="checkbox" name="brand" value="Adidas"> Adidas</label>
+										<li>
+											<label>
+												<label>
+													<input type="checkbox" name="brand" value="Nike"
+													<% if (typeof brand !== 'undefined' && brand.includes("Nike")) { %>
+														checked
+													<% } %>
+													> Nike
+												</label>
+											</label>
 										</li>
-										<li><label><input type="checkbox" name="brand" value="Merrell"> Merrell</label>
+										<li>
+											<label>
+												<input type="checkbox" name="brand" value="Adidas"
+												<% if (typeof brand !== 'undefined' && brand.includes("Adidas")) { %>
+													checked
+												<% } %>
+												> Adidas
+										</label>
 										</li>
-										<li><label><input type="checkbox" name="brand" value="Gucci"> Gucci</label></li>
-										<li><label><input type="checkbox" name="brand" value="Skechers">
-												Skechers</label></li>
+										<li>
+											<label>
+												<input type="checkbox" name="brand" value="Merrell"
+												<% if (typeof brand !== 'undefined' && brand.includes("Merrell")) { %>
+													checked
+												<% } %>
+												> Merrell
+											</label>
+										</li>
+										<li>
+											<label>
+												<input type="checkbox" name="brand" value="Gucci"
+												<% if (typeof brand !== 'undefined' && brand.includes("Gucci")) { %>
+													checked
+												<% } %>
+												> Gucci
+											</label>
+										</li>
+										<li>
+											<label>
+												<input type="checkbox" name="brand" value="Skechers"
+												<% if (typeof brand !== 'undefined' && brand.includes("Skechers")) { %>
+													checked
+												<% } %>
+												> Skechers
+											</label>
+										</li>
 									</ul>
 								</div>
 							</div>
@@ -228,35 +267,63 @@
 								<div class="side border mb-1">
 									<h3>Price</h3>
 									<ul>
-										<li><label><input type="radio" name="price" value="0-500"> 0 to 500</label></li>
-										<li><label><input type="radio" name="price" value="501-1000"> 501 to
-												1000</label></li>
-										<li><label><input type="radio" name="price" value="1001-5000"> 1001 to
-												5000</label></li>
-										<li><label><input type="radio" name="price" value="5001-10000"> 5001 to
-												10000</label></li>
-										<li><label><input type="radio" name="price" value="10001-10000000"> 10001
-												above</label></li>
+										<li>
+											<label>
+												<input type="radio" name="price" value="0-500"
+												<% if (price == "0-500" ) {%> checked <% } %>
+												> 0 to 500
+											</label>
+										</li>
+										<li>
+											<label>
+												<input type="radio" name="price" value="501-1000"
+												<% if (price == "501-1000" ) {%> checked <% } %>
+												> 501 to 1000 
+											</label>
+										</li>
+										<li>
+											<label>
+												<input type="radio" name="price" value="1001-5000"
+												<% if (price == "1001-5000" ) {%> checked <% } %>
+												> 1001 to 5000
+											</label>
+										</li>
+
+										<li>
+											<label>
+												<input type="radio" name="price" value="5001-10000"
+												<% if (price == "5001-10000") {%> checked <% } %>
+												> 5001 to 10000
+											</label>
+										</li>
+										<li>
+											<label>
+												<input type="radio" name="price" value="10001-10000000"
+												<% if (price == "10001-10000000") {%> checked <% } %>
+												> 10001 above
+											</label>
+										</li>
 									</ul>
 								</div>
 							</div>
 							<div class="col-sm-12">
 								<div class="side border mb-1">
-									<h3>Technologies</h3>
+									<h3>Categories</h3>
 									<ul>
-										<% category.forEach(category=> { %>
-											<% if (!category.is_hidden) { %>
+										<% category.forEach(category => {
+											if (!category.is_hidden) { %>
 												<li>
 													<label>
-														<input type="checkbox" name="categories"
-															value="<%= category._id %>">
-														<%= category.name %>
+														<input type="checkbox" name="categories" value="<%= category._id %>"
+														<% if (typeof categories !== 'undefined' && categories.includes(category._id)) { %> checked <% } %>
+														><%= category.name %>
 													</label>
 												</li>
-												<% } %>
-													<% }); %>
+										<% }
+										}); %>
 									</ul>
 								</div>
+								
 							</div>
 
 							<div class="col-sm-12 text-center mb-1">
@@ -326,7 +393,7 @@
 													<p>No Products Available using this filter</p>
 												</div>
 											</div>
-											<% } %>
+										<% } %>
 								</div>
 							</div>
 						</div>
@@ -334,13 +401,20 @@
 							<div class="col-md-12 text-center">
 								<div class="block-27">
 									
-										<ul>
-											<li><a href="#"><i class="ion-ios-arrow-back"></i></a></li>
-											<% for (i = 0; i< totalPage; i++) {%>
-												<li class="active"><form action=""><input type="hidden" name="page" value="<%= i %>" id=""><button type="submit" class="blockButton"><%= i+1 %></button></form></li>
-											<% } %>
-											<li><a href="#"><i class="ion-ios-arrow-forward"></i></a></li>
-										</ul>
+									<ul>
+										<li><a href="#"><i class="ion-ios-arrow-back"></i></a></li>
+										<% for (i = 0; i< totalPage; i++) {%>
+											
+											<li  class="<% if (i == pageNo) {%> active <% } %>" >
+												<form action=""> <input type="hidden" name="page" value="<%= i %>" id="">
+													<button type="submit" class="blockButton">
+														<%= i+1 %>
+													</button>
+												</form>
+											</li>
+										<% } %>
+										<li><a href="#"><i class="ion-ios-arrow-forward"></i></a></li>
+									</ul>
 									
 								</div>
 							</div>

@@ -54,6 +54,7 @@ user_app.get("/orderPlaced", auth.isLogin, nocache(), orderController.loadOrderP
 user_app.get("/viewOrders", auth.isLogin, nocache(), orderController.loadOrderList);
 user_app.get("/retunOrder", auth.isLogin, nocache(), orderController.returnOrder);
 user_app.get("/cancelOrder", auth.isLogin, nocache(), orderController.cancelOrder);
+user_app.get("/downloadInvoice", auth.isLogin, nocache(), orderController.downloadInvoice);
 
 
 
@@ -80,7 +81,6 @@ user_app.post('/placeOrder', orderController.placeOrder);
 user_app.post('/checkWallet', orderController.checkWallet);
 user_app.post('/verifyPayment', orderController.verifyPayment);
 user_app.post('/applyCoupon', couponController.applyCoupon);
-user_app.post("/downloadInvoice", orderController.downloadInvoice);
 
 
 

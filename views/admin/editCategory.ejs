@@ -11,9 +11,9 @@
     <!-- Favicon -->
     <link id="page_favicon" href="/iconizer-logo.svg" rel="icon" type="image/x-icon">
 
-  
+
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  
+
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -56,7 +56,8 @@
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-light navbar-sebg-light">
                 <a href="/admin/home" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-primary"><img src="/iconizer-logo.svg" alt="">WalkWise</i></h3>
+                    <h3 class="text-primary"> <img style="width: 25px; height: auto;" src="/iconizer-logo.svg" alt="">
+                        WalkWise</i></h3>
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
@@ -77,18 +78,21 @@
                             class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
 
                     <a href=" /admin/manageProducts " class="nav-item nav-link"><i
-                            class="fa fa-th me-2"></i>Products</a>
+                            class="fa fa-keyboard me-2"></i>Products</a>
 
-                    <a href=" /admin/manageUsers " class="nav-item nav-link"><i
-                            class="fa fa-keyboard me-2"></i>Users</a>
+                    <a href=" /admin/manageUsers " class="nav-item nav-link"><i class="fa fa-user me-2"></i>Users</a>
 
-                    <a href=" /admin/categories " class="nav-item nav-link active"><i class="fa fa-table me-2"></i>Category</a>
+                    <a href=" /admin/categories " class="nav-item nav-link active"><i
+                            class="fa fa-table me-2"></i>Category</a>
 
                     <a href="/admin/orders" class="nav-item nav-link"><i class="fa fa-truck me-2"></i>Orders</a>
 
-                    <a href="/admin/coupons" class="nav-item nav-link"><span class="fa-stack fa-lg"><i class="fa fa-certificate fa-stack-2x"></i><i class="fa fa-tag fa-stack-1x fa-inverse"></i> </span> Coupons</a>
+                    <a href="/admin/coupons" class="nav-item nav-link"><i class="fa fa-book"></i>Coupons</a>
 
-                    <a href="salesReport" class="nav-item nav-link "><i class="fa fa-chart-bar me-2"></i> Sales Report</a>
+                    <a href="salesReport" class="nav-item nav-link "><i class="fa fa-chart-bar me-2"></i> Sales
+                        Report</a>
+
+                    <a href="banners" class="nav-item nav-link "><i class="fa fa-th me-2"></i> Banners </a>
 
                 </div>
             </nav>
@@ -130,6 +134,7 @@
 
             <div class="align">
                 <!-- Sale & Revenue Start -->
+
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light rounded h-100 p-4">
                         <form action="/admin/saveCategory/<%=id%>" method="post">
@@ -147,7 +152,7 @@
                                 <div class="col-sm-10"></div>
                                 <button type="submit"
                                     style=" border-color: #fff; background-image: linear-gradient(to right, #224957, #88C8BC);"
-                                    class=" btn-success col-sm-2 rounded-2 float-end mt-2 p-1">Add</button>
+                                    class=" btn-success col-sm-2 rounded-2 float-end mt-2 p-1">Save</button>
                             </div>
 
                             <% if (typeof messageSuccess !=='undefined' ) {%>
@@ -193,12 +198,7 @@
                 <div class="bg-light rounded-top p-4">
                     <div class="row">
                         <div class="col-12 col-sm-6 text-center text-sm-start">
-                            &copy; <a href="#">Your Site Name</a>, All Right Reserved.
-                        </div>
-                        <div class="col-12 col-sm-6 text-center text-sm-end">
-                            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                            Designed By <a href="https://htmlcodex.com">HTML Codex</a>
-                            <br>Distributed By: <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                            &copy; <a href="#">WalkWise</a>, All Right Reserved.
                         </div>
                     </div>
                 </div>

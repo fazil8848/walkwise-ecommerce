@@ -80,10 +80,10 @@
             <div class="container">
                <div class="row">
                   <div class="col-sm-7 col-md-9">
-							<div id="colorlib-logo"><a  href="#"> <img style="width: 40px;" src="/logo.svg" alt=""> WalkWise</a></div>
+							<div id="colorlib-logo"><a  href="/"> <img style="width: 40px;" src="/logo.svg" alt=""> WalkWise</a></div>
                   </div>
                   <div class="col-sm-5 col-md-3">
-                     <form action="#" class="search-wrap">
+                     <form action="/shop" class="search-wrap">
                         <div class="form-group">
                            <input type="search" class="form-control search" placeholder="Search">
                            <button class="btn btn-primary submit-search text-center" type="submit"><i
@@ -95,7 +95,7 @@
                <div class="row">
                   <div class="col-sm-12 text-left menu-1">
                      <ul>
-                        <li class=""><a href="#">Home</a></li>
+                        <li class=""><a href="/">Home</a></li>
                         <li>
                            <a href="/shop">Shop</a>
                         </li>
@@ -197,37 +197,39 @@
                                  <div class="form-group">
                                     <div class="radio">
                                        <input type="radio" name="address" required
-                                          value="<%= address.address %>, <%= address.street %> ,<%= address.city %> ,
-                                          <%= address.state %>, <%= address.country %>,<%= address.zipCode %>, <%= address.phone %>">
+                                       value="<%= address.address %>, <%= address.street %> ,<%= address.city %> ,
+                                       <%= address.state %>, <%= address.country %>,<%= address.zipCode %>, <%= address.phone %>">
                                        <label>
                                           <div class="bg-white card addresses-item mb-4 border border-primary shadow">
                                              <div class="gold-members p-4">
                                                 <div class="media">
                                                    <div class="mr-3"><span class="material-symbols-outlined"> cottage
-                                                      </span></div>
+                                                   </span></div>
                                                    <div class="media-body">
                                                       <h6 class="mb-1 text-secondary">
+                                                         
+                                                         <input type="hidden" id="addressId" name="addressId" value='<%=address._id%>'>
                                                          <%= address.type %>
                                                       </h6>
                                                       <h6 class="mb-1 text-dark"><strong>
-                                                            <%= address.firstName %>
-                                                               <%= address.lastName %>
-                                                         </strong></h6>
+                                                         <%= address.firstName %>
+                                                         <%= address.lastName %>
+                                                      </strong></h6>
                                                       <p class="text-black">
                                                          <%= address.address %>, <%= address.street %> ,<%= address.city
-                                                                  %> ,
-                                                                  <%= address.state %>, <%= address.country %>,<%=
-                                                                           address.zipCode %>,
-                                                                           <%= address.phone %>
+                                                         %> ,
+                                                         <%= address.state %>, <%= address.country %>,<%=
+                                                         address.zipCode %>,
+                                                         <%= address.phone %>
                                                       </p>
                                                       <p class="mb-0 text-black font-weight-bold"><a
-                                                            class="text-primary mr-3"
+                                                         class="text-primary mr-3"
                                                             href="/editAddress?id=<%=address._id%>"><span
                                                                class="material-symbols-outlined">
                                                                edit_note
                                                             </span></a>
-                                                      </p>
-                                                   </div>
+                                                         </p>
+                                                      </div>
                                                 </div>
                                              </div>
                                           </div>
@@ -311,7 +313,7 @@
                            <div class="form-group">
                               <div class="col-md-12">
                                  <div class="radio">
-                                    <label><input disabled type="radio" name="payment"> Direct Bank Tranfer</label>
+                                    <label><input disabled type="radio" onclick="alert('Currently Unavailable')" name="payment"> Direct Bank Tranfer</label>
                                  </div>
                               </div>
                            </div>
@@ -508,6 +510,8 @@
    
    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
+   <input type="hidden" id="addressId" value="<%= address._id %>">
+
    <script>
 
       document.addEventListener('DOMContentLoaded', function () {
@@ -532,8 +536,9 @@
         const payment = $("input[name=payment]:checked").val();
         const codeElement = document.getElementById('code');
         const code = codeElement ? codeElement.innerHTML : '';
+        const selectedAddressId = $("input[name=address]:checked").siblings("label").find("input[name=addressId]").val();
 
-        console.log(code);
+        console.log(selectedAddressId);
 
 
             $.ajax({
@@ -544,6 +549,7 @@
                   address,
                   payment,
                   wallet,
+                  addressId: selectedAddressId,
                },
                success: (response) => {
                   console.log(response.order);

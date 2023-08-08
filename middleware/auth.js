@@ -11,7 +11,7 @@ const isLogin = async (req, res, next) => {
 				return res.render('login', { message: 'Your account is currently blocked' });
 			}
 		} else {
-			return res.redirect('/');
+			return res.redirect('/login');
 		}
 
 		next();
