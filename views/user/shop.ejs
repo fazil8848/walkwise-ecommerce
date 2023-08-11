@@ -311,31 +311,41 @@
 								<div class="side border mb-1">
 									<h3>Categories</h3>
 									<ul>
-										<% category.forEach(category => {
+										<% category.forEach(category=> {
 											if (!category.is_hidden) { %>
 											<li>
 												<label>
 													<input type="checkbox" name="categories" value="<%= category._id %>"
-														<% if (Array.isArray(categories) ? categories.includes(category.name) : categories == category.name) { %>
-														checked
-														<% } %>
-													><%= category.name %>
+														<% if (Array.isArray(categories) ?
+														categories.includes(category.name) : categories==category.name)
+														{ %>
+													checked
+													<% } %>
+														><%= category.name %>
 												</label>
 											</li>
 											<% } }); %>
 									</ul>
 								</div>
 							</div>
-							
-							
+
+
 
 
 							<div class="col-sm-12 text-center mb-1">
 								<div class="border py-1">
 									<select class="form-control" name="sort" id="mySelect">
+										<% if (sort === '1') { %>
+										<option selected disabled value="1">  High to Low  </option>
+										<option value="2"> Low to High </option>
+										<%}  else if (sort === '2') { %>
+										<option selected disabled value="2"> Low to High </option>
+										<option value="1"> High to Low </option>
+										<%}  else { %>
 										<option selected disabled value=""> sort </option>
 										<option value="1"> High to Low </option>
 										<option value="2"> Low to High </option>
+										<% } %>
 									</select>
 								</div>
 							</div>
@@ -404,42 +414,54 @@
 						<div class="row">
 							<div class="col-md-12 text-center">
 								<div class="block-27">
-
 									<ul>
 										<li>
-											<% if (pageNo> 0) { %>
-												<a href="<%= generatePageLink(pageNo - 1) %>">
+											<% if (pageNo > 0) { %>
+												<a href="<%= generatePageLink(pageNo - 1, { /* Pass current filters here */ }) %>">
 													<i class="ion-ios-arrow-back"></i>
 												</a>
-												<% } else { %>
-													<span class="disabled"><i class="ion-ios-arrow-back"></i></span>
-													<% } %>
+											<% } else { %>
+												<span class="disabled"><i class="ion-ios-arrow-back"></i></span>
+											<% } %>
 										</li>
-										<% if (typeof totalPage !=="undefined" ) { %>
-											<% for (let i=0; i < totalPage; i++) { %>
+										<% if (typeof totalPage !== "undefined") { %>
+											<% for (let i = 0; i < totalPage; i++) { %>
 												<li class="<% if (i === pageNo) { %>active<% } %>">
-													<form action="<%= generatePageLink(i) %>" id="paginationForm">
-														<input type="hidden" name="page" value="<%= i %>" id="">
-														<button type="submit" class="blockButton">
-															<%= i + 1 %>
-														</button>
+													<form id="paginationForm" action="/shop" method="GET">
+														<input type="hidden" name="page" value="<%= i %>">
+														<% if (Array.isArray(brand)) { %>
+															<% brand.forEach(b => { %>
+																<input type="hidden" name="brand" value="<%= encodeURIComponent(b) %>" >
+															<% }); %>
+														<% } else { %>
+															<input type="hidden" name="brand" value="<%= brand %>" >
+														<% } %>
+														<input type="hidden" name="price" value="<%= price %>" >
+														<% if (Array.isArray(cat)) { %>
+															<% cat.forEach(c => { %>
+																<input type="hidden" name="categories" value="<%= encodeURIComponent(c) %>" >
+															<% }); %>
+														<% } else { %>
+															<input type="hidden" name="categories" value="<%= categories %>" >
+														<% } %>
+														<button type="submit" class="blockButton"><%= i + 1 %></button>
 													</form>
 												</li>
-												<% } } %>
-													<li>
-														<% if (pageNo < totalPage - 1) { %>
-															<a href="<%= generatePageLink(pageNo + 1) %>">
-																<i class="ion-ios-arrow-forward"></i>
-															</a>
-															<% } else { %>
-																<span class="disabled"><i
-																		class="ion-ios-arrow-forward"></i></span>
-																<% } %>
-													</li>
+											<% } %>
+										<% } %>
+										<li>
+											<% if (pageNo < totalPage - 1) { %>
+												<a href="<%= generatePageLink(pageNo + 1, { /* Pass current filters here */ }) %>">
+													<i class="ion-ios-arrow-forward"></i>
+												</a>
+											<% } else { %>
+												<span class="disabled"><i class="ion-ios-arrow-forward"></i></span>
+											<% } %>
+										</li>
 									</ul>
 								</div>
 							</div>
-						</div>
+						</div>					
 					</div>
 				</div>
 			</div>
@@ -563,36 +585,8 @@
 	<!-- Include jQuery library -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-
-	<script>
-		$(document).ready(function () {
-		  $('.paginationForm').submit(function (event) {
-			event.preventDefault();
-	  
-			const formData = $(this).serializeArray();
-			const currentPage = parseInt($('input[name="page"]', this).val());
-			const dynamicURL = generatePageLink(currentPage, formData);
-	  
-			window.location.href = dynamicURL;
-		  });
-		});
-	  
-		function generatePageLink(page, queryParams) {
-		  const queryString = queryParams
-			.filter(param => param.name !== 'page')
-			.map(param => param.name + '=' + encodeURIComponent(param.value))
-			.join('&');
-	  
-		  return '/shop?page=' + page + (queryString ? '&' + queryString : '');
-		}
-	  </script>
-	  
-
+	
 	<!-- ... The rest of your HTML ... -->
-
-
-
-
 
 	<!-- jQuery -->
 	<script src="/user/js/jquery.min.js"></script>
@@ -617,6 +611,29 @@
 	<script src="/user/js/jquery.stellar.min.js"></script>
 	<!-- Main -->
 	<script src="/user/js/main.js"></script>
+
+	<script>
+		$(document).ready(function () {
+			$('#paginationForm').submit(function (event) {
+				event.preventDefault();
+	
+				const formData = $(this).serializeArray();
+				const currentPage = parseInt($('input[name="page"]', this).val());
+				const dynamicURL = generatePageLink(currentPage, formData);
+	
+				window.location.href = dynamicURL;
+			});
+		});
+	
+		function generatePageLink(page, queryParams) {
+			const queryString = queryParams
+				.filter(param => param.name !== 'page')
+				.map(param => param.name + '=' + encodeURIComponent(param.value))
+				.join('&');
+	
+			return '/shop?page=' + page + (queryString ? '&' + queryString : '');
+		}
+	</script>
 
 </body>
 
