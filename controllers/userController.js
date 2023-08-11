@@ -297,69 +297,152 @@ const loadHome = async (req, res) => {
 
 const loadShop = async (req, res) => {
    try {
-      const category = await Category.find();
+     const category = await Category.find();
+     const search = req.query.searchKey ? req.query.searchKey : '';
+ 
+     const count = 9;
+     const pageNo = parseInt(req.query.page) || 0;
+     const skip = count * pageNo;
+ 
+     if (req.session.userData && req.session.userData._id) {
+       const cart = await Cart.findOne({ user: req.session.userData._id });
+       if (cart?.products) {
+         req.session.length = cart.products.length;
+       }
+     }
+ 
+     const { brand, price, categories, sort } = req.query;
+ 
+     const cat = [];
+ 
+     if (Array.isArray(categories) && categories.length > 1) {
+       const promises = categories.map(async (c) => {
+         let n = await Category.findById(c);
+         cat.push(n.name);
+       });
+ 
+       await Promise.all(promises)
+         .catch((error) => {
+           console.error("An error occurred:", error);
+         });
+     } else if (Array.isArray(categories) && categories.length === 1) {
+       let n = await Category.findById(categories[0]);
+       cat = n.name;
+     }
 
-      const count = 9;
-      const pageNo = parseInt(req.query.page) || 0;
-      const skip = count * pageNo;
 
-      if (req.session.userData && req.session.userData._id) {
-         const cart = await Cart.findOne({ user: req.session.userData._id });
-         if (cart?.products) {
-            req.session.length = cart.products.length;
+ 
+     const filter = {
+       is_hidden: { $ne: true }
+     };
+ 
+     if (brand) {
+       filter.brand = { $in: Array.isArray(brand) ? brand : [brand] };
+     }
+ 
+     if (price) {
+       const [minPrice, maxPrice] = price.split('-');
+       filter.price = { $gte: Number(minPrice), $lte: Number(maxPrice) };
+     }
+ 
+     if (categories) {
+       filter.category = { $in: Array.isArray(categories) ? categories : [categories] };
+     }
+ 
+     let sortOption = {};
+     if (sort == 1) {
+       sortOption.price = -1;
+     } else if (sort == 2) {
+       sortOption.price = 1;
+     }
+ 
+     let data;
+     let dataCount;
+ 
+     if (search) {
+       data = await Product.find({
+         '$or': [
+           { productName: { $regex: new RegExp(search, 'i') } },
+           { brand: { $regex: new RegExp(search, 'i') } },
+         ]
+       }).skip(skip).limit(count);
+ 
+       dataCount = await Product.countDocuments({
+         '$or': [
+           { productName: { $regex: new RegExp(search, 'i') } },
+           { brand: { $regex: new RegExp(search, 'i') } },
+         ]
+       });
+     } else {
+       data = await Product.find(filter).sort(sortOption).skip(skip).limit(count);
+       dataCount = await Product.countDocuments(filter);
+     }
+ 
+     const totalPage = Math.ceil(dataCount / count);
+ 
+     const filtered = brand || price || categories || sort;
+ 
+     // Define the generatePageLink function here
+     function generatePageLink(page, currentFilters) {
+       const queryParams = [];
+ 
+       if (search !== '') {
+         queryParams.push('searchKey=' + encodeURIComponent(search));
+       }
+ 
+       if (brand && Array.isArray(brand)) {
+         queryParams.push(...brand.map(b => 'brand=' + encodeURIComponent(b)));
+       }
+ 
+       if (price) {
+         queryParams.push('price=' + encodeURIComponent(price));
+       }
+ 
+       if (categories) {
+         if (Array.isArray(categories)) {
+           queryParams.push(...categories.map(c => 'categories=' + encodeURIComponent(c)));
+         } else {
+           queryParams.push('categories=' + encodeURIComponent(categories));
          }
-      }
-
-      const { brand, price, categories, sort } = req.query;
-      
-      const filter = {
-         is_hidden: { $ne: true }
-      };
-
-      if (brand) {
-         filter.brand = { $in: brand };
-      }
-
-      if (price) {
-         const [minPrice, maxPrice] = price.split('-');
-         filter.price = { $gte: Number(minPrice), $lte: Number(maxPrice) };
-      }
-
-      if (categories) {
-         filter.category = { $in: categories };
-      }
-
-      let sortOption = {};
-      if (sort == 1) {
-         sortOption.price = -1;
-      } else if (sort == 2) {
-         sortOption.price = 1;
-      }
-
-      const data = await Product.find(filter).sort(sortOption).skip(skip).limit(count);
-      const dataCount = await Product.countDocuments(filter);
-
-      const totalPage = Math.ceil(dataCount / count);
-
-      const filtered = brand || price || categories || sort; // Check if any filters or sorting are applied
-
-      res.render('shop', {
-         req: req,
-         product: data,
-         category: category,
-         filtered: filtered,
-         totalPage,
-         pageNo,
-         brand,
-         price,
-         categories,
-      });
-
+       }
+ 
+       queryParams.push('page=' + page);
+ 
+       // Include other filter criteria in queryParams
+       if (currentFilters) {
+         Object.keys(currentFilters).forEach(filterKey => {
+           if (currentFilters[filterKey]) {
+             queryParams.push(filterKey + '=' + encodeURIComponent(currentFilters[filterKey]));
+           }
+         });
+       }
+ 
+       return '/shop?' + queryParams.join('&');
+     }
+ 
+     res.render('shop', {
+       req,
+       product: data,
+       category,
+       filtered: filtered,
+       totalPage,
+       pageNo,
+       brand,
+       price,
+       categories: cat,
+       search,
+       generatePageLink: generatePageLink,
+     });
+ 
    } catch (error) {
-      console.log('loadShop Method: ', error.message);
-      res.render('404');
+     console.log('loadShop Method: ', error.message);
+     res.render('404');
    }
-};
+ };
+ 
+
+
+
 
 
 const loadAbout = async (req, res) => {
@@ -906,6 +989,7 @@ const search = async (req, res) => {
 
       const category = await Category.find();
       const searchKey = req.body.searchKey
+
       if (searchKey) {
 
          const product = await Product.find({
