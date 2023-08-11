@@ -8,6 +8,7 @@ const fs = require('fs');
 const { default: mongoose } = require('mongoose');
 
 const Razorpay = require('razorpay');
+const { log } = require('console');
 
 const instance = new Razorpay({
    key_id: process.env.RAZOR_KEY_ID,
@@ -391,14 +392,21 @@ const returnOrder = async (req, res) => {
       const order = await Order.findById(orderId);
       const user = await User.findById(userId);
       const total = user.wallet + order.totalPrice;
-
+      const date = new Date();
       if (order.paymentMethod == 'cod' || order.paymentMethod == 'online') {
 
          await User.findByIdAndUpdate(userId, {
             $set: { wallet: total },
-            $push: { wallehistory: { amount: order.totalPrice, date } }
+            $push: {
+               wallehistory:
+               {
+                  amount: order.totalPrice,
+                  date,
+                  transaction: "Product returned",
+               }
+            }
          }).then(() => {
-            console.log('wallet amount updated');
+            console.log('Wallet amount updated');
          })
 
       }
@@ -571,6 +579,93 @@ const downloadInvoice = async (req, res) => {
    }
 };
 
+const topupWallet = async (req, res) => {
+
+   try {
+
+      if (req.session.userData && req.session.userData._id) {
+
+         const userId = req.session.userData._id
+
+         const amount = req.body.amount
+         if (amount && amount > 100) {
+
+            const options = {
+               amount: amount * 100,
+               currency: 'INR',
+               receipt: '' + userId,
+            };
+
+            instance.orders.create(options, function (err, order) {
+               if (err) {
+                  console.log(err);
+               }
+               res.json({ order });
+            });
+
+         } else {
+            res.json({ success: false });
+            return;
+         }
+
+      } else {
+         res.redirect('/login');
+      }
+
+   } catch (error) {
+      console.log('topupWallet Method :-  ', error.message);
+      res.render('404')
+   }
+
+};
+
+const verifyTopup = async (req, res) => {
+
+   try {
+
+      if (req.session.userData && req.session.userData._id) {
+
+         const userId = req.session.userData._id;
+         let user = await User.findById(userId);
+
+         const details = req.body;
+         console.log(details);
+
+         const crypto = require('crypto');
+
+         let hmac1 = crypto.createHmac("sha256", process.env.RAZOR_SECRET);
+
+         hmac1.update(
+            details['payment[razorpay_order_id]'] + '|' + details['payment[razorpay_payment_id]']
+         );
+         hmac1 = hmac1.digest('hex');
+
+         if (hmac1 == details['payment[razorpay_signature]']) {
+
+            await User.findByIdAndUpdate(user._id, {
+               $set:{ wallet: am}
+            });
+
+            res.json({ success: true });
+
+         } else {
+
+            await Order.deleteOne({ _id: details['order[receipt]'] });
+            res.json({ onlineSuccess: true });
+
+         }
+
+      } else {
+         res.redirect('/login');
+      }
+
+   } catch (error) {
+      console.log('verifyTopup Method :-  ', error.message);
+   }
+
+}
+
+
 
 
 module.exports = {
@@ -588,5 +683,8 @@ module.exports = {
    updateOrderStatus,
    verifyPayment,
    downloadInvoice,
+   topupWallet,
+   verifyTopup,
+
 
 }

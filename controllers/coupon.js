@@ -106,7 +106,7 @@ const applyCoupon = async (req, res) => {
                                 let discountedTotal = Math.round(price - discountedAmount);
                                 let couponId = coupon._id;
 
-                                
+
                                 req.session.couponId = couponId;
                                 res.json({
                                     couponKey: true,
@@ -140,12 +140,15 @@ const applyCoupon = async (req, res) => {
 }
 
 
+
+
+
 module.exports = {
 
     loadCouponList,
     loadAddCoupon,
     addCoupon,
     deleteCoupon,
-    applyCoupon
+    applyCoupon,
 
 }

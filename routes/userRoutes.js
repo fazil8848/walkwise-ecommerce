@@ -81,6 +81,9 @@ user_app.post('/placeOrder', orderController.placeOrder);
 user_app.post('/checkWallet', orderController.checkWallet);
 user_app.post('/verifyPayment', orderController.verifyPayment);
 user_app.post('/applyCoupon', couponController.applyCoupon);
+user_app.post('/topupWallet', orderController.topupWallet);
+user_app.post('/verifyTopup', orderController.verifyTopup);
+
 
 
 

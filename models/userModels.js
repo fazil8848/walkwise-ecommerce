@@ -30,63 +30,66 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    address:[{
-        
-        firstName:{
-            type:String,
-            required:true,
+    address: [{
+
+        firstName: {
+            type: String,
+            required: true,
 
         },
-        lastName:{
-            type:String,
-            required:true,
+        lastName: {
+            type: String,
+            required: true,
 
         },
-        phone:{
-            type:String,
-            required:true,
+        phone: {
+            type: String,
+            required: true,
         },
-        address:{
-            type:String,
-            required:true,
+        address: {
+            type: String,
+            required: true,
         },
-        
-        state:{
-            type:String,
-            required:true,
+
+        state: {
+            type: String,
+            required: true,
         },
-        city:{
-            type:String,
-            required:true,
+        city: {
+            type: String,
+            required: true,
         },
         street: {
             type: String,
             required: true,
         },
-        zipCode:{
-            type:String,
-            required:true,
+        zipCode: {
+            type: String,
+            required: true,
         },
-        type:{
-            type:String,
-            required:true,
+        type: {
+            type: String,
+            required: true,
         },
-        country:{
-            type:String,
-            required:true,
+        country: {
+            type: String,
+            required: true,
         },
-    
+
     }],
-    wallet:{
-        type:Number,
-        default:0,
+    wallet: {
+        type: Number,
+        default: 0,
     },
-    wallehistory:[{
-        amount:{
-            type:Number,
+    wallehistory: [{
+        amount: {
+            type: Number,
         },
-        date:{
-            type:String
+        date: {
+            type: Date,
+        },
+        transaction: {
+            type: String,
         }
     }],
 
@@ -114,7 +117,7 @@ userSchema.statics.isExistingUserName = async function (userName) {
 
         const user = await this.findOne({ name: userName });
 
-        if(user) return false;
+        if (user) return false;
 
         return true;
 
@@ -123,4 +126,4 @@ userSchema.statics.isExistingUserName = async function (userName) {
     }
 }
 
-module.exports = mongoose.model('User',userSchema);
+module.exports = mongoose.model('User', userSchema);

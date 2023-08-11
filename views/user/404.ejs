@@ -38,6 +38,9 @@
 			<p>The page you are looking for might have been removed had its name changed or is temporarily unavailable.</p>
 			<a href="/">Go To Homepage</a>
 		</div>
+		<% if (typeof message !== 'undefined') {%>
+			<p style="color: red;"><%= message %></p>
+		<% } %>
 	</div>
 
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->

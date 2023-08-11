@@ -6,10 +6,10 @@
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-   
-	<link id="page_favicon" href="/logo.svg" rel="icon" type="image/x-icon">
 
-	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700" rel="stylesheet">
+   <link id="page_favicon" href="/logo.svg" rel="icon" type="image/x-icon">
+
+   <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700" rel="stylesheet">
    <link href="https://fonts.googleapis.com/css?family=Rokkitt:100,300,400,700" rel="stylesheet">
 
    <link rel="stylesheet"
@@ -80,7 +80,8 @@
             <div class="container">
                <div class="row">
                   <div class="col-sm-7 col-md-9">
-							<div id="colorlib-logo"><a  href="/"> <img style="width: 40px;" src="/logo.svg" alt=""> WalkWise</a></div>
+                     <div id="colorlib-logo"><a href="/"> <img style="width: 40px;" src="/logo.svg" alt=""> WalkWise</a>
+                     </div>
                   </div>
                   <div class="col-sm-5 col-md-3">
                      <form method="post" action="/search" class="search-wrap">
@@ -197,39 +198,40 @@
                                  <div class="form-group">
                                     <div class="radio">
                                        <input type="radio" name="address" required
-                                       value="<%= address.address %>, <%= address.street %> ,<%= address.city %> ,
+                                          value="<%= address.address %>, <%= address.street %> ,<%= address.city %> ,
                                        <%= address.state %>, <%= address.country %>,<%= address.zipCode %>, <%= address.phone %>">
                                        <label>
                                           <div class="bg-white card addresses-item mb-4 border border-primary shadow">
                                              <div class="gold-members p-4">
                                                 <div class="media">
                                                    <div class="mr-3"><span class="material-symbols-outlined"> cottage
-                                                   </span></div>
+                                                      </span></div>
                                                    <div class="media-body">
                                                       <h6 class="mb-1 text-secondary">
-                                                         
-                                                         <input type="hidden" id="addressId" name="addressId" value='<%=address._id%>'>
+
+                                                         <input type="hidden" id="addressId" name="addressId"
+                                                            value='<%=address._id%>'>
                                                          <%= address.type %>
                                                       </h6>
                                                       <h6 class="mb-1 text-dark"><strong>
-                                                         <%= address.firstName %>
-                                                         <%= address.lastName %>
-                                                      </strong></h6>
+                                                            <%= address.firstName %>
+                                                               <%= address.lastName %>
+                                                         </strong></h6>
                                                       <p class="text-black">
                                                          <%= address.address %>, <%= address.street %> ,<%= address.city
-                                                         %> ,
-                                                         <%= address.state %>, <%= address.country %>,<%=
-                                                         address.zipCode %>,
-                                                         <%= address.phone %>
+                                                                  %> ,
+                                                                  <%= address.state %>, <%= address.country %>,<%=
+                                                                           address.zipCode %>,
+                                                                           <%= address.phone %>
                                                       </p>
                                                       <p class="mb-0 text-black font-weight-bold"><a
-                                                         class="text-primary mr-3"
+                                                            class="text-primary mr-3"
                                                             href="/editAddress?id=<%=address._id%>"><span
                                                                class="material-symbols-outlined">
                                                                edit_note
                                                             </span></a>
-                                                         </p>
-                                                      </div>
+                                                      </p>
+                                                   </div>
                                                 </div>
                                              </div>
                                           </div>
@@ -251,18 +253,20 @@
 
                <div class="row form-group">
                   <div class="col-sm-9 col-md-5">
-                     <input type="text" id="code" class="form-control input-number "
-                        style="border-radius: 20px; " placeholder="Your Coupon Number...">
+                     <input type="text" id="code" class="form-control input-number " style="border-radius: 20px; "
+                        placeholder="Your Coupon Number...">
                   </div>
                </div>
                <div class="row form-group">
                   <table>
-                     
-                     <td><div class="col-sm-3">
-                        <input type="button" onclick="applyCoupon($('#code').val())" value="Apply Coupon"
-                           style="border-radius: 20px; width: 200px; margin: 0%;"
-                           class=" btn btn-primary btn-outline-primary ">
-                     </div></td>
+
+                     <td>
+                        <div class="col-sm-3">
+                           <input type="button" onclick="applyCoupon($('#code').val())" value="Apply Coupon"
+                              style="border-radius: 20px; width: 200px; margin: 0%;"
+                              class=" btn btn-primary btn-outline-primary ">
+                        </div>
+                     </td>
 
                      <td>
                         <div class="col-sm-3">
@@ -272,7 +276,7 @@
                      </td>
 
                   </table>
-                  
+
                </div>
 
                <div class="container">
@@ -282,13 +286,17 @@
                            <h2>Cart Total</h2>
                            <ul>
                               <li>
-                                 <div class="mb-5"><span>Subtotal ₹</span> <span><%=total%></span></div>
+                                 <div class="mb-5"><span>Subtotal ₹</span> <span>
+                                       <%=total%>
+                                    </span></div>
                                  <ul>
                                     <% if(typeof noData==='undefined' ) {%>
                                        <% products.forEach( product=>{%>
                                           <li><span>
                                                 <%=product.quantity%> X <%=product.product_id.productName%> ₹
-                                             </span> <span><%= product.total_price%></span></li>
+                                             </span> <span>
+                                                <%= product.total_price%>
+                                             </span></li>
                                           <%})%>
                                              <%}else{%>
                                                 <li><span> nothing to check out </span></li>
@@ -296,7 +304,7 @@
 
                                  </ul>
                               </li>
-                              <li><span>Shipping  ₹</span> <span>0.00</span></li>
+                              <li><span>Shipping ₹</span> <span>0.00</span></li>
                               <li><span>Discount %</span> <span id="couponDicount">0.00</span></li>
                               <li><span>Order Total ₹</span> <span id="grand-total">
                                     <%=total%>
@@ -313,7 +321,8 @@
                            <div class="form-group">
                               <div class="col-md-12">
                                  <div class="radio">
-                                    <label><input disabled type="radio" onclick="alert('Currently Unavailable')" name="payment"> Direct Bank Tranfer</label>
+                                    <label><input disabled type="radio" onclick="alert('Currently Unavailable')"
+                                          name="payment"> Direct Bank Tranfer</label>
                                  </div>
                               </div>
                            </div>
@@ -333,48 +342,49 @@
                                     </div>
                                  </div>
                               </div>
-                           <%} else {%>
-                              <div class="form-group">
-                                 <div class="col-md-12">
-                                    <div class="radio" id="walletRadio">
-                                       <label>
-                                          <input type="radio" name="payment" value="cod">
-                                          <span>COD</span>
-                                       </label>
+                              <%} else {%>
+                                 <div class="form-group">
+                                    <div class="col-md-12">
+                                       <div class="radio" id="walletRadio">
+                                          <label>
+                                             <input type="radio" name="payment" value="cod">
+                                             <span>COD</span>
+                                          </label>
 
+                                       </div>
                                     </div>
                                  </div>
-                              </div>
-                           <% } %>
-                                 <%if( typeof message !=='undefined' ) {%>
-                                    <p style="color: red;">
-                                       <%= message %>
-                                    </p>
-                                    <%}%>
-                                       <div class="form-group">
-                                          <div class="col-md-12">
-                                             <div class="radio">
-                                                <label><input type="radio" value="razorpay" name="payment"> RazorPay
-                                                </label>
+                                 <% } %>
+                                    <%if( typeof message !=='undefined' ) {%>
+                                       <p style="color: red;">
+                                          <%= message %>
+                                       </p>
+                                       <%}%>
+                                          <div class="form-group">
+                                             <div class="col-md-12">
+                                                <div class="radio">
+                                                   <label><input type="radio" value="razorpay" name="payment"> RazorPay
+                                                   </label>
+                                                </div>
                                              </div>
                                           </div>
-                                       </div>                                       
-                                       <div class="form-group">
-                                          <div class="col-md-12">
-                                             <div class="checkbox">
-                                                <label><input required type="checkbox"> I have read and accept the terms
-                                                   and
-                                                   conditions</label>
+                                          <div class="form-group">
+                                             <div class="col-md-12">
+                                                <div class="checkbox">
+                                                   <label><input required type="checkbox"> I have read and accept the
+                                                      terms
+                                                      and
+                                                      conditions</label>
+                                                </div>
                                              </div>
                                           </div>
-                                       </div>
                         </div>
                      </div>
                   </div>
                </div>
 
-               
-               
+
+
 
                <div class="row">
                   <div class="col-md-12 text-center">
@@ -507,7 +517,7 @@
 
    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-   
+
    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
    <input type="hidden" id="addressId" value="<%= address._id %>">
@@ -519,26 +529,26 @@
             e.preventDefault();
 
             console.log('its here');
-        
-        // Check if the elements exist before accessing their innerHTML
-        const walletElement = document.getElementById('wallet');
-        const totalElement = document.getElementById('grand-total');
-        const address = $("input[name=address]:checked").val();
 
-        if (address === undefined || address === null) {
-            alert("Please add a delivery address");
-            return; // Stop further execution
-        }
+            // Check if the elements exist before accessing their innerHTML
+            const walletElement = document.getElementById('wallet');
+            const totalElement = document.getElementById('grand-total');
+            const address = $("input[name=address]:checked").val();
 
-        // Check if the elements exist before accessing their innerHTML
-        const wallet = walletElement ? walletElement.innerHTML : 0 ;
-        const total = totalElement ? totalElement.innerHTML : '';
-        const payment = $("input[name=payment]:checked").val();
-        const codeElement = document.getElementById('code');
-        const code = codeElement ? codeElement.innerHTML : '';
-        const selectedAddressId = $("input[name=address]:checked").siblings("label").find("input[name=addressId]").val();
+            if (address === undefined || address === null) {
+               alert("Please add a delivery address");
+               return; // Stop further execution
+            }
 
-        console.log(selectedAddressId);
+            // Check if the elements exist before accessing their innerHTML
+            const wallet = walletElement ? walletElement.innerHTML : 0;
+            const total = totalElement ? totalElement.innerHTML : '';
+            const payment = $("input[name=payment]:checked").val();
+            const codeElement = document.getElementById('code');
+            const code = codeElement ? codeElement.innerHTML : '';
+            const selectedAddressId = $("input[name=address]:checked").siblings("label").find("input[name=addressId]").val();
+
+            console.log(selectedAddressId);
 
 
             $.ajax({
@@ -552,7 +562,6 @@
                   addressId: selectedAddressId,
                },
                success: (response) => {
-                  console.log(response.order);
                   if ("success", response.codSuccess) {
                      location.href = '/orderPlaced';
                   } else if (response.codefailed) {
@@ -560,7 +569,6 @@
                   } else if (response.outOfStockProducts) {
                      Swal.fire("Oops!", "Product Out Of stock", "error");
                   } else {
-                     console.log(response.order);
                      razorpay(response.order);
                   }
                },
@@ -626,9 +634,9 @@
 
                   Swal.fire({
                      icon: 'error',
-                     title: 'Payment has done',
+                     title: 'Payment has not done',
                      showConfirmButton: false,
-                     timer: 1500
+                     timer: 1500,
                   })
 
                }
@@ -679,29 +687,29 @@
          $.ajax({
             url: '/applyCoupon',
             method: 'post',
-            data:{
+            data: {
                code,
                amount
             },
             success: (res) => {
                if (res.invalid) {
-                  Swal.fire('Oops!','Coupon Does Not Exist','error')
+                  Swal.fire('Oops!', 'Coupon Does Not Exist', 'error')
                } else if (res.expire) {
-                  Swal.fire('Oops!','Coupon is Expired','error')
+                  Swal.fire('Oops!', 'Coupon is Expired', 'error')
                } else if (res.limit) {
-                  Swal.fire('Oops!','Coupon Usage Limit Exceeded','error')
+                  Swal.fire('Oops!', 'Coupon Usage Limit Exceeded', 'error')
                } else if (res.cartamount) {
-                  Swal.fire('Oops!','Shop For Minimum Amount','error')
+                  Swal.fire('Oops!', 'Shop For Minimum Amount', 'error')
                } else if (res.user) {
-                  Swal.fire('Oops!','You Have Already Used This Coupon Once','error')
+                  Swal.fire('Oops!', 'You Have Already Used This Coupon Once', 'error')
                } else if (res.couponKey) {
                   document.getElementById("couponDicount").innerHTML = `${res.discount}`
                   document.getElementById("grand-total").innerHTML = `${res.discountedTotal}`
                   swal("Congratulations!!", "Coupon Added.", "success");
-            }
-         },
-      })
-         
+               }
+            },
+         })
+
       }
 
    </script>
