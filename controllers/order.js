@@ -590,9 +590,7 @@ const downloadInvoice = async (req, res) => {
       orderDate.setDate(orderDate.getDate() + 10);
       let returnDate = orderDate.toISOString().substring(0, 10);
 
-      const logo = process.env.INVOICE_LOGO; // Update the path to the logo file
-      const bg = process.env.INVOICE_BG
-      res.json({ user, order, address, op: orderProducts, logo, bg, returnDate });
+      res.json({ user, order, address, op: orderProducts, returnDate });
 
    } catch (error) {
       console.log("DownloadInvoice Method", error.message);
