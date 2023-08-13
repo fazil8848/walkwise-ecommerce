@@ -90,6 +90,9 @@ const userSchema = new mongoose.Schema({
         },
         transaction: {
             type: String,
+        },
+        description: {
+            type: String,
         }
     }],
 

@@ -44,6 +44,12 @@
 
     <link rel="stylesheet" href="/user/css/profileStyle.css">
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <!-- MDB -->
+    <link rel="stylesheet" href="/public/user/css/mdb.min.css">
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.22/dist/sweetalert2.all.min.js "></script>
 
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.22/dist/sweetalert2.min.css " rel="stylesheet">
@@ -126,6 +132,16 @@
                         </li>
 
                         <li>
+                            <a href="/viewOrders" class="text-decoration-none d-flex align-items-start">
+                                <div class="fas fa-box-open pt-2 me-3"></div>
+                                <div class="d-flex flex-column">
+                                    <div class="link">My Orders</div>
+                                    <div class="link-desc">View & Manage orders and returns</div>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li>
                             <a href="/addressList" class="text-decoration-none d-flex align-items-start">
                                 <div class="far fa-address-book pt-2 me-3"></div>
                                 <div class="d-flex flex-column">
@@ -143,14 +159,28 @@
                                 </div>
                             </a>
                         </li>
+
                         <li>
-                            <a href="#" class="text-decoration-none d-flex align-items-start">
-                                <div class="fas fa-headset pt-2 me-3"></div>
-                                <div class="d-flex flex-column">
-                                    <div class="link">Help & Support</div>
-                                    <div class="link-desc">Contact Us for help and support</div>
+                            <span class="text-decoration-none d-flex align-items-start"><a href="#">
+                                    <div class="fas fa-headset pt-2 me-3"></div>
+                                </a>
+                                <div class="d-flex flex-column dropright">
+                                    <div class="dropdown">
+                                        <div class="link dropdown-toggle" type="button" id="dropdownMenu2"
+                                            aria-haspopup="true" aria-expanded="false" data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                            Wallet Options
+                                        </div>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                            <a class="dropdown-item" href="/walletHistory">wallet History</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" data-toggle="modal"
+                                                data-target="#exampleModalCenter">Topup Wallet</a>
+                                        </div>
+                                    </div>
+                                    <div class="link-desc">Wallet History & Wallet Topup</div>
                                 </div>
-                            </a>
+                            </span>
                         </li>
                     </ul>
                 </div>
@@ -193,14 +223,6 @@
                     <div class="box mr-2 my-1 bg-light p-2">
                         <img src="https://www.freepnglogos.com/uploads/money-png/wallet-money-coins-pictures-png-19.png"
                             alt="">
-
-                        <button type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter">
-                            $<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-plus" viewBox="0 0 16 16">
-                                <path
-                                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                            </svg>
-                        </button>
 
                         <div class="d-flex align-items-center mt-2">
                             <div class="tag">Wallet: </div>
@@ -319,7 +341,7 @@
                     <div class="modal-body">
 
                         <div class="form-group">
-                            <input class="form-control" type="number" name="amount"
+                            <input id="amount" class="form-control" type="number" name="amount"
                                 placeholder="Enter the topup amount.....">
                         </div>
 
@@ -337,6 +359,9 @@
     <div class="gototop js-top">
         <a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
     </div>
+
+    <!-- MDB -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.js"></script>
 
     <!-- jQuery -->
     <script src="/user/js/jquery.min.js"></script>
@@ -364,11 +389,21 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
 
     <script>
         $(document).ready(() => {
-            $('#topup').click(() => {
-                const amount = $('#amount').val();
+            $('#myForm').submit((e) => {
+                e.preventDefault();
+
+                console.log("its on....");
+
+                const amount = $('input[name="amount"]').val();
+
+                console.log("amount==", amount);
+
                 $.ajax({
                     type: 'POST',
                     url: '/topupWallet',
@@ -376,7 +411,8 @@
                         amount,
                     },
                     success: (res) => {
-                        if (!res.success) {
+                        if
+                            (res.failed) {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Oops...',
@@ -397,6 +433,7 @@
     <script>
 
         function razorpay(order) {
+            console.log("its in razor pay");
             var options = {
                 "key": "rzp_test_tgKVVDCrIJi46N",
                 "amount": order.amount,
@@ -442,20 +479,20 @@
                     if (res.success) {
                         console.log('paymnet success');
                         Swal.fire({
-                            title: 'PaymentDone',
+                            title: 'Payment Done',
                             icon: 'success',
-                            iconHtml: '؟',
+                            iconHtml: '$',
                             confirmButtonText: '<a href="/userProfile">OK</a>',
                             cancelButtonText: '',
-                            showCancelButton: true,
-                            showCloseButton: false,
+                            showCancelButton: false,
+                            showCloseButton: true,
                         });
 
                     } else if (res.onlineSuccess) {
 
                         Swal.fire({
                             icon: 'error',
-                            title: 'Payment has not done',
+                            title: 'Payment failed',
                             showConfirmButton: false,
                             timer: 1500,
                         });

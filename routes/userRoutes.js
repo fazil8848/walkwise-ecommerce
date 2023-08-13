@@ -55,6 +55,7 @@ user_app.get("/viewOrders", auth.isLogin, nocache(), orderController.loadOrderLi
 user_app.get("/retunOrder", auth.isLogin, nocache(), orderController.returnOrder);
 user_app.get("/cancelOrder", auth.isLogin, nocache(), orderController.cancelOrder);
 user_app.get("/downloadInvoice", auth.isLogin, nocache(), orderController.downloadInvoice);
+user_app.get("/walletHistory", auth.isLogin, nocache(), orderController.walletHistory);
 
 
 

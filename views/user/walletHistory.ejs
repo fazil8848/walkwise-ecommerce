@@ -6,10 +6,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    
-	<link id="page_favicon" href="/logo.svg" rel="icon" type="image/x-icon">
 
-	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700" rel="stylesheet">
+    <link id="page_favicon" href="/logo.svg" rel="icon" type="image/x-icon">
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Rokkitt:100,300,400,700" rel="stylesheet">
 
     <link rel="stylesheet"
@@ -39,18 +39,18 @@
     <!-- Flaticons  -->
     <link rel="stylesheet" href="/user/fonts/flaticon/font/flaticon.css">
 
-    <!-- Theme style  -->
-    <link rel="stylesheet" href="/user/css/style.css">
 
-    <!-- Font Awesome -->
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
     <!-- MDB -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/public/user/css/mdb.min.css">
 
     <link rel="stylesheet" href="/user/css/profileStyle.css">
 
+    <!-- Theme style  -->
+    <link rel="stylesheet" href="/user/css/style.css">
 
     <style>
         .title-style {
@@ -85,7 +85,8 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-7 col-md-9">
-							<div id="colorlib-logo"><a  href="#"> <img style="width: 40px;" src="/logo.svg" alt=""> WalkWise</a></div>
+                            <div id="colorlib-logo"><a href="#"> <img style="width: 40px;" src="/logo.svg" alt="">
+                                    WalkWise</a></div>
                         </div>
                         <div class="col-sm-5 col-md-3">
                             <form action="#" class="search-wrap">
@@ -101,7 +102,7 @@
                         <div class="col-sm-12 text-left menu-1">
                             <ul>
                                 <li class="active"><a href="#">Home</a></li>
-                                <li >
+                                <li>
                                     <a href="/shop">Shop</a>
                                 </li>
                                 <li><a href="/about">About</a></li>
@@ -184,7 +185,7 @@
                                     </div>
                                 </a>
                             </li>
-                            <li class="active">
+                            <li>
                                 <a href="/updateProfile" class="text-decoration-none d-flex align-items-start">
                                     <div class="far fa-user pt-2 me-3"></div>
                                     <div class="d-flex flex-column">
@@ -193,14 +194,27 @@
                                     </div>
                                 </a>
                             </li>
-                            <li>
-                                <a href="/walletHistory" class="text-decoration-none d-flex align-items-start">
-                                    <div class="far fa-user pt-2 me-3"></div>
-                                    <div class="d-flex flex-column">
-                                        <div class="link">Wallet Options</div>
+                            <li class="active">
+                                <span class="text-decoration-none d-flex align-items-start"><a href="#">
+                                        <div class="fas fa-headset pt-2 me-3"></div>
+                                    </a>
+                                    <div class="d-flex flex-column dropright">
+                                        <div class="dropdown">
+                                            <div class="link dropdown-toggle" type="button" id="dropdownMenu2"
+                                                aria-haspopup="true" aria-expanded="false" data-toggle="dropdown"
+                                                aria-haspopup="true" aria-expanded="false">
+                                                Wallet Options
+                                            </div>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                <a class="dropdown-item" href="#">wallet History</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" data-toggle="modal"
+                                                    data-target="#exampleModalCenter">Topup Wallet</a>
+                                            </div>
+                                        </div>
                                         <div class="link-desc">Wallet History & Wallet Topup</div>
                                     </div>
-                                </a>
+                                </span>
                             </li>
                         </ul>
                     </div>
@@ -210,146 +224,168 @@
                 <div class="container col-lg-9 py-5">
                     <div class="row d-flex justify-content-center align-items-center">
                         <div class="col">
-                            <div class="card my-4 shadow-3">
-                                <div class="row g-0">
-
-
-                                    <div class="col-xl-6">
-                                        <div class="card-body p-md-5 text-black">
-
-                                            <form action="/updatePass" method="post">
-                                                <h3 class="mb-4 text-uppercase">Change Password</h3>
-
-                                                <div class="form-outline mb-4">
-                                                    <input type="password" value="" name="newPass" id="form3Example1n"
-                                                        class="form-control form-control-lg" />
-                                                    <label class="form-label" for="form3Example1n">New Password</label>
-                                                </div>
-
-
-                                                <div class="form-outline mb-4">
-                                                    <input type="password" value="" name="rePass" id="form3Example8"
-                                                        class="form-control form-control-lg" />
-                                                    <label class="form-label" for="form3Example8">Confirm New
-                                                        Password</label>
-                                                </div>
-
-                                                <div class="d-flex justify-content-end p-2">
-                                                    <button type="submit" class="btn btn-primary btn-outline-primary ms-2"
-                                                        >Save</button>
-                                                </div>
-
-                                                <% if (typeof message !== 'undefined') { %>
-                                                    <p style="color: red;"><%= message %></p>
-                                                <% } %>
-                                                
-                                            </form>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <table class="table table-hover "
+                                style="border-radius: 5px; background-color: #88c8bc; color: #fff;">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">SL</th>
+                                        <th scope="col">Amount</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Transaction</th>
+                                        <th scope="col">Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if (typeof history !== 'undefined' ) {
+                                        history.forEach( (history,i) =>{ %>
+                                    <tr>
+                                        <th scope="row"><%= i+1 %></th>
+                                        <td><%= history.amount %></td>
+                                        <td><%= history.date.toISOString().substring(0,10) %></td>
+                                        <td><%= history.transaction %></td>
+                                        <td><%= history.description %></td>
+                                    </tr>
+                                    <% })} else { %>
+                                        <tr>
+                                            <td>
+                                                No Wallet Transaction Done.
+                                            </td>
+                                        </tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+            <footer id="colorlib-footer" role="contentinfo">
+                <div class="container">
+                    <div class="row row-pb-md">
+                        <div class="col footer-col colorlib-widget">
+                            <h4>About WalkWise</h4>
+                            <p>Even the all-powerful Pointing has no control about the blind texts it is an almost
+                                unorthographic life</p>
+                            <p>
+                            <ul class="colorlib-social-icons">
+                                <li><a href="#"><i class="icon-twitter"></i></a></li>
+                                <li><a href="#"><i class="icon-facebook"></i></a></li>
+                                <li><a href="#"><i class="icon-linkedin"></i></a></li>
+                                <li><a href="#"><i class="icon-dribbble"></i></a></li>
+                            </ul>
+                            </p>
+                        </div>
+                        <div class="col footer-col colorlib-widget">
+                            <h4>Customer Care</h4>
+                            <p>
+                            <ul class="colorlib-footer-links">
+                                <li><a href="#">Contact</a></li>
+                                <li><a href="#">Returns/Exchange</a></li>
+                                <li><a href="#">Gift Voucher</a></li>
+                                <li><a href="#">Wishlist</a></li>
+                                <li><a href="#">Special</a></li>
+                                <li><a href="#">Customer Services</a></li>
+                                <li><a href="#">Site maps</a></li>
+                            </ul>
+                            </p>
+                        </div>
+                        <div class="col footer-col colorlib-widget">
+                            <h4>Information</h4>
+                            <p>
+                            <ul class="colorlib-footer-links">
+                                <li><a href="#">About us</a></li>
+                                <li><a href="#">Delivery Information</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Support</a></li>
+                                <li><a href="#">Order Tracking</a></li>
+                            </ul>
+                            </p>
+                        </div>
+
+                        <div class="col footer-col">
+                            <h4>News</h4>
+                            <ul class="colorlib-footer-links">
+                                <li><a href="blog.html">Blog</a></li>
+                                <li><a href="#">Press</a></li>
+                                <li><a href="#">Exhibitions</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="col footer-col">
+                            <h4>Contact Information</h4>
+                            <ul class="colorlib-footer-links">
+                                <li>291 South 21th Street, <br> Suite 721 New York NY 10016</li>
+                                <li><a href="tel://1234567920">+ 1235 2355 98</a></li>
+                                <li><a href="mailto:info@yoursite.com">info@yoursite.com</a></li>
+                                <li><a href="#">yoursite.com</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="copy">
+                    <div class="row">
+                        <div class="col-sm-12 text-center">
+                            <p>
+                                <span><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                    Copyright &copy;
+                                    <script>document.write(new Date().getFullYear());</script> All rights reserved |
+                                    This
+                                    template is made with <i class="icon-heart" aria-hidden="true"></i> by <a
+                                        href="https://colorlib.com" target="_blank">Colorlib</a>
+                                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                </span>
+                                <span class="block">Demo Images: <a href="http://unsplash.co/"
+                                        target="_blank">Unsplash</a>
+                                    , <a href="http://pexels.com/" target="_blank">Pexels.com</a></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <form id="myForm">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="form-group">
+                                <input id="amount" class="form-control" type="number" name="amount"
+                                    placeholder="Enter the topup amount.....">
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" id="topup" class="btn btn-primary"> PAY </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
 
 
 
-
-
-
-
-
-        <footer id="colorlib-footer" role="contentinfo">
-            <div class="container">
-                <div class="row row-pb-md">
-                    <div class="col footer-col colorlib-widget">
-                        <h4>About WalkWise</h4>
-                        <p>Even the all-powerful Pointing has no control about the blind texts it is an almost
-                            unorthographic life</p>
-                        <p>
-                        <ul class="colorlib-social-icons">
-                            <li><a href="#"><i class="icon-twitter"></i></a></li>
-                            <li><a href="#"><i class="icon-facebook"></i></a></li>
-                            <li><a href="#"><i class="icon-linkedin"></i></a></li>
-                            <li><a href="#"><i class="icon-dribbble"></i></a></li>
-                        </ul>
-                        </p>
-                    </div>
-                    <div class="col footer-col colorlib-widget">
-                        <h4>Customer Care</h4>
-                        <p>
-                        <ul class="colorlib-footer-links">
-                            <li><a href="#">Contact</a></li>
-                            <li><a href="#">Returns/Exchange</a></li>
-                            <li><a href="#">Gift Voucher</a></li>
-                            <li><a href="#">Wishlist</a></li>
-                            <li><a href="#">Special</a></li>
-                            <li><a href="#">Customer Services</a></li>
-                            <li><a href="#">Site maps</a></li>
-                        </ul>
-                        </p>
-                    </div>
-                    <div class="col footer-col colorlib-widget">
-                        <h4>Information</h4>
-                        <p>
-                        <ul class="colorlib-footer-links">
-                            <li><a href="#">About us</a></li>
-                            <li><a href="#">Delivery Information</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Support</a></li>
-                            <li><a href="#">Order Tracking</a></li>
-                        </ul>
-                        </p>
-                    </div>
-
-                    <div class="col footer-col">
-                        <h4>News</h4>
-                        <ul class="colorlib-footer-links">
-                            <li><a href="blog.html">Blog</a></li>
-                            <li><a href="#">Press</a></li>
-                            <li><a href="#">Exhibitions</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="col footer-col">
-                        <h4>Contact Information</h4>
-                        <ul class="colorlib-footer-links">
-                            <li>291 South 21th Street, <br> Suite 721 New York NY 10016</li>
-                            <li><a href="tel://1234567920">+ 1235 2355 98</a></li>
-                            <li><a href="mailto:info@yoursite.com">info@yoursite.com</a></li>
-                            <li><a href="#">yoursite.com</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="copy">
-                <div class="row">
-                    <div class="col-sm-12 text-center">
-                        <p>
-                            <span><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                                Copyright &copy;
-                                <script>document.write(new Date().getFullYear());</script> All rights reserved |
-                                This
-                                template is made with <i class="icon-heart" aria-hidden="true"></i> by <a
-                                    href="https://colorlib.com" target="_blank">Colorlib</a>
-                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            </span>
-                            <span class="block">Demo Images: <a href="http://unsplash.co/" target="_blank">Unsplash</a>
-                                , <a href="http://pexels.com/" target="_blank">Pexels.com</a></span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </footer>
+        <div class="gototop js-top">
+            <a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
+        </div>
     </div>
-
-    <div class="gototop js-top">
-        <a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
-    </div>
-
     <!-- MDB -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.js"></script>
 

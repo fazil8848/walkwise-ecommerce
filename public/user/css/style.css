@@ -10120,6 +10120,16 @@ h5,
   border: 1px solid transparent;
 }
 
+#sidebar ul li div .link-desc {
+  font-size: 0.8rem;
+  color: #ddd;
+}
+
+#sidebar ul li div .link {
+  color: #fff;
+  font-weight: 500;
+}
+
 .side {
   padding: 1em;
   width: 100%;

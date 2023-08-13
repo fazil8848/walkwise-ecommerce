@@ -124,7 +124,7 @@ const placeOrder = async (req, res) => {
             totalPrice: total,
             orderDate: new Date(),
             status: status,
-            wallet,
+            wallet: wall,
             discount: 0,
             couponCode: '',
             orderId,
@@ -149,7 +149,19 @@ const placeOrder = async (req, res) => {
 
          if (newOrder.status === 'Placed') {
 
-            await User.updateOne({ _id: userId }, { $set: { wallet: wall } });
+            await User.findByIdAndUpdate(userId,
+               {
+                  $set: { wallet: wall },
+                  $push: {
+                     wallehistory: {
+                        amount: wall,
+                        date: new Date().toISOString().substring(0,10),
+                        transaction: "Debit",
+                        description: "Order Placed"
+                     }
+                  }
+               },
+            );
             await Cart.deleteOne({ user: userId });
 
             for (const product of cartProducts) {
@@ -392,7 +404,7 @@ const returnOrder = async (req, res) => {
       const order = await Order.findById(orderId);
       const user = await User.findById(userId);
       const total = user.wallet + order.totalPrice;
-      const date = new Date();
+      const date = new Date().toISOString().substring(0,10);
       if (order.paymentMethod == 'cod' || order.paymentMethod == 'online') {
 
          await User.findByIdAndUpdate(userId, {
@@ -402,7 +414,9 @@ const returnOrder = async (req, res) => {
                {
                   amount: order.totalPrice,
                   date,
-                  transaction: "Product returned",
+                  transaction: "Credited",
+                  description: "Product returned",
+
                }
             }
          }).then(() => {
@@ -434,12 +448,19 @@ const cancelOrder = async (req, res) => {
       const orderId = req.query.id;
       const order = await Order.findById(orderId);
 
-      const date = new Date()
+      const date = new Date().toISOString().substring(0,10);
 
       if (order.paymentMethod == 'razorpay' || order.paymentMethod == 'cod') {
          await User.findByIdAndUpdate(userId, {
             $inc: { wallet: order.totalPrice },
-            $push: { wallehistory: { amount: order.totalPrice, date } }
+            $push: {
+               wallehistory: {
+                  amount:order.totalPrice,
+                  date,
+                  transaction: "Credit",
+                  description: "Order Cancelled",
+               }
+            }
          }).then(() => {
             console.log('wallet amount updated');
          })
@@ -587,9 +608,14 @@ const topupWallet = async (req, res) => {
 
          const userId = req.session.userData._id
 
-         const amount = req.body.amount
-         if (amount && amount > 100) {
+         const amount = Number(req.body.amount)
 
+         if (amount < 100) {
+
+            res.json({ failed: true });
+            return;
+
+         } else {
             const options = {
                amount: amount * 100,
                currency: 'INR',
@@ -602,10 +628,6 @@ const topupWallet = async (req, res) => {
                }
                res.json({ order });
             });
-
-         } else {
-            res.json({ success: false });
-            return;
          }
 
       } else {
@@ -628,8 +650,8 @@ const verifyTopup = async (req, res) => {
          const userId = req.session.userData._id;
          let user = await User.findById(userId);
 
+
          const details = req.body;
-         console.log(details);
 
          const crypto = require('crypto');
 
@@ -639,11 +661,22 @@ const verifyTopup = async (req, res) => {
             details['payment[razorpay_order_id]'] + '|' + details['payment[razorpay_payment_id]']
          );
          hmac1 = hmac1.digest('hex');
+         const amount = details['order[amount]'] / 100;
+
+         const date = new Date().toISOString().substring(0,10);
 
          if (hmac1 == details['payment[razorpay_signature]']) {
 
             await User.findByIdAndUpdate(user._id, {
-               $set:{ wallet: am}
+               $inc: { wallet: amount },
+               $push: {
+                  wallehistory: {
+                     amount,
+                     date,
+                     transaction: "Credit",
+                     description: "Wallet Topup",
+                  }
+               }
             });
 
             res.json({ success: true });
@@ -666,6 +699,23 @@ const verifyTopup = async (req, res) => {
 }
 
 
+const walletHistory = async (req, res) => {
+
+   try {
+
+      const userId = req.session.userData._id;
+      const user = await User.findById(userId);
+      const history = user.wallehistory;
+
+      res.render('walletHistory', { history, req });
+
+   } catch (error) {
+      console.log('walletHistory Method :-  ', error.message);
+      res.render('404')
+   }
+
+}
+
 
 
 module.exports = {
@@ -685,6 +735,6 @@ module.exports = {
    downloadInvoice,
    topupWallet,
    verifyTopup,
-
+   walletHistory,
 
 }
