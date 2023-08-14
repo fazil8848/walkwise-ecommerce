@@ -1,8 +1,4 @@
-const { name } = require('ejs');
 const Categories = require('../models/categoryModels');
-
-
-
 
 const loadCategory = async (req, res) => {
 

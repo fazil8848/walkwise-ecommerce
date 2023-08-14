@@ -15,7 +15,6 @@ const loadLogin = async (req, res) => {
 
     } catch (error) {
         console.log(' the error is on admins loadLogin method :-- ', error.message);
-        res.render('404');
     }
 };
 
@@ -44,7 +43,6 @@ const verifyLogin = async (req, res) => {
 
     } catch (error) {
         console.log('error is on admins verifyLogin method :-  ', error.message);
-        res.render('404')
     }
 }
 
@@ -54,20 +52,21 @@ const loadHome = async (req, res) => {
     try {
         const date = new Date();
         const coupons = await Coupons.find();
-        if (!coupons) {
-            return res.render('404');
-        }
+        if (coupons) {
 
-        for (const coupon of coupons) {
-            if (coupon.valid_to < date && coupon.status == true) {
-                const updated = await Coupons.findByIdAndUpdate(coupon._id, {
-                    $set: { status: false },
-                });
-                if (updated) {
-                    console.log("coupon updated");
+            for (const coupon of coupons) {
+                if (coupon.valid_to < date && coupon.status == true) {
+                    const updated = await Coupons.findByIdAndUpdate(coupon._id, {
+                        $set: { status: false },
+                    });
+                    if (updated) {
+                        console.log("coupon updated");
+                    }
                 }
             }
+
         }
+
 
         const orderData = await Orders.find({ status: { $eq: 'Delivered' } });
 
@@ -106,13 +105,10 @@ const loadHome = async (req, res) => {
         }
 
         const totalProducts = await Products.find().count();
-        if (!totalProducts) res.render('404');
 
         const totalOrders = await Orders.find().count();
-        if (!totalOrders) res.render('404');
 
         const totalUsers = await User.find().count();
-        if (!totalUsers) res.render('404');
 
 
         res.render('home', {
@@ -127,7 +123,6 @@ const loadHome = async (req, res) => {
         });
     } catch (error) {
         console.log('loadHome method :- ', error.message);
-        res.render('404');
     }
 };
 
@@ -138,7 +133,6 @@ const logout = async (req, res) => {
         res.redirect('/admin');
     } catch (error) {
         console.log('admin logout function :- ', error.message);
-        res.render('404')
     }
 };
 
@@ -150,12 +144,10 @@ const manageUser = async (req, res) => {
         if (usersData) {
             res.render('manageUsers', { user: usersData });
         } else {
-            res.render('404')
         }
 
     } catch (error) {
         console.log("loadDashboard methode :- ", error.message);
-        res.render('404')
     }
 }
 
@@ -171,12 +163,10 @@ const blockUser = async (req, res) => {
             res.redirect('/admin/manageUsers');
         } else {
             console.log('error in blocking the user');
-            res.render('404')
         }
 
     } catch (error) {
         console.log("blockUser methode :-  ", error.message);
-        return res.render('404')
     }
 
 }
@@ -193,12 +183,10 @@ const unblockUser = async (req, res) => {
             res.redirect('/admin/manageUsers');
         } else {
             console.log('error in unblocking the user');
-            res.render('404')
         }
 
     } catch (error) {
         console.log(" unblockUser methode :-  ", error.message);
-        res.render('404')
     }
 
 }
@@ -209,13 +197,11 @@ const productManager = async (req, res) => {
     try {
 
         const productData = await Products.find({}).populate('category');
-        if (!productData) res.render('404')
 
         res.render('manageProducts', { products: productData })
 
     } catch (error) {
         console.log('productManager method :- ', error.message);
-        res.render('404')
     }
 
 }
@@ -225,12 +211,10 @@ const loadAddProducts = async (req, res) => {
     try {
 
         const category = await Categories.find()
-        if (!category) res.render('404')
         res.render('addProductsForm', { category })
 
     } catch (error) {
         console.log("loadAddproducts method :-  ", error.message);
-        res.render('404')
     }
 
 }
@@ -266,7 +250,6 @@ const addProducts = async (req, res) => {
 
     } catch (error) {
         console.log("addProducts method", error.message);
-        res.render('404')
     }
 
 }
@@ -287,12 +270,10 @@ const loadEditProducts = async (req, res) => {
             });
 
         } else {
-            res.render('404')
         }
 
     } catch (error) {
         console.log('Load edit products :- ', error.message);
-        res.render('404')
     }
 
 }
@@ -331,7 +312,6 @@ const editProduct = async (req, res) => {
         res.redirect('/admin/manageProducts');
     } catch (error) {
         console.log('editProducts admin Method:', error.message);
-        res.render('404')
     }
 };
 
@@ -359,7 +339,6 @@ const hideProducts = async (req, res) => {
 
     } catch (error) {
         console.log('hide Products method :- ', error.message);
-        res.render('404')
     }
 
 }
@@ -377,7 +356,6 @@ const removeImage = async (req, res) => {
 
     } catch (error) {
         console.log('remove image  :- ', error.message);
-        res.render('404')
     }
 
 }
@@ -397,7 +375,6 @@ const updateStock = async (req, res) => {
 
     } catch (error) {
         console.log('updateStock Method :-  ', error.message);
-        res.render('404')
     }
 
 }
@@ -442,7 +419,6 @@ const loadSales = async (req, res) => {
 
     } catch (error) {
         console.log('loadSales Method :-  ', error.message);
-        res.render('404');
     }
 
 }
@@ -452,28 +428,28 @@ const salesReportDownload = async (req, res) => {
     try {
 
         const salesData = await Orders.find({}, 'orderDate products paymentMethod totalPrice user').populate('user');
-        
+
         const workbook = new exceljs.Workbook();
         const worksheet = workbook.addWorksheet('Sales Report');
-    
+
         worksheet.addRow(['Order Date', 'Product Count', 'Payment Method', 'Total Price', 'User']);
-    
+
         salesData.forEach((sale) => {
-          const productNameList = sale.products.map((product) => product.product_id.name).join(', ');
-    
-          // Access the 'userName' directly from the 'user' field
-          const userName = sale.user ? sale.user.userName : 'Unknown';
-    
-          worksheet.addRow([sale.orderDate.toLocaleDateString(), sale.products.length, sale.paymentMethod, sale.totalPrice, userName]);
+            const productNameList = sale.products.map((product) => product.product_id.name).join(', ');
+
+            // Access the 'userName' directly from the 'user' field
+            const userName = sale.user ? sale.user.userName : 'Unknown';
+
+            worksheet.addRow([sale.orderDate.toLocaleDateString(), sale.products.length, sale.paymentMethod, sale.totalPrice, userName]);
         });
 
         worksheet.columns.forEach((column) => {
             if (column.header) {
-              column.width = Math.max(12, column.header.length + 2);
+                column.width = Math.max(12, column.header.length + 2);
             } else {
-              column.width = 15;
+                column.width = 15;
             }
-          });
+        });
 
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.setHeader('Content-Disposition', 'attachment; filename=sales_report.xlsx');
@@ -484,7 +460,6 @@ const salesReportDownload = async (req, res) => {
 
     } catch (error) {
         console.log('salesReportDownload Method :-  ', error.message);
-        res.render('404')
     }
 
 }
@@ -574,7 +549,6 @@ const salesReportDownloadPdf = async (req, res) => {
         doc.end();
     } catch (error) {
         console.log('salesReportDownload Method: ', error.message);
-        res.render('404');
     }
 };
 

@@ -10,7 +10,6 @@ const loadBanners = async (req, res) => {
 
     } catch (error) {
         console.log('loaddBanners Method :-  ', error.message);
-        res.render('404');
     }
 
 }
@@ -23,7 +22,6 @@ const loadAddBanner = async (req, res) => {
 
     } catch (error) {
         console.log('loadAddBanner Method :-  ', error.message);
-        res.render('404');
     }
 
 }
@@ -51,7 +49,6 @@ const addBanner = async (req, res) => {
 
     } catch (error) {
         console.log('addBanner Method :-  ', error.message);
-        res.render('404');
     }
 
 }
@@ -85,12 +82,10 @@ const hideBanner = async (req, res) => {
 
         } else {
             console.log('error finding banner');
-            res.render('404');
-        }
+            }
 
     } catch (error) {
         console.log('hideBanner Method :-  ', error.message);
-        res.render('404');
     }
 
 }
@@ -106,7 +101,6 @@ const deleteBanner = async (req,res) => {
 
     } catch (error) {
         console.log('deleteBanner Method :-  ',error.message);
-        res.render('404');
     }
 
 }

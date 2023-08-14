@@ -76,7 +76,6 @@ const loadSignup = async (req, res) => {
       res.render('signup');
    } catch (error) {
       console.log(error.message);
-      res.render('404')
    }
 };
 
@@ -114,7 +113,6 @@ const insertUser = async (req, res) => {
 
    } catch (error) {
       console.log('in insertUser method', error.message);
-      res.render('404')
    }
 
 }
@@ -129,7 +127,6 @@ const loadOTP = async (req, res) => {
 
    } catch (error) {
       console.log('loadOTP method', error.message);
-      res.render('404')
    }
 };
 
@@ -141,7 +138,6 @@ const resendOTP = async (req, res) => {
 
    } catch (error) {
       console.log('resendOtp method', error.message);
-      res.render('404')
    }
 
 };
@@ -182,7 +178,6 @@ const verifyOTP = async (req, res) => {
 
    } catch (error) {
       console.log('in VerifyOTP:- ', error.message);
-      res.render('404')
    }
 
 };
@@ -206,7 +201,6 @@ const loadLogin = async (req, res) => {
 
    } catch (error) {
       console.log(error.message)
-      res.render('404')
    }
 
 }
@@ -265,7 +259,6 @@ const loadHome = async (req, res) => {
 
          const date = new Date();
          const coupons = await Coupons.find();
-         if (!coupons) return res.render('404');
          for (const coupon of coupons) {
             if (coupon.valid_to < date && coupon.status == true) {
                const updated = await Coupons.findByIdAndUpdate(coupon._id, {
@@ -280,7 +273,6 @@ const loadHome = async (req, res) => {
       }
 
       const data = await Product.find({ is_hidden: false }).limit(16);
-      if (!data) return res.render('404');
 
       res.render('home', {
          req: req,
@@ -291,7 +283,6 @@ const loadHome = async (req, res) => {
 
    } catch (error) {
       console.log('loadHome Method: ', error.message);
-      res.render('404')
    }
 }
 
@@ -444,7 +435,6 @@ const loadShop = async (req, res) => {
 
    } catch (error) {
       console.log('loadShop Method: ', error.message);
-      res.render('404');
    }
 };
 
@@ -464,7 +454,6 @@ const loadAbout = async (req, res) => {
       }
 
       const data = await Product.find();
-      if (!data) return res.render('404');
 
       res.render('about', {
          req: req,
@@ -473,7 +462,6 @@ const loadAbout = async (req, res) => {
       });
    } catch (error) {
       console.log('loadAbout Method: ', error.message);
-      res.render('404')
    }
 }
 
@@ -488,7 +476,6 @@ const loadContacts = async (req, res) => {
       }
 
       const data = await Product.find();
-      if (!data) return res.render('404');
 
       res.render('contact', {
          req: req,
@@ -497,7 +484,6 @@ const loadContacts = async (req, res) => {
       });
    } catch (error) {
       console.log('loadContacts Method: ', error.message);
-      res.render('404')
    }
 }
 
@@ -514,7 +500,6 @@ const userLogout = async (req, res) => {
 
    } catch (error) {
       console.log('Logout Method :-  ', error.message);
-      res.render('404')
    }
 
 }
@@ -524,7 +509,6 @@ const singleProduct = async (req, res) => {
    try {
       const id = req.query.id;
       const data = await Product.findById(id).populate("category");
-      if (!data) return res.render('404');
 
 
       let added = false;
@@ -549,11 +533,9 @@ const singleProduct = async (req, res) => {
             length: length,
          });
       } else {
-         res.render('404')
       }
    } catch (error) {
       console.log("singleProduct:", error.message);
-      res.render('404')
    }
 };
 
@@ -579,7 +561,6 @@ const loadProfile = async (req, res) => {
 
    } catch (error) {
       console.log("LoadProfile Method :- ", error.message);
-      res.render('404')
    }
 
 };
@@ -610,7 +591,6 @@ const loadAddressList = async (req, res) => {
 
    } catch (error) {
       console.log('loadAddressList Method :-  ', error.message);
-      res.render('404')
    }
 
 }
@@ -623,7 +603,6 @@ const loadAddAddress = async (req, res) => {
 
    } catch (error) {
       console.log('loadAddAddress Method :-  ', error.message);
-      res.render('404')
    }
 
 };
@@ -670,7 +649,6 @@ const addAddress = async (req, res) => {
 
    } catch (error) {
       console.log('addAddress Method :-  ', error.message);
-      res.render('404')
    }
 };
 
@@ -690,7 +668,6 @@ const loadEditAddress = async (req, res) => {
       }
    } catch (error) {
       console.log('loadEditAddress Method: ', error.message);
-      res.render('404')
    }
 };
 
@@ -732,7 +709,6 @@ const editAddress = async (req, res) => {
 
    } catch (error) {
       console.log('editAddress Method :-  ', error.message);
-      res.render('404')
    }
 
 };
@@ -765,7 +741,6 @@ const deleteAddress = async (req, res) => {
 
    } catch (error) {
       console.log('deleteAddress Method :-  ', error.message);
-      res.render('404')
    }
 
 };
@@ -787,7 +762,6 @@ const loadUpdateData = async (req, res) => {
 
    } catch (error) {
       console.log('getUpdateData Method :-  ', error.message);
-      res.render('404')
    }
 
 }
@@ -806,7 +780,6 @@ const updateData = async (req, res) => {
       }
    } catch (error) {
       console.log(error.message);
-      res.render('404')
    }
 };
 
@@ -821,7 +794,6 @@ const loadChangePass = async (req, res) => {
 
    } catch (error) {
       console.log('loadChangePass Method :-  ', error.message);
-      res.render('404')
    }
 
 };
@@ -832,7 +804,6 @@ const changePass = async (req, res) => {
       const userData = await User.findById(userId);
 
       if (!userData) {
-         return res.render('404').send('User not found');
       }
 
       const { oldPassword, newPass, rePass } = req.body;
@@ -871,7 +842,6 @@ const changePass = async (req, res) => {
       }
    } catch (error) {
       console.log('changePass Method:', error.message);
-      res.render('404')
       return res.status(500).send('Internal Server Error');
    }
 };
@@ -884,7 +854,6 @@ const loadForgotPass = async (req, res) => {
 
    } catch (error) {
       console.log('loadForgotPass Method :-  ', error.message);
-      res.render('404')
    }
 
 };
@@ -914,7 +883,6 @@ const forgotPass = async (req, res) => {
 
    } catch (error) {
       console.log('forgotPass Method :-  ', error.message);
-      res.render('404')
    }
 
 };
@@ -937,7 +905,6 @@ const verifyFotp = async (req, res) => {
 
    } catch (error) {
       console.log('verifyFOtp Method :-  ', error.message);
-      res.render('404')
    }
 
 };
@@ -986,7 +953,6 @@ const updatePass = async (req, res) => {
 
    } catch (error) {
       console.log('updatePass Method :-  ', error.message);
-      res.render('404')
    }
 
 }
