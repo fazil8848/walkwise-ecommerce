@@ -69,7 +69,7 @@
 					<div class="row">
 						<div class="col-sm-12 text-left menu-1">
 							<ul>
-								<li><a href="#">Home</a></li>
+								<li><a href="/">Home</a></li>
 								<li>
 									<a href="/shop">Shop</a>
 								</li>
@@ -86,8 +86,7 @@
 								<li class="has-dropdown cart">
 									<a href="#"><span class="material-symbols-outlined">account_circle</span></a>
 									<ul class="dropdown">
-
-
+										
 										<% if (typeof req.session.user_id !=='undefined' ) {%>
 											<li><a href="/userProfile">Profile</a></li>
 											<li><a href="/viewOrders">Orders</a></li>

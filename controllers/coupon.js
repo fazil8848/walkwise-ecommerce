@@ -33,12 +33,13 @@ const loadAddCoupon = async (req, res) => {
 const addCoupon = async (req, res) => {
     try {
 
-        const { expiry, name, code, from, discount, min, limit } = req.body
+        const { expiry, name, code, from, discount, min, limit, max } = req.body
 
         const coupon = Coupons({
             valid_from: from,
             valid_to: expiry,
             minCartAmount: min,
+            maxDiscountAmount: max,
             name,
             code,
             discount,
@@ -89,8 +90,8 @@ const applyCoupon = async (req, res) => {
             });
 
             if (userexist) {
-                // If the user exists in the 'used' array, it means the coupon has already been used by this user.
                 res.json({ user: true });
+                return;
             } else {
                 const coupon = await Coupons.findOne({ code: couponCode });
                 if (coupon) {
@@ -113,6 +114,7 @@ const applyCoupon = async (req, res) => {
                                     discountedTotal,
                                     discount: coupon.discount,
                                     couponCode,
+                                    applied: true,
                                 });
                             } else {
                                 res.json({ cartamount: true });

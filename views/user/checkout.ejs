@@ -258,24 +258,14 @@
                   </div>
                </div>
                <div class="row form-group">
-                  <table>
-
+                     
                      <td>
                         <div class="col-sm-3">
-                           <input type="button" onclick="applyCoupon($('#code').val())" value="Apply Coupon"
+                           <button id="applyCouponBtn" onclick="applyCoupon($('#code').val())"
                               style="border-radius: 20px; width: 200px; margin: 0%;"
-                              class=" btn btn-primary btn-outline-primary ">
+                              class="btn btn-primary btn-outline-primary">Apply Coupon</button>
                         </div>
                      </td>
-
-                     <td>
-                        <div class="col-sm-3">
-                           <input type="button" onclick="location.href='/checkOut'" value="Remove Coupon"
-                              style="border-radius: 20px; width: 150px;" class=" btn btn-primary btn-outline-primary ">
-                        </div>
-                     </td>
-
-                  </table>
 
                </div>
 
@@ -321,11 +311,12 @@
                            <div class="form-group">
                               <div class="col-md-12">
                                  <div class="radio">
-                                    <label><input disabled type="radio" onclick="alert('Currently Unavailable')"
-                                          name="payment"> Direct Bank Tranfer</label>
+                                    <label><input onclick="alert('Currently Unavailable')" disabled type="radio" 
+                                          name=""> Direct Bank Tranfer</label>
                                  </div>
                               </div>
                            </div>
+                           
 
                            <% if(wallet !==0){%>
                               <div class="form-group">
@@ -383,8 +374,7 @@
                   </div>
                </div>
 
-
-
+               <input type="hidden" id="couponApplied" name="couponCode">
 
                <div class="row">
                   <div class="col-md-12 text-center">
@@ -516,7 +506,7 @@
       crossorigin="anonymous"></script>
 
    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
@@ -544,12 +534,9 @@
             const wallet = walletElement ? walletElement.innerHTML : 0;
             const total = totalElement ? totalElement.innerHTML : '';
             const payment = $("input[name=payment]:checked").val();
-            const codeElement = document.getElementById('code');
-            const code = codeElement ? codeElement.innerHTML : '';
             const selectedAddressId = $("input[name=address]:checked").siblings("label").find("input[name=addressId]").val();
-
-            console.log(selectedAddressId);
-
+            const code = document.getElementById('couponApplied').value;
+            console.log('----',code);
 
             $.ajax({
                url: '/placeOrder',
@@ -676,43 +663,80 @@
 
    </script>
 
-   <script>
+<script>
+   function applyCoupon(code) {
+      let amount = document.getElementById('grand-total').innerHTML;
+      console.log(amount);
+      console.log(code);
 
-      function applyCoupon(code) {
+      $.ajax({
+         url: '/applyCoupon',
+         method: 'post',
+         data: {
+            code,
+            amount
+         },
+         success: (res) => {
+            if (res.invalid) {
+               Swal.fire({
+                  title: 'Oops!',
+                  text: 'Coupon Does Not Exist',
+                  icon: 'error'
+               });
+            } else if (res.expire) {
+               Swal.fire({
+                  title: 'Oops!',
+                  text: 'Coupon is Expired',
+                  icon: 'error'
+               });
+            } else if (res.limit) {
+               Swal.fire({
+                  title: 'Oops!',
+                  text: 'Coupon Usage Limit Exceeded',
+                  icon: 'error'
+               });
+            } else if (res.cartamount) {
+               Swal.fire({
+                  title: 'Oops!',
+                  text: 'Shop For Minimum Amount',
+                  icon: 'error'
+               });
+            } else if (res.user) {
+               Swal.fire({
+                  title: 'Oops!',
+                  text: 'You Have Already Used This Coupon Once',
+                  icon: 'error'
+               });
+            } else if (res.couponKey) {
+               document.getElementById("couponDicount").innerHTML = `${res.discount}`;
+               document.getElementById("grand-total").innerHTML = `${res.discountedTotal}`;
 
-         let amount = document.getElementById('grand-total').innerHTML
-         console.log(amount);
-         console.log(code);
 
-         $.ajax({
-            url: '/applyCoupon',
-            method: 'post',
-            data: {
-               code,
-               amount
-            },
-            success: (res) => {
-               if (res.invalid) {
-                  Swal.fire('Oops!', 'Coupon Does Not Exist', 'error')
-               } else if (res.expire) {
-                  Swal.fire('Oops!', 'Coupon is Expired', 'error')
-               } else if (res.limit) {
-                  Swal.fire('Oops!', 'Coupon Usage Limit Exceeded', 'error')
-               } else if (res.cartamount) {
-                  Swal.fire('Oops!', 'Shop For Minimum Amount', 'error')
-               } else if (res.user) {
-                  Swal.fire('Oops!', 'You Have Already Used This Coupon Once', 'error')
-               } else if (res.couponKey) {
-                  document.getElementById("couponDicount").innerHTML = `${res.discount}`
-                  document.getElementById("grand-total").innerHTML = `${res.discountedTotal}`
-                  swal("Congratulations!!", "Coupon Added.", "success");
-               }
-            },
-         })
 
-      }
+               const applyCouponBtn = document.getElementById('applyCouponBtn');
+               applyCouponBtn.innerText = 'Remove Coupon';
+               applyCouponBtn.onclick = function () {
+                  removeCoupon();
+               };
 
-   </script>
+               document.getElementById('couponApplied').value = code;
+
+               Swal.fire({
+                  title: 'Congratulations!!',
+                  text: 'Coupon Added.',
+                  icon: 'success'
+               });
+            }
+         },
+      });
+   }
+
+   function removeCoupon() {
+      // Reload the page
+      location.reload();
+   }
+</script>
+
 
 </body>
 

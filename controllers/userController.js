@@ -221,7 +221,7 @@ const verifyLogin = async (req, res) => {
 
          if (userData.is_blocked == 1) return res.render('login', { message: " Your Acoount Is currently Blocked " });
 
-         const isMatchingPassword = await bcrypt.compare(password, userData.password);
+         const isMatchingPassword = bcrypt.compare(password, userData.password);
 
          if (isMatchingPassword) {
 
@@ -254,7 +254,6 @@ const loadHome = async (req, res) => {
          const cart = await Cart.findOne({ user: req.session.userData._id });
          if (cart?.products) {
             length = cart.products.length;
-            req.session.length = cart.products.length;
          }
 
          const date = new Date();
@@ -298,7 +297,7 @@ const loadShop = async (req, res) => {
       if (req.session.userData && req.session.userData._id) {
          const cart = await Cart.findOne({ user: req.session.userData._id });
          if (cart?.products) {
-            req.session.length = cart.products.length;
+            length = cart.products.length;
          }
       }
 
@@ -449,7 +448,6 @@ const loadAbout = async (req, res) => {
          const cart = await Cart.findOne({ user: req.session.user_id });
          if (cart?.products) {
             length = cart.products.length;
-            req.session.length = cart.products.length;
          }
       }
 
@@ -471,7 +469,6 @@ const loadContacts = async (req, res) => {
          const cart = await Cart.findOne({ user: req.session.user_id });
          if (cart?.products) {
             length = cart.products.length;
-            req.session.length = cart.products.length;
          }
       }
 
@@ -660,9 +657,7 @@ const loadEditAddress = async (req, res) => {
             'address._id': req.query.id
          }).lean();
          const data = address.address.find(a => a._id.toString() === req.query.id);
-         if (!coupons) retdata.render('404');
-         res.render
-            ('edit-address', { req: req, data: data });
+         res.render ('edit-address', { req: req, data: data });
       } else {
          res.redirect('/login');;
       }
@@ -998,9 +993,8 @@ const search = async (req, res) => {
 
             }
          );
-
+         
       }
-
 
    } catch (error) {
       console.log('search Method :-  ', error.message);

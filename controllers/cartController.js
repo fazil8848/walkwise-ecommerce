@@ -51,18 +51,13 @@ const loadCart = async (req, res) => {
 
                   const Total = total[0].total;
 
-
-
-                  // Set the length value in the request object
-                  req.length = length;
-
                   return res.render("cart", {
                      user: req.session.userData.userName,
                      data: cartData.products,
                      userId: id,
                      total: Total,
-                     req: req,
-                     length: length,
+                     req,
+                     length,
                   });
                } else {
                   return res.render("cart", {

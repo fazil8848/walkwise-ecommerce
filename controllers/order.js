@@ -23,9 +23,11 @@ const loadCheckout = async (req, res) => {
          const userId = req.session.userData._id;
          const user = await User.findOne({ _id: userId });
          const cartData = await Cart.findOne({ user: userId }).populate("products.product_id");
-         length = req.session.length
 
-         if (cartData.products && cartData.products.length > 0) {
+         if (cartData && cartData.products && cartData.products.length > 0) {
+           
+            length = cartData.products.length
+
             const total = await Cart.aggregate([
                {
                   $match: { user: new mongoose.Types.ObjectId(userId) },
@@ -67,7 +69,7 @@ const loadCheckout = async (req, res) => {
                });
             }
          } else {
-            console.log("There is nothing to checkout.");
+            res.redirect('/cart');
          }
       } else {
          res.redirect("/");
