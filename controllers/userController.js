@@ -243,15 +243,14 @@ const verifyLogin = async (req, res) => {
 
 // Home -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-let length = 0;
-
 const loadHome = async (req, res) => {
    try {
 
       const banner = await Banners.find();
-
+      let length = 0;
       if (req.session.userData && req.session.userData._id) {
          const cart = await Cart.findOne({ user: req.session.userData._id });
+
          if (cart?.products) {
             length = cart.products.length;
          }
@@ -294,6 +293,7 @@ const loadShop = async (req, res) => {
       const pageNo = parseInt(req.query.page) || 0;
       const skip = count * pageNo;
 
+      let length = 0;
       if (req.session.userData && req.session.userData._id) {
          const cart = await Cart.findOne({ user: req.session.userData._id });
          if (cart?.products) {
@@ -315,9 +315,9 @@ const loadShop = async (req, res) => {
             .catch((error) => {
                console.error("An error occurred:", error);
             });
-      } else if (Array.isArray(categories) && categories.length === 1) {
-         let n = await Category.findById(categories[0]);
-         cat = n.name;
+      } else if (categories) {
+         let n = await Category.findById(categories);
+         cat.push(n.name);
       }
 
 
@@ -375,47 +375,47 @@ const loadShop = async (req, res) => {
       // Define the generatePageLink function here
       function generatePageLink(page, currentFilters) {
          const queryParams = [];
-     
+
          if (search !== '') {
-             queryParams.push('searchKey=' + encodeURIComponent(search));
+            queryParams.push('searchKey=' + encodeURIComponent(search));
          }
-     
+
          if (brand && Array.isArray(brand)) {
-             queryParams.push(...brand.map(b => 'brand=' + encodeURIComponent(b)));
+            queryParams.push(...brand.map(b => 'brand=' + encodeURIComponent(b)));
          }
-     
+
          if (price) {
-             queryParams.push('price=' + encodeURIComponent(price));
+            queryParams.push('price=' + encodeURIComponent(price));
          }
-     
+
          if (categories) {
-             if (Array.isArray(categories)) {
-                 queryParams.push(...categories.map(c => 'categories=' + encodeURIComponent(c)));
-             } else {
-                 queryParams.push('categories=' + encodeURIComponent(categories));
-             }
+            if (Array.isArray(categories)) {
+               queryParams.push(...categories.map(c => 'categories=' + encodeURIComponent(c)));
+            } else {
+               queryParams.push('categories=' + encodeURIComponent(categories));
+            }
          }
-     
+
          // Include other filter criteria in queryParams
-     
+
          if (currentFilters) {
-             Object.keys(currentFilters).forEach(filterKey => {
-                 if (currentFilters[filterKey]) {
-                     if (Array.isArray(currentFilters[filterKey])) {
-                         queryParams.push(...currentFilters[filterKey].map(value => filterKey + '=' + encodeURIComponent(value)));
-                     } else {
-                         queryParams.push(filterKey + '=' + encodeURIComponent(currentFilters[filterKey]));
-                     }
-                 }
-             });
+            Object.keys(currentFilters).forEach(filterKey => {
+               if (currentFilters[filterKey]) {
+                  if (Array.isArray(currentFilters[filterKey])) {
+                     queryParams.push(...currentFilters[filterKey].map(value => filterKey + '=' + encodeURIComponent(value)));
+                  } else {
+                     queryParams.push(filterKey + '=' + encodeURIComponent(currentFilters[filterKey]));
+                  }
+               }
+            });
          }
-     
+
          // Append the page query parameter
          queryParams.push('page=' + page);
-     
+
          return '/shop?' + queryParams.join('&');
-     }
-     
+      }
+
       res.render('shop', {
          req,
          product: data,
@@ -430,6 +430,7 @@ const loadShop = async (req, res) => {
          search,
          sort,
          generatePageLink: generatePageLink,
+         length
       });
 
    } catch (error) {
@@ -444,6 +445,8 @@ const loadShop = async (req, res) => {
 
 const loadAbout = async (req, res) => {
    try {
+
+      let length = 0;
       if (req.session.user_id) {
          const cart = await Cart.findOne({ user: req.session.user_id });
          if (cart?.products) {
@@ -456,7 +459,7 @@ const loadAbout = async (req, res) => {
       res.render('about', {
          req: req,
          product: data,
-         length: length
+         length
       });
    } catch (error) {
       console.log('loadAbout Method: ', error.message);
@@ -465,6 +468,7 @@ const loadAbout = async (req, res) => {
 
 const loadContacts = async (req, res) => {
    try {
+      let length = 0;
       if (req.session.user_id) {
          const cart = await Cart.findOne({ user: req.session.user_id });
          if (cart?.products) {
@@ -477,7 +481,7 @@ const loadContacts = async (req, res) => {
       res.render('contact', {
          req: req,
          product: data,
-         length: length
+         length
       });
    } catch (error) {
       console.log('loadContacts Method: ', error.message);
@@ -509,6 +513,7 @@ const singleProduct = async (req, res) => {
 
 
       let added = false;
+      let length = 0;
       if (req.session.userData) {
          const userId = req.session.userData._id;
          const userCart = await Cart.findOne({ user: userId });
@@ -527,7 +532,7 @@ const singleProduct = async (req, res) => {
             product: data,
             req: req,
             added: added,
-            length: length,
+            length,
          });
       } else {
       }
@@ -543,6 +548,12 @@ const singleProduct = async (req, res) => {
 const loadProfile = async (req, res) => {
 
    try {
+
+      let length = 0;
+      const cart = await Cart.findOne({ user: req.session.user_id });
+      if (cart?.products) {
+         length = cart.products.length;
+      }
 
       const userData = req.session.userData;
       const orderLength = await Orders.find({ user: userData._id }).count();
@@ -566,6 +577,12 @@ const loadProfile = async (req, res) => {
 const loadAddressList = async (req, res) => {
 
    try {
+
+      let length = 0;
+      const cart = await Cart.findOne({ user: req.session.user_id });
+      if (cart?.products) {
+         length = cart.products.length;
+      }
 
       const userData = req.session.userData;
 
@@ -596,7 +613,13 @@ const loadAddAddress = async (req, res) => {
 
    try {
 
-      res.render('add-address', { req: req })
+      let length = 0;
+      const cart = await Cart.findOne({ user: req.session.user_id });
+      if (cart?.products) {
+         length = cart.products.length;
+      }
+
+      res.render('add-address', { req: req, length });
 
    } catch (error) {
       console.log('loadAddAddress Method :-  ', error.message);
@@ -652,12 +675,19 @@ const addAddress = async (req, res) => {
 const loadEditAddress = async (req, res) => {
    try {
       if (req.session.userData._id) {
+
+         let length = 0;
+         const cart = await Cart.findOne({ user: req.session.user_id });
+         if (cart?.products) {
+            length = cart.products.length;
+         }
+
          const address = await User.findOne({
             _id: req.session.userData._id,
             'address._id': req.query.id
          }).lean();
          const data = address.address.find(a => a._id.toString() === req.query.id);
-         res.render ('edit-address', { req: req, data: data });
+         res.render('edit-address', { req: req, data, length });
       } else {
          res.redirect('/login');;
       }
@@ -678,7 +708,6 @@ const editAddress = async (req, res) => {
 
          const addressId = req.body.id;
          const userId = req.session.userData._id;
-         const userData = await User.findOne({ _id: userId, 'address._id': addressId });
 
          await User.updateOne(
             { _id: userId, "address._id": addressId },
@@ -746,6 +775,12 @@ const loadUpdateData = async (req, res) => {
 
       if (req.session.userData._id) {
 
+         let length = 0;
+         const cart = await Cart.findOne({ user: req.session.user_id });
+         if (cart?.products) {
+            length = cart.products.length;
+         }
+
          const userId = req.session.userData._id;
          const userData = await User.findById(userId);
 
@@ -781,6 +816,12 @@ const updateData = async (req, res) => {
 const loadChangePass = async (req, res) => {
 
    try {
+
+      let length = 0;
+      const cart = await Cart.findOne({ user: req.session.user_id });
+      if (cart?.products) {
+         length = cart.products.length;
+      }
 
       const userId = req.session.userData._id;
       const userData = await User.findById(userId);
@@ -844,6 +885,12 @@ const changePass = async (req, res) => {
 const loadForgotPass = async (req, res) => {
 
    try {
+
+      let length = 0;
+      const cart = await Cart.findOne({ user: req.session.user_id });
+      if (cart?.products) {
+         length = cart.products.length;
+      }
 
       res.render('forgotPass', { req: req, length });
 
@@ -952,60 +999,6 @@ const updatePass = async (req, res) => {
 
 }
 
-const search = async (req, res) => {
-
-   try {
-
-      const category = await Category.find();
-      const searchKey = req.body.searchKey
-
-      if (searchKey) {
-
-         const product = await Product.find({
-            "$or": [
-               { productName: { $regex: new RegExp(searchKey, 'i') } },
-               { brand: { $regex: new RegExp(searchKey, 'i') } }
-            ]
-         });
-
-         res.render('shop',
-            {
-               req,
-               length,
-               category,
-               filtered: false,
-               product,
-
-            }
-         );
-
-      } else {
-
-         const product = await Product.find();
-
-         res.render('shop',
-            {
-               req,
-               length,
-               category,
-               filtered: false,
-               product,
-
-            }
-         );
-         
-      }
-
-   } catch (error) {
-      console.log('search Method :-  ', error.message);
-   }
-
-}
-
-
-
-
-
 
 
 module.exports = {
@@ -1038,7 +1031,6 @@ module.exports = {
    loadShop,
    loadAbout,
    loadContacts,
-   search,
 
 };
 

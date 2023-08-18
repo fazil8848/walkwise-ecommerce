@@ -70,7 +70,6 @@ user_app.post('/addtoCart', cartController.addToCart);
 user_app.post('/changeQty', cartController.changeQty);
 user_app.post('/removeCartItem', cartController.removeItemCart);
 user_app.post('/addAddress', userController.addAddress);
-user_app.post('/search', userController.search);
 user_app.post('/addCheckoutAddress', orderController.addAddress);
 user_app.post('/editAddress', userController.editAddress);
 user_app.post('/updateProfile', userController.updateData);

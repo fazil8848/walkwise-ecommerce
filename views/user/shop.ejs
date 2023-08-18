@@ -93,9 +93,9 @@
 								<li class="cart">
 									<% if (typeof length !=='undefined' ) {%>
 										<a href="/cart"><i class="icon-shopping-cart"></i> Cart [<%=length%>]</a>
-										<%}else {%>
-											<a href="/cart"><i class="icon-shopping-cart"></i> Cart [0]</a>
-											<% } %>
+									<%}else {%>
+										<a href="/cart"><i class="icon-shopping-cart"></i> Cart [0]</a>
+									<% } %>
 								</li>
 
 								<li class="has-dropdown cart">
@@ -107,9 +107,9 @@
 											<li><a href="/userProfile">Profile</a></li>
 											<li><a href="/viewOrders">Orders</a></li>
 											<li><a href="/logout">logout</a></li>
-											<%} else {%>
-												<li><a href="/login">login</a></li>
-												<% } %>
+										<%} else {%>
+											<li><a href="/login">login</a></li>
+										<% } %>
 								</li>
 							</ul>
 						</div>
@@ -317,7 +317,7 @@
 												<label>
 													<input type="checkbox" name="categories" value="<%= category._id %>"
 														<% if (Array.isArray(categories) ?
-														categories.includes(category.name) : categories==category.name)
+														categories.includes(category.name) : categories[0] == category.name)
 														{ %>
 													checked
 													<% } %>

@@ -142,9 +142,6 @@ const applyCoupon = async (req, res) => {
 }
 
 
-
-
-
 module.exports = {
 
     loadCouponList,

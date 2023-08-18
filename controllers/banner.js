@@ -12,7 +12,7 @@ const loadBanners = async (req, res) => {
         console.log('loaddBanners Method :-  ', error.message);
     }
 
-}
+};
 
 const loadAddBanner = async (req, res) => {
 
@@ -24,7 +24,7 @@ const loadAddBanner = async (req, res) => {
         console.log('loadAddBanner Method :-  ', error.message);
     }
 
-}
+};
 
 const addBanner = async (req, res) => {
 
@@ -51,7 +51,7 @@ const addBanner = async (req, res) => {
         console.log('addBanner Method :-  ', error.message);
     }
 
-}
+};
 
 const hideBanner = async (req, res) => {
 
@@ -88,7 +88,7 @@ const hideBanner = async (req, res) => {
         console.log('hideBanner Method :-  ', error.message);
     }
 
-}
+};
 
 const deleteBanner = async (req,res) => {
 
@@ -103,10 +103,11 @@ const deleteBanner = async (req,res) => {
         console.log('deleteBanner Method :-  ',error.message);
     }
 
-}
+};
 
 
 module.exports = {
+
     loadAddBanner,
     loadBanners,
     addBanner,

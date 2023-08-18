@@ -2,20 +2,14 @@ const User = require('../models/userModels');
 const Product = require('../models/productModels');
 const Cart = require('../models/cartModel');
 const Order = require('../models/orderModel')
-const fs = require('fs');
-
-
 const { default: mongoose } = require('mongoose');
-
 const Razorpay = require('razorpay');
-const { log } = require('console');
 
 const instance = new Razorpay({
    key_id: process.env.RAZOR_KEY_ID,
    key_secret: process.env.RAZOR_SECRET,
 });
 
-let length = 0;
 
 const loadCheckout = async (req, res) => {
    try {
@@ -24,8 +18,9 @@ const loadCheckout = async (req, res) => {
          const user = await User.findOne({ _id: userId });
          const cartData = await Cart.findOne({ user: userId }).populate("products.product_id");
 
+         let length = 0;
          if (cartData && cartData.products && cartData.products.length > 0) {
-           
+
             length = cartData.products.length
 
             const total = await Cart.aggregate([
@@ -157,7 +152,7 @@ const placeOrder = async (req, res) => {
                   $push: {
                      wallehistory: {
                         amount: wall,
-                        date: new Date().toISOString().substring(0,10),
+                        date: new Date().toISOString().substring(0, 10),
                         transaction: "Debit",
                         description: "Order Placed"
                      }
@@ -338,6 +333,7 @@ const loadOrderPLaced = async (req, res) => {
 
    try {
 
+      let length = 0;
       const cart = await Cart.findOne({ user: req.session.userData._id });
       if (cart?.products) {
          length = cart.products.length;
@@ -358,6 +354,7 @@ const loadOrderList = async (req, res) => {
       const orders = await Order.find({ user: user._id }).sort({ orderDate: -1 })
       const products = await Product.find({});
 
+      let length = 0;
       const cart = await Cart.findOne({ user: user._id });
       if (cart && cart.products) {
          length = cart.products.length;
@@ -406,7 +403,7 @@ const returnOrder = async (req, res) => {
       const order = await Order.findById(orderId);
       const user = await User.findById(userId);
       const total = user.wallet + order.totalPrice;
-      const date = new Date().toISOString().substring(0,10);
+      const date = new Date().toISOString().substring(0, 10);
       if (order.paymentMethod == 'cod' || order.paymentMethod == 'online') {
 
          await User.findByIdAndUpdate(userId, {
@@ -450,14 +447,14 @@ const cancelOrder = async (req, res) => {
       const orderId = req.query.id;
       const order = await Order.findById(orderId);
 
-      const date = new Date().toISOString().substring(0,10);
+      const date = new Date().toISOString().substring(0, 10);
 
       if (order.paymentMethod == 'razorpay' || order.paymentMethod == 'cod') {
          await User.findByIdAndUpdate(userId, {
             $inc: { wallet: order.totalPrice },
             $push: {
                wallehistory: {
-                  amount:order.totalPrice,
+                  amount: order.totalPrice,
                   date,
                   transaction: "Credit",
                   description: "Order Cancelled",
@@ -559,13 +556,9 @@ const downloadInvoice = async (req, res) => {
          return;
       }
 
-      // console.log("--user --------------------",user);
-
       const addressId = order.addressId;
       const address = user.address.find(addr => addr._id.toString() === addressId.toString()); // Compare after converting to string
       if (!address) return res.render('404', { message: " downloadInvoice address not found ERROR " });
-
-      // console.log('address---------',address);
 
       const orderProductsPromises = order.products.map(async (p) => {
          try {
@@ -663,7 +656,7 @@ const verifyTopup = async (req, res) => {
          hmac1 = hmac1.digest('hex');
          const amount = details['order[amount]'] / 100;
 
-         const date = new Date().toISOString().substring(0,10);
+         const date = new Date().toISOString().substring(0, 10);
 
          if (hmac1 == details['payment[razorpay_signature]']) {
 
@@ -703,11 +696,17 @@ const walletHistory = async (req, res) => {
 
    try {
 
+      let length = 0;
+      const cart = await Cart.findOne({ user: req.session.user_id });
+      if (cart?.products) {
+         length = cart.products.length;
+      }
+
       const userId = req.session.userData._id;
       const user = await User.findById(userId);
       const history = user.wallehistory;
 
-      res.render('walletHistory', { history, req });
+      res.render('walletHistory', { history, req, length});
 
    } catch (error) {
       console.log('walletHistory Method :-  ', error.message);

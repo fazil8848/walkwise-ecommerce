@@ -3,15 +3,14 @@ const Products = require('../models/productModels');
 const User = require('../models/userModels');
 
 
-let length = 0;
-
 const loadCart = async (req, res) => {
    try {
       if (req.session.userData._id) {
          const user = await User.findOne({ _id: req.session.userData });
          const id = user._id;
          const cart = await Cart.findOne({ user: id });
-
+         
+         let length = 0;
          if (cart) {
             const cartData = await Cart.findOne({ user: id })
                .populate("products.product_id")
@@ -217,10 +216,7 @@ const removeItemCart = async (req, res) => {
       console.log('removeItemCart Method :-  ', error.message);
    }
 
-}
-
-
-
+};
 
 module.exports = {
 
